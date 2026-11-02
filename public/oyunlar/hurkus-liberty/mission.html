@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#12232e"><meta name="description" content="WINGLAB Hürkuş: Vücudunla uç, hedefe kilitlen ve Özgürlük Heykeli’ni savun.">
+  <title>HÜRKUŞ — Özgürlük Savunması / WINGLAB</title>
+  <link rel="icon" href="./assets/favicon.svg"><link rel="stylesheet" href="./liberty.css">
+</head>
+<body class="in-menu">
+<main id="simulator" tabindex="-1" aria-label="Hürkuş uçuş oyunu">
+  <canvas id="world" aria-label="Üç boyutlu New York ve Hürkuş uçuş sahnesi"></canvas>
+  <div class="vignette"></div>
+  <header class="topbar">
+    <a class="brand" href="#" id="brand" aria-label="WINGLAB ana menü"><svg viewBox="0 0 40 32" aria-hidden="true"><path d="M2 3h10l8 12 8-12h10L20 30Z" fill="currentColor"/><path d="m2 3 18 12L38 3" fill="none" stroke="#14232c" stroke-width="2"/></svg><span>WING<span class="brand-light">LAB</span><small>HAREKET ET. UÇUŞA GEÇ.</small></span></a>
+    <div class="mission-top" id="mission-top" hidden><span class="live-dot"></span><span>ÖZGÜRLÜK SAVUNMASI <small>NEW YORK · AKTİF GÖREV</small></span></div>
+    <nav class="top-actions" aria-label="Oyun araçları"><button id="sound" class="quiet" aria-label="Sesi aç" title="Sesi aç">♫ <span id="sound-label">SESİ AÇ</span></button><button id="help" class="icon-button" aria-label="Nasıl oynanır" title="Nasıl oynanır">?</button><button id="fullscreen" class="icon-button" aria-label="Tam ekran" title="Tam ekran (F)">⛶</button><button id="pause" class="icon-button" aria-label="Duraklat" title="Duraklat (Boşluk)" hidden>Ⅱ</button></nav>
+  </header>
+
+  <section id="menu" class="menu" aria-labelledby="game-title">
+    <div class="hero-copy">
+      <p class="eyebrow"><span></span> GÖREV 01 <i>/</i> NEW YORK</p>
+      <h1 id="game-title">ÖZGÜRLÜĞÜ<br><span>GÖKYÜZÜNDEN</span><br>KORU.</h1>
+      <p class="intro">Kokpit senin. Kanatlar senin.<br>Hürkuş’la havalan, hedefe kilitlen ve<br>Özgürlük Heykeli’ni savun.</p>
+      <div class="start-actions"><button id="start-camera" class="primary">GÖREVE BAŞLA <span>↗</span></button><button id="start-keyboard" class="secondary"><span>⌨</span> Klavyeyle oyna</button></div>
+      <p class="camera-note"><span class="tiny-camera"></span> Vücut kontrollü uçuş <span class="dot-separator">·</span> Kamera yalnızca cihazında işlenir</p>
+      <div class="mission-facts"><div><strong>30<span>sn</span></strong><small>SALDIRI ARALIĞI</small></div><div><strong>10<span>hedef</span></strong><small>ZAFERE GİDEN YOL</small></div><div><strong>1<span>görev</span></strong><small>ÖZGÜRLÜĞÜ KORU</small></div></div>
+    </div>
+    <div class="plane-callout"><span class="callout-line"></span><p>HÜRKUŞ <b>103</b><small>KIRMIZI BEYAZ KANATLAR</small></p></div>
+    <div class="location"><span class="location-cross">+</span><div>LIBERTY ISLAND<small>40°41′22″ N &nbsp; 74°02′40″ W</small></div></div>
+    <footer class="menu-footer"><span>VÜCUDUN KUMANDA, GÖKYÜZÜ OYUN ALANIN.</span><button id="briefing-button">GÖREV BRİFİNGİ <span>↗</span></button></footer>
+  </section>
+
+  <section id="hud" class="hud" hidden aria-label="Uçuş göstergeleri">
+    <div class="objective panel"><span class="eyebrow">KORUNAN HEDEF</span><p>Özgürlük Heykeli <span id="statue-status">GÜVENDE</span></p><div class="integrity"><span id="integrity-fill"></span></div><small id="objective-note">New York hava sahasını koru.</small></div>
+    <div class="score panel"><span class="eyebrow">BAŞARILI İMHA</span><p><b id="score">00</b><span>/ 10</span></p><div class="score-dots" id="score-dots"></div></div>
+    <div class="compass"><span>W</span><span>·</span><span>·</span><b id="heading">000° N</b><span>·</span><span>·</span><span>E</span><i></i></div>
+    <div class="next-wave"><span class="live-dot"></span><span id="wave-label">SONRAKİ SALDIRI</span><b id="wave-countdown">00:30</b></div>
+    <div class="reticle" id="reticle"><div class="reticle-ring"></div><span class="reticle-center">+</span><span class="reticle-line rl-left"></span><span class="reticle-line rl-right"></span><span class="reticle-line rl-top"></span><span class="reticle-line rl-bottom"></span><small id="lock-label">HEDEF ARANIYOR</small><div class="lock-progress"><span id="lock-fill"></span></div></div>
+    <div id="target-markers" class="target-markers"></div>
+    <div class="statue-marker" id="statue-marker"><span>◇</span><small>ÖZGÜRLÜK HEYKELİ</small></div>
+    <div class="flight-scale speed-scale"><small>HIZ / KT</small><b id="speed">90</b><span>—<br>—<br>—</span></div>
+    <div class="flight-scale altitude-scale"><small>İRTİFA / M</small><b id="altitude">135</b><span>—<br>—<br>—</span></div>
+    <div class="camera-panel panel"><div class="panel-top"><span id="camera-label">PİLOT KAMERASI</span><span class="live-dot" id="camera-dot"></span></div><div class="camera-image"><video id="video" autoplay playsinline muted></video><canvas id="skeleton"></canvas><div id="camera-placeholder"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="16" r="7"/><path d="M40 27v25m0-20L13 45m27-13 27 13M40 52 25 72m15-20 15 20"/></svg><span id="camera-placeholder-text">KLAVYE KONTROLÜ</span></div></div><div class="camera-caption"><span id="tracking-status">Kamera kapalı</span><button id="camera-toggle">Kamerayı aç</button></div><button id="calibrate-body" class="calibrate" hidden>Dik duruşu ayarla ↻</button></div>
+    <div class="telemetry panel"><div><small>GÖVDE GAZI</small><b id="throttle">%0</b><span class="throttle-track"><i id="throttle-fill"></i></span></div><div><small>ÖNE EĞİM</small><b id="body-lean">0°</b></div><div><small>DİKEY HIZ</small><b id="vertical">0.0 m/s</b></div><div><small>UÇUŞ</small><b id="flight-time">00:00</b></div></div>
+    <div class="radar-panel panel"><div class="panel-top"><span>HAVA SAHASI</span><span>2.5 KM</span></div><canvas id="radar" width="210" height="164" aria-label="Hedeflerin yönünü gösteren radar"></canvas><div class="radar-key"><span>◇ Heykel</span><span>◆ F-16</span></div></div>
+    <div class="flight-bottom"><div class="flight-status"><span class="live-dot"></span><b id="flight-status">SEYİR UÇUŞU</b><small id="control-hint">Kollarını aç, kanatlarını dengede tut.</small></div><button id="fire" class="fire-button" disabled><span>⌖</span> <b id="fire-label">KİLİT BEKLENİYOR</b><kbd>X</kbd></button><div class="keyboard-hints" id="keyboard-hints"><span><kbd>↑</kbd><kbd>↓</kbd> İrtifa</span><span><kbd>←</kbd><kbd>→</kbd> Dönüş</span><span><kbd>G</kbd> Gaz</span><span><kbd>C</kbd> Kamera</span><span><kbd>R</kbd> Yeni tur</span></div></div>
+    <div class="touch-controls"><button data-hold="arrowleft" aria-label="Sola dön">←</button><button data-hold="arrowright" aria-label="Sağa dön">→</button><button data-hold="arrowup" aria-label="Yüksel">↑</button><button data-hold="arrowdown" aria-label="Alçal">↓</button><button id="level-flight">90°</button></div>
+  </section>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="tracking-overlay" class="state-overlay" hidden><div class="state-card"><span class="eyebrow">UÇUŞ BEKLEMEDE</span><h2 id="tracking-title">Kameraya geçiyoruz.</h2><p id="tracking-message">Bir adım geri çekil; omuzların, dirseklerin ve kalçan görünsün.</p><button id="retry-camera" class="primary">Kamerayı yeniden dene ↻</button><button id="tracking-keyboard" class="secondary">Klavyeyle devam et →</button></div></div>
+  <div id="pause-overlay" class="state-overlay" hidden><div class="state-card"><span class="eyebrow">KONTROL SENDE</span><h2>Bir nefeslik mola.</h2><p>Görev, hedefler ve saldırı sayacı durduruldu.</p><button id="resume" class="primary">Uçuşa devam et →</button><button id="pause-menu" class="secondary">Ana menüye dön</button></div></div>
+  <div id="result-overlay" class="result-overlay" hidden><div class="result-card"><span class="eyebrow" id="result-eyebrow">GÖREV TAMAMLANDI</span><div class="result-symbol" id="result-symbol">✦</div><h2 id="result-title">Özgürlük güvende.</h2><p id="result-copy">10 hedefi imha ettin. New York semaları artık güvende.</p><div class="result-stats"><div><b id="result-score">10 / 10</b><small>İMHA</small></div><div><b id="result-time">05:00</b><small>GÖREV SÜRESİ</small></div></div><button id="restart" class="primary">Yeniden havalan ↗</button><button id="result-menu" class="secondary">Ana menüye dön</button></div></div>
+  <dialog id="help-dialog"><button id="close-help" class="dialog-close" aria-label="Brifingi kapat">×</button><span class="eyebrow">WINGLAB / GÖREV BRİFİNGİ</span><h2>Uç. Kilitlen. Koru.</h2><p class="help-intro">Her 30 saniyede bir F-16, Özgürlük Heykeli’ne yaklaşır. 10 hedefi imha ederek görevi tamamla. Tek bir çarpma heykeli yıkar.</p><div class="help-steps"><div><b>01</b><h3>Kanatlarını aç</h3><p>Kolların 80–100° açıkken dengeli uç. Yükselmek için kaldır; alçalmak için iki kolunu indir. Bir kolunu alçaltarak o yöne dön.</p></div><div><b>02</b><h3>Gövdenle gaz ver</h3><p>Önce 1 saniye dik dur. Gövdeni öne eğerek hızlan. Kolları kapatmak fren yapar. Radar, hedefi ve heykeli bulmana yardım eder.</p></div><div><b>03</b><h3>Ellerini birleştir</h3><p>Hedefi 2.500 m içinde nişangâha getir. Yeşil kilidi görünce ellerini birbirine dokundur: füze ateşlenir. Tekrar atmak için ellerini ayır.</p></div></div><div class="reference-strip"><img src="./assets/references/hurkus.webp" alt="Kırmızı beyaz Hürkuş 103 uçak referansı"><img src="./assets/references/new-york.webp" alt="New York ve Özgürlük Heykeli ortam referansı"><p>HÜRKUŞ 103 <span>×</span> LIBERTY ISLAND<small>Referanslarından ilham alan üç boyutlu görev sahnesi.</small></p></div><p class="help-keys">Klavye: <kbd>↑ ↓</kbd> kol açısı · <kbd>← →</kbd> dönüş · <kbd>G</kbd> gaz · <kbd>X</kbd> füze · <kbd>L</kbd> düz uçuş · <kbd>Boşluk</kbd> mola · <kbd>C</kbd> görünüm · <kbd>R</kbd> yeni tur · <kbd>F</kbd> tam ekran</p><button id="help-done" class="primary">Hazırım →</button></dialog>
+  <div id="fatal-error" class="state-overlay" hidden><div class="state-card"><h2>3B sahne açılamadı.</h2><p>Tarayıcıda WebGL ve donanım hızlandırmanın açık olduğundan emin olup sayfayı yenile.</p></div></div>
+</main>
+<script type="module" src="./mission.js"></script>
+</body></html>

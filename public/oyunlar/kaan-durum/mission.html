@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#18262c">
+  <meta name="description" content="KAAN ile havalan. Hedefe kilitlen, alkışla çiğköfte dürümünü fırlat. WINGLAB gövde kontrollü uçuş oyunu.">
+  <title>KAAN · Dürüm Filosu / WINGLAB</title>
+  <link rel="icon" href="./assets/favicon.svg"><link rel="stylesheet" href="./mission.css">
+</head>
+<body>
+<main id="simulator" aria-label="KAAN Dürüm Filosu uçuş oyunu">
+  <canvas id="world" aria-label="KAAN ve savaş uçaklarının bulunduğu üç boyutlu gökyüzü"></canvas>
+  <div class="edge-shade" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="WINGLAB başlangıç"><svg viewBox="0 0 40 36" aria-hidden="true"><path d="M3 6 18 14 20 30 23 13 37 3 29 23 20 33 11 25Z" fill="currentColor"/></svg><span>WING<span class="light">LAB</span><small>GÖKYÜZÜ OYUN ALANIN.</small></span></a>
+    <div class="mission-name"><i></i><span>KAAN <b>/</b> DÜRÜM FİLOSU</span><span class="mission-tag">SERBEST UÇUŞ</span></div>
+    <nav class="actions" aria-label="Oyun araçları">
+      <span id="flight-time">00:00</span>
+      <button id="sound" class="icon-btn" title="Sesi aç" aria-label="Sesi aç" aria-pressed="false">♪</button>
+      <button id="reset" class="icon-btn" title="Yeniden başla · R" aria-label="Yeniden başla">↻</button>
+      <button id="help" class="icon-btn" title="Kontroller" aria-label="Kontrolleri aç">?</button>
+      <button id="fullscreen" class="icon-btn fullscreen" title="Tam ekran · F" aria-label="Tam ekran">⛶</button>
+      <button id="pause" class="pause-btn" title="Duraklat · Boşluk"><span>Ⅱ</span> <b>Duraklat</b></button>
+    </nav>
+  </header>
+
+  <section class="instruments" aria-label="Uçuş verileri">
+    <div><span>HAVA HIZI</span><strong id="speed">000</strong><small>KT</small></div>
+    <div><span>İRTİFA</span><strong id="altitude">000</strong><small>M</small></div>
+    <div class="vertical"><span>DİKEY HIZ</span><strong id="vertical">0.0</strong><small>M/S</small></div>
+  </section>
+  <div class="compass" aria-label="İstikamet"><span>345</span><i></i><b id="heading">000° K</b><i></i><span>015</span><em>▾</em></div>
+
+  <aside class="score-card glass" aria-label="İmha edilen uçak sayısı">
+    <div class="score-icon">⌁</div><div><span>İMHA EDİLEN UÇAK</span><strong id="destroyed">00</strong></div><small id="shot-count">0 ATIŞ</small>
+  </aside>
+
+  <section class="intro" id="intro" aria-label="Oyuna başla">
+    <span class="eyebrow"><i></i> WINGLAB / GÖREV 01</span>
+    <h1>Gökyüzünün<br>en <em>lezzetli</em><br>savunması.</h1>
+    <p>KAAN ile havalan. Hedef yeşile dönünce<br>alkışla, dürümünü gönder.</p>
+    <button id="start-camera" class="primary"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="m15 10 6-3v10l-6-3"/></svg> Kamerayla uçuşa başla <span>↗</span></button>
+    <button id="try-keyboard" class="text-btn">Klavyeyle dene <span>→</span></button>
+    <div class="intro-note"><span>01 HEDEFLE</span><b>→</b><span>02 ALKIŞLA</span><b>→</b><span>03 İMHA ET</span></div>
+  </section>
+
+  <div id="target-box" class="target-box" hidden aria-hidden="true"><i></i><i></i><i></i><i></i><span id="target-name">HEDEF 01</span><small id="target-range">— M</small></div>
+  <div class="reticle" id="reticle" aria-hidden="true"><span class="reticle-circle"></span><i></i><b></b><i></i><span class="reticle-bottom"></span></div>
+  <div id="lock-status" class="lock-status"><i></i><span id="lock-text">HEDEF ARANIYOR</span><small id="lock-detail">En yakın uçağı merkeze getir</small></div>
+  <div class="hit-flash" id="hit-flash" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <aside class="camera-card glass" aria-label="Canlı kamera ve iskelet haritası">
+    <div class="card-label"><span><i id="camera-dot"></i> PİLOT TAKİBİ</span><button id="camera-toggle" aria-label="Kamerayı aç" title="Kamerayı aç">↗</button></div>
+    <div class="camera-view"><video id="camera-video" playsinline muted autoplay></video><canvas id="pose-canvas"></canvas>
+      <div id="camera-placeholder"><svg viewBox="0 0 220 110" aria-hidden="true"><path class="ghost" d="M25 28h170M35 90V14m150 76V14"/><circle cx="110" cy="22" r="8"/><path d="M110 34v34m0-27L74 44 42 30m68 11 36 3 32-14m-68 38L90 98m20-30 20 30"/><g><circle cx="110" cy="41" r="3"/><circle cx="74" cy="44" r="3"/><circle cx="146" cy="44" r="3"/><circle cx="42" cy="30" r="3"/><circle cx="178" cy="30" r="3"/></g></svg><span id="camera-message">Kollarını aç. Kontrolü devral.</span></div>
+      <span id="tracking-badge" hidden>CANLI</span>
+    </div>
+    <div class="angles"><span>SOL <b id="left-angle">—</b></span><span id="clap-indicator">✦ ALKIŞ HAZIR</span><span>SAĞ <b id="right-angle">—</b></span></div>
+    <div class="mobile-throttle"><span id="mobile-throttle">GAZ %0 · DİK DURUŞ BEKLENİYOR</span><button id="calibrate-mobile" disabled>Dik duruşu ayarla ↻</button></div><small class="privacy">Görüntü cihazında işlenir · Kaydedilmez</small>
+  </aside>
+
+  <aside class="control-guide glass" id="control-guide" aria-label="Uçuş kontrolleri">
+    <div class="card-label"><span>UÇUŞ SENİN ELLERİNDE</span><button id="guide-toggle" aria-expanded="true" aria-controls="guide-body" aria-label="Hareket rehberini daralt">−</button></div>
+    <div id="guide-body">
+      <div class="gesture-row"><span>↔</span><p>Kollarını yana aç<small>80–100° · Dengeli uçuş</small></p></div>
+      <div class="gesture-row"><span>↗</span><p>Yukarı kaldır<small>100° üzeri · Yüksel & hızlan</small></p></div>
+      <div class="gesture-row"><span>⌁</span><p>Bir kolunu alçalt<small>Aynı yöne dön</small></p></div>
+      <div class="throttle-head"><span>ÖNE EĞİL · GAZ VER</span><b id="throttle-value">%0</b></div>
+      <div class="meter" role="progressbar" id="throttle-meter" aria-label="Gövde gazı" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="throttle-fill"></span></div>
+      <div class="lean"><span id="body-lean">Öne eğim —</span><span id="body-calibration">Dik duruş bekleniyor</span></div>
+      <button id="calibrate-body" class="calibrate" disabled>Dik duruşu ayarla ↻</button>
+    </div>
+  </aside>
+
+  <aside class="weapon-card glass" aria-label="Dürüm füzesi">
+    <div class="weapon-thumb"><img src="./assets/durum.webp" alt="Çiğköfte dürüm füzesi"></div>
+    <div class="weapon-copy"><span>MÜHİMMAT / 01</span><strong>Çiğköfte dürüm</strong><small id="weapon-state"><i></i> SINIRSIZ LEZZET</small></div>
+    <button id="fire" title="Kilitlenince ateşle · E" disabled><span>✦</span><b>ALKIŞLA ATEŞLE</b><kbd>E</kbd></button>
+  </aside>
+
+  <div class="bottom-dock">
+    <div id="keyboard-panel" class="keyboard-panel glass" hidden><label for="manual-angle">KOL AÇISI <b id="manual-angle-label">90°</b></label><input id="manual-angle" type="range" min="0" max="180" value="90"><span>↑ ↓ kol · ← → yön · G gaz · E ateş</span></div>
+    <div class="mode-dock glass"><div class="pilot-state"><i id="control-dot"></i><span><b id="control-title">Pistte hazır</b><small id="control-subtitle">Kollarını aç, havalan.</small></span></div><div class="mode-switch"><button id="camera-mode" class="active" aria-pressed="true">Kamera</button><button id="keyboard-mode" aria-pressed="false">Klavye</button></div></div>
+    <div class="bottom-caption"><span>KAAN / 001</span><i></i><span>VÜCUDUNLA UÇ. ALKIŞINLA ATEŞLE.</span></div>
+  </div>
+  <div class="right-bottom"><button id="memory" class="memory"><img src="./assets/hatira.jpg" alt="Ayçiçeği tarlası hatırası"><span>BİR UÇUŞ HATIRASI<small>Ayçiçeklerine dön ↗</small></span></button><button id="view-toggle" class="view-btn"><span>◉</span><b id="view-label">Takip kamerası</b><kbd>C</kbd></button></div>
+  <div id="pause-overlay" class="pause-overlay" hidden><span>Ⅱ</span><h2>Gökyüzü bekler.</h2><p id="pause-reason">Uçuş duraklatıldı.</p><button id="resume" class="primary">Uçuşa dön →</button></div>
+  <div id="fatal-error" class="error-overlay" hidden><h2>Uçuş alanı açılamadı.</h2><p>WebGL destekleyen bir tarayıcıda yeniden dene.</p><button onclick="location.reload()" class="primary">Yeniden dene</button></div>
+</main>
+
+<dialog id="help-dialog"><div class="dialog-top"><span>WINGLAB / PİLOT NOTLARI</span><button data-close="help-dialog" aria-label="Rehberi kapat">×</button></div><h2>Kumanda sensin.</h2><p>Kameradan 2–3 metre uzaklaş. Başın, kalçan ve iki kolun kadrajda olsun. İlk açılışta kısa süre dik dur.</p><ol><li><b>Havalan:</b> Kollarını yana aç. 80–100° arasında dengeli uç, yukarı kaldırarak yüksel.</li><li><b>Yön ver:</b> Dönmek istediğin taraftaki kolunu biraz alçalt. Gaz için gövdeni öne eğ.</li><li><b>Kilitlen:</b> En yakın uçak köşeli çerçeveyle gösterilir. Ekranın tam merkezine getir; yeşil yandığında hedef kilitlenir.</li><li><b>Alkışla:</b> Ellerini açıp göğsünün önünde birleştir. Tek alkış, tek dürüm. Yeni atış için ellerini yeniden aç.</li><li><b>Alçal:</b> İki kolu 25–80°'ye indirerek ilerleyip alçal. Tam kapatmak güçlü fren ve alçalış yapar.</li></ol><div class="shortcut-grid"><span><kbd>↑ ↓</kbd> Kol açısı</span><span><kbd>← →</kbd> Dönüş</span><span><kbd>G</kbd> Gaz</span><span><kbd>E</kbd> Ateş</span><span><kbd>Space</kbd> Duraklat</span><span><kbd>R</kbd> Yeni tur</span><span><kbd>C</kbd> Kamera</span><span><kbd>F</kbd> Tam ekran</span></div><p class="dialog-note">Alkış kameradan el hareketiyle algılanır; mikrofon gerekmez. Takip kaybolduğunda oyun bekler.</p><button data-close="help-dialog" class="primary">Uçuşa dön ↗</button></dialog>
+<dialog id="memory-dialog" class="memory-dialog"><div class="dialog-top"><span>UÇUŞ DEFTERİ / HATIRA 03</span><button data-close="memory-dialog" aria-label="Hatırayı kapat">×</button></div><img src="./assets/hatira.jpg" alt="Mavi gökyüzünün altında uzanan sarı ayçiçeği tarlası"><div class="memory-caption"><span>BİR YERDE, AYÇİÇEKLERİNİN ÜZERİNDE.</span><h2>Gökyüzünden bir hatıra.</h2><p id="memory-score">Her uçuşun bir hikâyesi var.</p></div></dialog>
+<dialog id="crash-dialog"><div class="dialog-top"><span>UÇUŞ SONA ERDİ</span></div><h2>Bir tur daha?</h2><p id="crash-message">Yere temas ettin. Yeniden havalanmaya hazırsın.</p><div class="result"><strong id="crash-score">00</strong><span>İMHA EDİLEN UÇAK</span></div><button id="restart-flight" class="primary">Yeniden başla ↗</button><small>R ile de yeni bir uçuş başlatabilirsin.</small></dialog>
+<script type="module" src="./mission.js"></script>
+</body></html>
+

@@ -1,0 +1,20 @@
+WINGLAB third-party components
+
+Three.js 0.170.0
+Copyright 2010-2024 Three.js Authors. Licensed under the MIT License.
+Source: https://github.com/mrdoob/three.js/tree/r170
+See THREE-LICENSE.txt.
+
+MediaPipe Tasks Vision 0.10.21
+Copyright Google LLC. Licensed under the Apache License, Version 2.0.
+Source: https://github.com/google-ai-edge/mediapipe
+See APACHE-2.0-LICENSE.txt and MEDIAPIPE-README.md.
+The bundled vision runtime and WASM files are distributed by the official
+@mediapipe/tasks-vision package through jsDelivr.
+
+MediaPipe Pose Landmarker Lite model, float16, version 1
+Source: https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task
+Documentation: https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker
+
+All video frames are processed in the browser. This application does not record
+or upload camera footage. Model and runtime files are served with the application.

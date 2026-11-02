@@ -1,0 +1,2682 @@
+[
+  {
+    "slug": "amazon-tukan",
+    "files": [
+      {
+        "path": "amazon-game.js",
+        "size": 5580,
+        "sha256": "5062c24efb7099484d57702c7edbdf91ac952c5610ff68d9cc38b4ff8cd301f9"
+      },
+      {
+        "path": "amazon-scene.js",
+        "size": 8246,
+        "sha256": "3c1808692aa22bf7f1e7e90bb36411b43be9e563b0d29dc390e79da3c4d6f461"
+      },
+      {
+        "path": "amazon-world.js",
+        "size": 1785,
+        "sha256": "7de71b09202c4f694782698c3d233ed2e5f0f52432f291f84990b8fab53b833a"
+      },
+      {
+        "path": "amazon.css",
+        "size": 14720,
+        "sha256": "e53bde67262db689fd0987e95c2463366b756f209f86b31556af8f5c6387addb"
+      },
+      {
+        "path": "app.js",
+        "size": 10116,
+        "sha256": "cbdd4d767bc87497e7787395bcce746a0fc6e39a4f6e65c5fb7bb201863235ba"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/feastables.jpg",
+        "size": 66482,
+        "sha256": "d9280a3440a35e54db5e1afce9bea8aaf146aeb5428f9cc000486c2c1a050041"
+      },
+      {
+        "path": "assets/milat.png",
+        "size": 1761257,
+        "sha256": "e477ae7c60938e7b7fce4aead0eb38ee624a2de81074002b81f98de068244e9d"
+      },
+      {
+        "path": "assets/phoenix-negative.mp3",
+        "size": 257462,
+        "sha256": "a9c5219b7145ac240786a8e25b86d1c7a43f97dcf69b15a96029c4bb653e86b8"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "assets/toucan-positive.mp3",
+        "size": 842400,
+        "sha256": "deb15701b71c86b31d30ae0d0f4921f42ee247847c675a0246e68f868ecfe13d"
+      },
+      {
+        "path": "collection-audio.js",
+        "size": 1136,
+        "sha256": "af76a0e0bdac7f07716bee6b303224a02685ce78a3cf2796da37c1a6dbfc4cd1"
+      },
+      {
+        "path": "collision.js",
+        "size": 9622,
+        "sha256": "0fe85de1c3a38a66db6caa990377b50488279870c6c8ca1a63dcb0bd2e5ef34b"
+      },
+      {
+        "path": "course-design.js",
+        "size": 646,
+        "sha256": "1b637b65e0b3918277cb5b58afd3f7d88ba464d4b2a390c74174e02353241a31"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 7104,
+        "sha256": "3f93048238ea12be0513287a511b6edffa963a8dc75dc0d5e12ef85b5aa9ebb9"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "scene.js",
+        "size": 36165,
+        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
+      },
+      {
+        "path": "style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "toucan-model.js",
+        "size": 9107,
+        "sha256": "a72c5c56020db859a964c47eea5fc078e3cf913293d372872bb91d814493aae3"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "kaan-durum",
+    "files": [
+      {
+        "path": "app.js",
+        "size": 27068,
+        "sha256": "57d98a4281adbd78c5e21014a74df247b71e2ada52a43d2d19d58af0cd290c5a"
+      },
+      {
+        "path": "assets/durum.webp",
+        "size": 23626,
+        "sha256": "453faa6aab8bb63d1fba36562a15dc363adcfa65f07195f13ad8c5bbf0e918e5"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/hatira.jpg",
+        "size": 42158,
+        "sha256": "e0f03b5de45f7b9077346472c7cfce502b4da9d90acbc2461d68b0eab9035277"
+      },
+      {
+        "path": "assets/kaan-flight.jpg",
+        "size": 12016,
+        "sha256": "c35774a31ea43fdce7921270a1751c9e33a88dda044f1a32e036a16a5d3c263a"
+      },
+      {
+        "path": "assets/kaan-front.webp",
+        "size": 29592,
+        "sha256": "7fc442a41655a3cf06111fc852fb7aa48f86a6e00f4fbdd692fe5a9cfc019c4d"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "combat-scene.js",
+        "size": 11660,
+        "sha256": "d30eb9c07f7161818a0fbf8237bc8779c948285b586307bb611f5979b90ac8d0"
+      },
+      {
+        "path": "combat.js",
+        "size": 3983,
+        "sha256": "451d012649af924e37ce2b0a817a9ce8d385f085e1a4099c9693b7652132c884"
+      },
+      {
+        "path": "course-design.js",
+        "size": 409,
+        "sha256": "9a1dbe6aca59921e1533b199db4c67fdebdf63254285540725967cb5c54774d3"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 11016,
+        "sha256": "73a5ded85a76d24c56eacc149c5e57ae926bd7afe88f7413f2baec092bc4b301"
+      },
+      {
+        "path": "mission.css",
+        "size": 23047,
+        "sha256": "b0e9c8b2b0f78e142b43f30fb6732f535269a26f2547ef282292970e1edb5426"
+      },
+      {
+        "path": "mission.html",
+        "size": 11016,
+        "sha256": "73a5ded85a76d24c56eacc149c5e57ae926bd7afe88f7413f2baec092bc4b301"
+      },
+      {
+        "path": "mission.js",
+        "size": 20327,
+        "sha256": "86dfb4f7b75052a09cc67552b8d877d7dc88aa10dee2a4086e0583acee9db574"
+      },
+      {
+        "path": "models.js",
+        "size": 7770,
+        "sha256": "bc31750fc9b2da63a1bf9090b60fc6cf55ca4c9d1d4c9e2ddb1ebe3b04712b87"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "scene.js",
+        "size": 36165,
+        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
+      },
+      {
+        "path": "style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "sarma-ucusu",
+    "files": [
+      {
+        "path": "app.js",
+        "size": 14384,
+        "sha256": "b8e3da2f7b370e7559d375a01a881d55f46039ff6e22d2ba2bd1f9b953f75ba3"
+      },
+      {
+        "path": "assets/book-reference.jpg",
+        "size": 23553,
+        "sha256": "d05548a6a0204eb090bbbd0fbcf7dea1f981f0df523769776d87233750c6822a"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "assets/references/image-1.jpg",
+        "size": 34088,
+        "sha256": "83ef908f84eb8accd60cc4e1f5039d5aeca331575f92aea40649602af654e099"
+      },
+      {
+        "path": "assets/references/image-2.jpg",
+        "size": 33283,
+        "sha256": "3ae51afe8ebd68158fbc73302dc6fe20cd64f4b59cdfa3f00b3e1c285bc60aaa"
+      },
+      {
+        "path": "assets/references/image-3.jpg",
+        "size": 46478,
+        "sha256": "c1d1f93328a65f60471d1caed2fe61023101764987759d65c92f8bf870cf1c3a"
+      },
+      {
+        "path": "assets/references/image-4.jpg",
+        "size": 32710,
+        "sha256": "01456ccec305fb38a0a38c52ef268406c2e96ac25f4330c56eb7c44ce0c98cc5"
+      },
+      {
+        "path": "assets/references/image-5.webp",
+        "size": 19794,
+        "sha256": "beecf55613a8a897f23cb26984f6c5e011d14c9a7d688c5a92c2feb422c4521e"
+      },
+      {
+        "path": "assets/references/image-6.jpg",
+        "size": 23553,
+        "sha256": "d05548a6a0204eb090bbbd0fbcf7dea1f981f0df523769776d87233750c6822a"
+      },
+      {
+        "path": "assets/references/image-7.jpg",
+        "size": 32710,
+        "sha256": "01456ccec305fb38a0a38c52ef268406c2e96ac25f4330c56eb7c44ce0c98cc5"
+      },
+      {
+        "path": "collision.js",
+        "size": 2123,
+        "sha256": "e917862ceb8834dc665a3205c3978bff8b7675f9a0d4285254c0cbe86880b82d"
+      },
+      {
+        "path": "course-design.js",
+        "size": 821,
+        "sha256": "4a4cc2bab5f0bea889c95ba5ac906e26855ac1e226ddeaea57c1bd68cf173c36"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "game-rules.js",
+        "size": 3520,
+        "sha256": "6a39658118d735e67d5c455d3bd795aa90836c31a8204332cfe6acc9954d2b26"
+      },
+      {
+        "path": "game.css",
+        "size": 20310,
+        "sha256": "f1fb4d4434d3278f473d545b0ba1c30b0f715bc30cb0f2c54dff4b07b4a466c3"
+      },
+      {
+        "path": "index.html",
+        "size": 8475,
+        "sha256": "016cad10248365d84247e90d581dde1ae0ff068720e32d5513cf7b896114d7d4"
+      },
+      {
+        "path": "models.js",
+        "size": 12430,
+        "sha256": "3f460fdd44c465b213fb4b13a4e3bf9acbe0e3292011265e74793a61c8cc47cd"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "scene.js",
+        "size": 11219,
+        "sha256": "606e196001f445df7ba3905b4400c9f0a1450aebede7276c016605fd5372bdcf"
+      },
+      {
+        "path": "style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "ucan-inek",
+    "files": [
+      {
+        "path": "app.js",
+        "size": 13976,
+        "sha256": "1a24ccb4ff4c375f647bfdf0d702fd3e6650a6055cc56fba6dbb3a41858b95f9"
+      },
+      {
+        "path": "assets/chef.jpg",
+        "size": 28492,
+        "sha256": "9b80785b0e9ad91a93602c5b3e9af81f26acad71aa5f96c86b34037440e310c0"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "course-design.js",
+        "size": 658,
+        "sha256": "cff7955591699d5de3b46df35cdfb7b9f65cd361acc1320097f40471fd63f17a"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "cow-geometry.js",
+        "size": 1248,
+        "sha256": "1f013f3e717cc357d27a8e443d05e4ebb36a9e529e32b530b053500f3995853c"
+      },
+      {
+        "path": "cow-model.js",
+        "size": 3384,
+        "sha256": "ebe21fec5d695591c77cf9a8d01016fb1292e1ffcb45f34c00952f7ee23d24ae"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 7142,
+        "sha256": "5646c5afd5e87634e289c0328e782a93c077126382071b23286966d7d08b780c"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "game.css",
+        "size": 17995,
+        "sha256": "886ff1004c99fb6612e67f9b0f91242b7f6c24736749ac11a946d4b82675dcc2"
+      },
+      {
+        "path": "gameplay.js",
+        "size": 5260,
+        "sha256": "0b9d38ae4d3d4f73352c4a2955c12f238cd73d053b93a1d8eef5bdc962472fd6"
+      },
+      {
+        "path": "index.html",
+        "size": 9502,
+        "sha256": "784bd2f1d25e3825acc70600a3c47f1c23e376e1d159eb07e1f8649c93faec1c"
+      },
+      {
+        "path": "neighborhood.js",
+        "size": 979,
+        "sha256": "3a7257513b921bd90a440c10f04a646cc9a6007a9eeffbebf7b19a57228df796"
+      },
+      {
+        "path": "pose.js",
+        "size": 14344,
+        "sha256": "8efb99c35fd20ed6b29b21197f95363aee451507304beb72b3b8616a2b5e4bd0"
+      },
+      {
+        "path": "scene.js",
+        "size": 15935,
+        "sha256": "c9f179055e71c855beb9262b5678c8b86be8aa36df23080cbd944075b4afdef4"
+      },
+      {
+        "path": "style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "kizilelma-col",
+    "files": [
+      {
+        "path": "app.js",
+        "size": 29362,
+        "sha256": "03b2652f3a637607ac9a48f98578983d80e1ca175a890aae29cbd1bf601cbd6e"
+      },
+      {
+        "path": "assets/apple.jpg",
+        "size": 3896,
+        "sha256": "dd97bebe46cff47f6591e868b5c910c1596068d9f2575c0bd5f7000e976f954d"
+      },
+      {
+        "path": "assets/award-bear.svg",
+        "size": 2046,
+        "sha256": "0dfee806d97b548d63106f1f2c3bfff91c49ce4bd262d2ec9d9b00f2f3d469b6"
+      },
+      {
+        "path": "assets/bear-reference.jpg",
+        "size": 26614,
+        "sha256": "b2c459553407e8110d8b5418acc4522fc240c9b3df2249f546db7695cee1f0c0"
+      },
+      {
+        "path": "assets/collect.mp3",
+        "size": 36780,
+        "sha256": "f70d754b410eb8046ce40721441ff6f6f68605cf31ded7480ee218c7f7356f34"
+      },
+      {
+        "path": "assets/desert-reference.webp",
+        "size": 45512,
+        "sha256": "0ebb645a4e11fbc5e98c2dec491c770653b1fe60fe856c9cab5e8361089aed14"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/fighter-reference.png",
+        "size": 247488,
+        "sha256": "8e132f30d37f013e9a1610d72fbfbdcad633965f9845f0584dff2762af53b41e"
+      },
+      {
+        "path": "assets/held-apple.svg",
+        "size": 568,
+        "sha256": "088db9746ff08d057ee875d74933b51f9ec16d8510a734694661a4195597e798"
+      },
+      {
+        "path": "assets/lose-points.mp3",
+        "size": 56842,
+        "sha256": "ba5dd30be0e6559c8b0e28a362058f86b411f5d18a73a38f7a30e4f6b34e6bb4"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "assets/princess.jpg",
+        "size": 54431,
+        "sha256": "d158dfdc273cd055a7915b2e686eb47b1aadd6200deaa91cec8b51a75f6f530d"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "course-design.js",
+        "size": 774,
+        "sha256": "f40a058bf8c8b91709196a0a18b80f563db35d2c63d1af735c2b485c300a366b"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "desert-scene.js",
+        "size": 10955,
+        "sha256": "87a894210975e4179178badc23ce211c228afe53472c041fe4bc7961997d7137"
+      },
+      {
+        "path": "desert.css",
+        "size": 14742,
+        "sha256": "9fc4a8a3fcfd475a006dc44731ea96ef782986855767cc89ee6e6622a3028db0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4808,
+        "sha256": "d18064c72a07539019b54fc4584d1865b5a0b626da55aad67d884e1072fd0c2b"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 17502,
+        "sha256": "ac6b4a7fc4712a18c458371a4c9f8cfde861bf7a0467d73c4560e6b7517ac79d"
+      },
+      {
+        "path": "mission.js",
+        "size": 4012,
+        "sha256": "978a82250a0fc4715bad4ccd9b29a0d51ded00222047a1fe02a45c908de9f195"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "scene.js",
+        "size": 36165,
+        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
+      },
+      {
+        "path": "style.css",
+        "size": 23075,
+        "sha256": "631f6c1e5edb04a4bb84a4d5f619d63e64fc5375d10c54ce16055b4d030d9265"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 4440,
+        "sha256": "bc9ebe6fa4a49841983e3bad5586dfec57ec65f89c34e8f290b48055441be5ca"
+      }
+    ]
+  },
+  {
+    "slug": "ocean-flight",
+    "files": [
+      {
+        "path": "aircraft-models.js",
+        "size": 5805,
+        "sha256": "05991a05171dc909a141db3eec5e74893e4f6525d5bbc18543fa0e06b0c73856"
+      },
+      {
+        "path": "app.js",
+        "size": 14566,
+        "sha256": "30b460cfa854693bdd44904630909848ea4b07c85027525fa0c73624d8042663"
+      },
+      {
+        "path": "assets/airliner.jpg",
+        "size": 12239,
+        "sha256": "2d05ae018982262b0c62eeb1707217b143d0f0c858fa03c9a7b1526bb0fd3e6b"
+      },
+      {
+        "path": "assets/cloud-reference.jpg",
+        "size": 2663,
+        "sha256": "a4a470a6a4471f7bb248cd6ccce7ad3826fa6159f51e8c84b0e33101b50134c7"
+      },
+      {
+        "path": "assets/coin.png",
+        "size": 1980853,
+        "sha256": "da67609a5eab24f5464c589856ef529e347f61bc3fafced0416b9b95e313d4f7"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/fighter.jpg",
+        "size": 731560,
+        "sha256": "7e66d968cede9e78ef120532e7fc98baa3cc2762eae1321f99677683027ff374"
+      },
+      {
+        "path": "assets/island-reference.jpg",
+        "size": 33197,
+        "sha256": "f18d9b7cbd22207cf330a53ce4fa65256946d5db189a8099157dff316272d778"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "assets/vintage.png",
+        "size": 1106068,
+        "sha256": "630108826851f4690014d35b0ce0f549dc1d301e090a68da43c43259fc4f7de1"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "course-design.js",
+        "size": 707,
+        "sha256": "ed5dbe643e7c54558efce7dc35f633b52064c043701948e4f8f13364eb82cd22"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 11232,
+        "sha256": "56d0851c6178a47626f0e48a8d7cf947a5855806181969908f66856c69c2ca99"
+      },
+      {
+        "path": "ocean-game.js",
+        "size": 5449,
+        "sha256": "385f80f8840fe3c2f71f336b65b2b298c6943efeb60be501f38d9ed76db29c18"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "responsive.css",
+        "size": 1744,
+        "sha256": "525263d2501d434d0cefb678d74a7a31e8d8ae7c1a8d3a1dc553624d08fac862"
+      },
+      {
+        "path": "scene.js",
+        "size": 11420,
+        "sha256": "311e14e033a92fe78691f9cfab655e3dabe5a66e8cb128a691c4b06603e81a3c"
+      },
+      {
+        "path": "style.css",
+        "size": 24567,
+        "sha256": "2c53d3c791adde890ff7b695adf043de5346ffc36cb7fb267eb9c02b80ad9c81"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "aurora-operasyonu",
+    "files": [
+      {
+        "path": "aircraft.js",
+        "size": 3124,
+        "sha256": "b23f927a37371c764b78978da0524dc1a2d260688a544c5a958de42e640f0518"
+      },
+      {
+        "path": "app.js",
+        "size": 16292,
+        "sha256": "fa963a1ca957cf0de95291328133c9aa4a3f3c75a448a19a648ecad8513e2950"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "aurora-world.js",
+        "size": 740,
+        "sha256": "f7f948912acb47de3e7f578380314824e795d4a4781bc84e22646ca875876feb"
+      },
+      {
+        "path": "battle-scene.js",
+        "size": 10868,
+        "sha256": "fe50884f550b004b31e6d229361fc50965f9ab033c4260bcefb58b884b0c02e5"
+      },
+      {
+        "path": "battle.css",
+        "size": 18788,
+        "sha256": "aee5bfe39de7ff2feeb29976da582fc341e16fb7ede3f6a59c2803cc76d7824b"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "combat-gestures.js",
+        "size": 2640,
+        "sha256": "2a38084d59d59e75f60c98cef2024e461e9af2fa09e1975316048be85b2fa6da"
+      },
+      {
+        "path": "combat.js",
+        "size": 6871,
+        "sha256": "267d4c27371a475282f26c45599deee6a15508b0e4847a0ac5689991f604a181"
+      },
+      {
+        "path": "course-design.js",
+        "size": 1862,
+        "sha256": "25c67394356db7c553e4798af6a3613062f8d9cfdcd1aa80ffb8d64b705fccb0"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 8806,
+        "sha256": "8ca69195dc9358bda43f324eae68ca649c92c486af20a67fcedd2ab2d0a0a89b"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "scene.js",
+        "size": 36165,
+        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
+      },
+      {
+        "path": "style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "nebula-wing",
+    "files": [
+      {
+        "path": "app.js",
+        "size": 27068,
+        "sha256": "57d98a4281adbd78c5e21014a74df247b71e2ada52a43d2d19d58af0cd290c5a"
+      },
+      {
+        "path": "assets/cruiser-reference.webp",
+        "size": 130384,
+        "sha256": "4839dc2fd7d92a741b45b132e4195af671e93c4790d0609dea09f37c5ccbe4d4"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/laser-fire.mp3",
+        "size": 347520,
+        "sha256": "8b287620bd99242522dacf570fdfb88041b91981f427403881794258d6f83f96"
+      },
+      {
+        "path": "assets/nebula.jpg",
+        "size": 145546,
+        "sha256": "5fa62fab215c0b9eb377e74bb61a1632dd452238238e8a26fb907cb9a176b762"
+      },
+      {
+        "path": "assets/player-reference.jpg",
+        "size": 295029,
+        "sha256": "2397e2c916f9f5a05582c72ba9f8412e2eab6d2daef79b14871ca34cfbe8e2e0"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "clap.js",
+        "size": 1803,
+        "sha256": "8294b3bafeecc795c7dfb1f3da29f4ff004fc90e8809d7a9446af32316005e07"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "combat-app.js",
+        "size": 18759,
+        "sha256": "669bbb7b708861c66a7ed69bc3e8a48128c3ffebe6e3a1a12a691a54026d7d8d"
+      },
+      {
+        "path": "combat.css",
+        "size": 19549,
+        "sha256": "7b54e6244b6f793125d94104ac807fa5f9d0af818fadf1de442280ca08c67d68"
+      },
+      {
+        "path": "combat.js",
+        "size": 7864,
+        "sha256": "da5a221cf0e1e8eb813749ae7f17ffbcabde7ce1fc998038a609373c06ef77ab"
+      },
+      {
+        "path": "course-design.js",
+        "size": 1848,
+        "sha256": "14bb4bc873b4b6cffd824ebaad20d3e9164def499cdfe06fec3b1cdfaf5fbb3d"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 9065,
+        "sha256": "2a922e47535e0b09e4c69bf48045cad33d2a1f5e373fb4b30ca0e2ba3bc38afe"
+      },
+      {
+        "path": "laser-audio.js",
+        "size": 4564,
+        "sha256": "cf39aeb99fa262ec0280fc62201199fa6cf4d17de1d6d6621a3f73627a067aac"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "scene.js",
+        "size": 36165,
+        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
+      },
+      {
+        "path": "space-scene.js",
+        "size": 8791,
+        "sha256": "c3774c47338c75016c704d34a3448dcf036697383f98c3fd0268a5396906ddd3"
+      },
+      {
+        "path": "starships.js",
+        "size": 7348,
+        "sha256": "d0d0075aa7072b93957479a4b84ba073bcd6257e6595192917319e0ddd2a2e25"
+      },
+      {
+        "path": "style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "nyan-duello",
+    "files": [
+      {
+        "path": "app.js",
+        "size": 12590,
+        "sha256": "f771dd845b8221b2707fae516f7c518bd363bc66030c64b576f89a6349b70198"
+      },
+      {
+        "path": "assets/audio/background.mp3",
+        "size": 347040,
+        "sha256": "9d394dd32bb8f5d84cd50c9427f21f1445ab3bbfb85ef4ee41b8ec301ae5edba"
+      },
+      {
+        "path": "assets/audio/game-over.mp3",
+        "size": 56842,
+        "sha256": "ba5dd30be0e6559c8b0e28a362058f86b411f5d18a73a38f7a30e4f6b34e6bb4"
+      },
+      {
+        "path": "assets/audio/hit.mp3",
+        "size": 78240,
+        "sha256": "b142d989f6e4d1c25a348384a22865c09933512ff2c10a5a13c390e8fb48f06c"
+      },
+      {
+        "path": "assets/audio/hurt.mp3",
+        "size": 259584,
+        "sha256": "eb18505f97c2cc81c372966dc5685ba9f94cdde5f716a7131fb5ff14ff6c4024"
+      },
+      {
+        "path": "assets/duel-reference.webp",
+        "size": 24180,
+        "sha256": "b7f484630d8ddf81e955e5f1f5d1d2de25b2a66d7ee1b5f287630b0664d4ed76"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "assets/projectiles/choco.png",
+        "size": 667704,
+        "sha256": "cad16745da237a93589d2b515a92ff294dec48c135fcc8007cdf8242e2b9534f"
+      },
+      {
+        "path": "assets/projectiles/jam.png",
+        "size": 1977401,
+        "sha256": "8da0f27dea2b01bb54fc37de34c5846a61b9bceff77ab4da24ebf022b5bff2c7"
+      },
+      {
+        "path": "cat-geometry.js",
+        "size": 117,
+        "sha256": "f313af24578bca80fea5fff7d5f290f5ca67d8359cf1b935ddb5b8c092164163"
+      },
+      {
+        "path": "cat-model.js",
+        "size": 4418,
+        "sha256": "1f6bf3741d9e3049c19017ed14ade526fc26c43065e508f3daa2113832bd2729"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "course-design.js",
+        "size": 1864,
+        "sha256": "98d7c2cc07e1d8fab33550e4be253f843cd8bbcb1db1735b83553b4ca0a960e1"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "duel-scene.js",
+        "size": 10399,
+        "sha256": "0738454fdc82d11dcd210620c5db8cfb9eedab6f3696b4fc60ba1a247233d333"
+      },
+      {
+        "path": "duel.css",
+        "size": 16800,
+        "sha256": "05cd11a8b318a9abd1e0379114ed9d7f32e5d359fc129132c515a0a049281467"
+      },
+      {
+        "path": "duel.js",
+        "size": 6357,
+        "sha256": "1add49b6e208d5516e6473fde87be2189fa2a2278523bef34de414ca297456d8"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6658,
+        "sha256": "06d6edc776adfe1a81d883f08a5659beaf1c5f30ebba39ed5fde9618f2f851d4"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 7256,
+        "sha256": "420f4f967335838e8792049411d82054146c6fd8e57121497079f8b0a8e24323"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "scene.js",
+        "size": 36165,
+        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
+      },
+      {
+        "path": "style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "gokbey-teknofest",
+    "files": [
+      {
+        "path": "app.js",
+        "size": 13663,
+        "sha256": "fb06346ddbfd7b37f7acf57a0bc8845a674274f0e0723592d3d62dd62daa2a57"
+      },
+      {
+        "path": "assets/bridge-reference.webp",
+        "size": 357112,
+        "sha256": "3d9de066e3cbd88a5fbfe57d4a548664e25b2b81d24c87443b285064995f77fe"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/gokbey-reference.jpg",
+        "size": 93446,
+        "sha256": "766cef26c93419777e8ddb2e06ebbd6fad4f12441cad5758f929b8d319de005e"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "assets/rotor.mp3",
+        "size": 67709,
+        "sha256": "23a3244a7ac80edc36057c4c7ffb5a60e0d9f7c5136eddfb9b8d604cdd2869a6"
+      },
+      {
+        "path": "assets/teknofest-reference.webp",
+        "size": 408190,
+        "sha256": "b97aa0d0bc4556be26c8e424282b293fe41ccd5af6ab6e46f4576776f3a9f197"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "course-design.js",
+        "size": 1235,
+        "sha256": "66563f54a9d46e3594fb91000bc109b603bae160527b4b057f4e0c05b5362776"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "festival.js",
+        "size": 7278,
+        "sha256": "7fc3d2a987011ae44e90fef2b241c7c5ce0c121414e7e30414a7b46138104610"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "helicopter.js",
+        "size": 4255,
+        "sha256": "fb8dc9f9a043d10973cac96c003e05bcfa4be013d78819abcd53766ea6a9c0e4"
+      },
+      {
+        "path": "index.html",
+        "size": 8271,
+        "sha256": "682a43c880a3c384f5e5e8041a24bed2855eea1939bd23607a6acaadd039b6f8"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "scene.js",
+        "size": 13101,
+        "sha256": "b4ee55604ae2f1d01229d9b0611b01fda431cefae9b14ec9ef3c5bc83e53dbbd"
+      },
+      {
+        "path": "style.css",
+        "size": 18625,
+        "sha256": "4752e15d63b600a58927e87e0d8ebfd78615003bbfdf2262d6d1b6b0835e8e0e"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "duckrooms",
+    "files": [
+      {
+        "path": "app.js",
+        "size": 11355,
+        "sha256": "8187d6b255fd684cd3201d37ca2568ee17e1f0970b243cab2c9e3e5191990e96"
+      },
+      {
+        "path": "assets/ambience.mp3",
+        "size": 3989256,
+        "sha256": "bdfb5079d147e00f3513767de9c12e4bf5a6c5b1d4e6b56a74a29a546e5c9d64"
+      },
+      {
+        "path": "assets/backrooms-reference.webp",
+        "size": 35404,
+        "sha256": "1809aa0ed3e6d951ed330918e64d9babdefe32f7b977378e841719c5e39542b9"
+      },
+      {
+        "path": "assets/chase.mp3",
+        "size": 351608,
+        "sha256": "b3a05b3ecf2254aa12bbdb7ea5b148adf4437bde9958d866c4570742609f5ef4"
+      },
+      {
+        "path": "assets/duck-reference.webp",
+        "size": 15022,
+        "sha256": "642465d46b944e68ce2ae2431090c74020385d416b70dcc4da36da1ec63adc0f"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/monster.webp",
+        "size": 20400,
+        "sha256": "e8a89bc39604eb1c99cbf9355242a04d8254b87f891d768713061044d56d3023"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "assets/sighting.mp3",
+        "size": 161280,
+        "sha256": "373b984aa9cf79f3e6ccff3a33fda35c23d442fa56ba4d032161cbe9d8442a8f"
+      },
+      {
+        "path": "audio.js",
+        "size": 2269,
+        "sha256": "6ccad4961dd9bae13bfe077454ca1520c55420960628a6b5431af4363e8ab238"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "course-design.js",
+        "size": 854,
+        "sha256": "2baa1972b166dae26abe202de257ec2f1a305f6d3a1be7f6a5e0b1602e2e707b"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "duck-model.js",
+        "size": 3166,
+        "sha256": "6fa0291503df1ce7e5e99003e84c55d423a8b285da80b0317b8814c7b330489c"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 5796,
+        "sha256": "896283447d52ac476e525ee81f32e27332eaaa6892ee4575e86c7b7d9d37e97c"
+      },
+      {
+        "path": "maze.js",
+        "size": 5782,
+        "sha256": "ef4331815f4d2e58404dd6c56a0b02e5d313ffb59ad2cb45c918dd14e081e283"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "room-scene.js",
+        "size": 10954,
+        "sha256": "232c289d9eb989cf97a074dca388b0ae610c1001e553b3008733e10cbf826c0f"
+      },
+      {
+        "path": "rooms.js",
+        "size": 9370,
+        "sha256": "0da45fe271f50b2b5e722621a83d4f9e6ceb897aaef1d03fb86a594f022eebdb"
+      },
+      {
+        "path": "scene.js",
+        "size": 36165,
+        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
+      },
+      {
+        "path": "style.css",
+        "size": 12986,
+        "sha256": "d15b1b7d45a11b8f4516710a3afdb68f75cb33a83e7fa9ce5ec302ff4741f603"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "uranus-gorevi",
+    "files": [
+      {
+        "path": "app.js",
+        "size": 16593,
+        "sha256": "98d11fcf8fef34b07e411d4f9497cc1952224843bc2124a5b713aa39ce635a28"
+      },
+      {
+        "path": "assets/audio/laser.mp3",
+        "size": 9216,
+        "sha256": "441279e5a69cc3805bd829da182156bf9db853b6ad22e13fe3280be845517472"
+      },
+      {
+        "path": "assets/audio/space.mp3",
+        "size": 5120835,
+        "sha256": "1983e0e37b43f247d9a93839b89a9aee3cc35e31c0dcb534ce26a6474b33a537"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "assets/rocket-reference.jpg",
+        "size": 202313,
+        "sha256": "638b92d84616c10c5b3e6b0c885f6df6211379a984ebc8ceb87ff38b065d90b5"
+      },
+      {
+        "path": "assets/ufo-reference.jpg",
+        "size": 25807,
+        "sha256": "bd5a3cecbdf97724eb3bacb93a24ee13b3be99a08b562f5361d5baf043a141fe"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "course-design.js",
+        "size": 1327,
+        "sha256": "744e28b6f9a6ae7612fa907f06190768236656c30dbee1dc42da4387df19b07c"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 9509,
+        "sha256": "5ee3e7ab180d5b373651bb231482e1a3f8204c66c1f9b8d3990f5f13a7882320"
+      },
+      {
+        "path": "mission.js",
+        "size": 6756,
+        "sha256": "256b6769778d05774ba6b0d21ce241c5c89da4a51074374be9ac274a93fe95d1"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "scene.js",
+        "size": 19858,
+        "sha256": "ebd6d5f9fcde0eaa6089df29e291ae9319d85c6b13392022c507dca149215a05"
+      },
+      {
+        "path": "style.css",
+        "size": 21036,
+        "sha256": "7d7f1b4909ba359d944f817a2ff02dcda06107e8a3f2d57c5fcb6c80707337d5"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "hurkus-liberty",
+    "files": [
+      {
+        "path": "app.js",
+        "size": 27068,
+        "sha256": "57d98a4281adbd78c5e21014a74df247b71e2ada52a43d2d19d58af0cd290c5a"
+      },
+      {
+        "path": "assets/audio/menu.mp3",
+        "size": 364320,
+        "sha256": "cfd9fb5b12bc6add6c4118891e9e58b72b173b243622d7c91ef740600419c317"
+      },
+      {
+        "path": "assets/audio/missile.mp3",
+        "size": 136254,
+        "sha256": "abca96073f8a2b43ce99209987bf8add4507260c45010e1d6b438c846bf73401"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "assets/references/hurkus.webp",
+        "size": 20542,
+        "sha256": "ce0aafe06d41935d60d46751a59eeae7d0927b225b24c04029a530c3a3e0e35e"
+      },
+      {
+        "path": "assets/references/new-york.webp",
+        "size": 256570,
+        "sha256": "6416ca802414f09af26904bad3b449f05fca47d6c06667a314fb85a25795c506"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "combat.js",
+        "size": 6063,
+        "sha256": "6a9123dd17ed99df4372ce194b6dff9b80d84d5e940a7ece77f49c0ea717ca75"
+      },
+      {
+        "path": "course-design.js",
+        "size": 1871,
+        "sha256": "4aa9257b476c6cc15bcd684179b795d1fa39cc27e49cdb9b7b9150c8406e13d7"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "environment.js",
+        "size": 1007,
+        "sha256": "b411d8de8b6ec19a208a244a9a6a3c90db42ed4fabb51d56ca6cb4712cb68882"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 15860,
+        "sha256": "1826840f17382165a6d55387ee8b3a4b6023f2b909f88e4bc4ee42c4dfcbdab2"
+      },
+      {
+        "path": "liberty-scene.js",
+        "size": 12884,
+        "sha256": "5ffe3e6dcf871ae875f00d5e7d10df1c56edbd84db5a8c6105b30e541432ac96"
+      },
+      {
+        "path": "liberty.css",
+        "size": 23033,
+        "sha256": "be29d2b4a460c50546ae1b48927ba726aff209b105585be2080f83b7816e2a71"
+      },
+      {
+        "path": "mission.html",
+        "size": 10659,
+        "sha256": "a90247b0dde7c5222cb842b9f6ece7f3fba45702e3e1f2c167a700e7e887814b"
+      },
+      {
+        "path": "mission.js",
+        "size": 21717,
+        "sha256": "92cf248b0f1d970a3a1f40f7d3d6e6781003dd232bbf1c406670d869040ccdd8"
+      },
+      {
+        "path": "models.js",
+        "size": 8265,
+        "sha256": "0902733b7f8dd090ae4d9b9012f3dfa11acabe9ed018d83e4df5223f182db2bb"
+      },
+      {
+        "path": "pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "scene.js",
+        "size": 36165,
+        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
+      },
+      {
+        "path": "style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  },
+  {
+    "slug": "bermuda-f35",
+    "files": [
+      {
+        "path": "aircraft.js",
+        "size": 5858,
+        "sha256": "eff9b0beb9d268e2f485e46afae0344808e70060803707e7b94f91da168d2c49"
+      },
+      {
+        "path": "app.js",
+        "size": 13291,
+        "sha256": "3909b12e064a63b386080892d0386b5c477e032ff5fc552fc4f00c28261101ef"
+      },
+      {
+        "path": "assets/audio/ocean.mp3",
+        "size": 566400,
+        "sha256": "79156048b11ec349880d9972ecea01fe9d3caec5210d132edca39bc1b732fdf0"
+      },
+      {
+        "path": "assets/audio/shark.mp3",
+        "size": 106997,
+        "sha256": "1dc54f7a44fa7de23c167c6777e6bf2cc30308ac0e1bc8bbe4aa847dbcd46fd9"
+      },
+      {
+        "path": "assets/audio/thunder.mp3",
+        "size": 1516320,
+        "sha256": "9534bd29c6a5e40053b2f6c82bc2d5a65ff20e50faa0a25aabe40baf5af587ce"
+      },
+      {
+        "path": "assets/favicon.svg",
+        "size": 193,
+        "sha256": "c883a6a09e4eaad902416768def1744b1eea1b4e1cc1bc366100e3d28435bd91"
+      },
+      {
+        "path": "assets/pose_landmarker_lite.task",
+        "size": 5777746,
+        "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+      },
+      {
+        "path": "assets/references/bermuda.jpg",
+        "size": 288385,
+        "sha256": "bb13a5d1e5e6e5983b0219093e2b4550ee194a0c2037fa92ca87a2f7907d8022"
+      },
+      {
+        "path": "assets/references/f35.jpg",
+        "size": 13645,
+        "sha256": "ec7250d5d66851e352474f6ceea84d387ead19386775ff9c76ef6acffd2e970c"
+      },
+      {
+        "path": "audio.js",
+        "size": 2317,
+        "sha256": "6466688d30d990a9e9cbff022e6dd8347fa8e9dc1648574dd9d666c5a57ee957"
+      },
+      {
+        "path": "bermuda.css",
+        "size": 17696,
+        "sha256": "40dfcdaefc022d9908cf5c0f1c327f0002690a7fae053c97764b35ffb9e144f2"
+      },
+      {
+        "path": "collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "course-design.js",
+        "size": 722,
+        "sha256": "5225318a64359fae3027efbab09d99b1d3a3ce1fe0d26b55e7eef93756922860"
+      },
+      {
+        "path": "course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "eagle.js",
+        "size": 6386,
+        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+      },
+      {
+        "path": "flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "index.html",
+        "size": 7800,
+        "sha256": "4d54bbb8f081454a8685ca031a68226d91b46b8ba0f7ac99a6b4135de5ac9a2b"
+      },
+      {
+        "path": "pose.js",
+        "size": 16797,
+        "sha256": "107a716a470eaa6766bf719940a86589e1159b50c6cabd3e3062d3d53c1c8d6e"
+      },
+      {
+        "path": "scene.js",
+        "size": 36165,
+        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
+      },
+      {
+        "path": "storm-scene.js",
+        "size": 11937,
+        "sha256": "ad7c71c04b902b0f39bbbe57d4bbcd3f5a49bea29799fd5247559ed289e274c7"
+      },
+      {
+        "path": "style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "survival.js",
+        "size": 3934,
+        "sha256": "9e2ffcf04b4f5b503096dc1d938fe49d1fbc8cd60711158bf5010be8451a9bc1"
+      },
+      {
+        "path": "vendor/APACHE-2.0-LICENSE.txt",
+        "size": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "vendor/MEDIAPIPE-README.md",
+        "size": 8937,
+        "sha256": "7ba4e6e531c8a158020d545025024ab636e0e54bbcdd01dbc37b618506ef3d2e"
+      },
+      {
+        "path": "vendor/THIRD_PARTY_NOTICES.txt",
+        "size": 962,
+        "sha256": "06a578c3f01cb870701a83e2e3a609a541c8d69c9c31fc38398241780981f4a6"
+      },
+      {
+        "path": "vendor/THREE-LICENSE.txt",
+        "size": 1081,
+        "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+      },
+      {
+        "path": "vendor/three.module.js",
+        "size": 1314681,
+        "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+      },
+      {
+        "path": "vendor/vision_bundle.mjs",
+        "size": 137735,
+        "sha256": "40f4123dfcd75cfa58add046919cc6f52fde66f009ff582997c09ba54c6ba27c"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.js",
+        "size": 204284,
+        "sha256": "4a97e2520ba506c680ecd6ba6acfb146888afa0e2746d57f205352bc6ebb82eb"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_internal.wasm",
+        "size": 9574032,
+        "sha256": "f00ec4731faa23b3e714d00e88d4d10e2df5c0a427d3a2b4ae6e3526fdd14ef7"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.js",
+        "size": 204137,
+        "sha256": "927def7b465c51b86e4b3060f93646aca4e27121f4b8fc0483786e407ea9cf1f"
+      },
+      {
+        "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
+        "size": 9448638,
+        "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
+      },
+      {
+        "path": "world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
+      }
+    ]
+  }
+]

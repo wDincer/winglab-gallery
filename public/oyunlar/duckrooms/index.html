@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="tr"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#11120c">
+<meta name="description" content="Küçük bir ördek. Sınırsız bir sarı oda labirenti. Kanat çırp ve peşindekinden kaç.">
+<title>DUCKROOMS — WINGLAB</title><link rel="icon" href="./assets/favicon.svg"><link rel="stylesheet" href="./style.css">
+</head><body>
+<main id="game" aria-label="Duckrooms uçuş oyunu">
+  <canvas id="world" aria-label="Üç boyutlu Backrooms odaları"></canvas>
+  <div class="grain" aria-hidden="true"></div><div class="vignette" aria-hidden="true"></div><div id="danger" aria-hidden="true"></div>
+  <header class="topbar"><a class="wordmark" href="./" aria-label="Duckrooms ana ekran">W<span class="wing-mark">/</span> WINGLAB <span class="wordmark-divider"></span><span class="edition">PLAYGROUND 01</span></a><div class="top-actions"><span class="local-tag"><i></i> YEREL DENEYİM</span><button id="sound" class="icon-button" title="Sesi aç / kapat" aria-label="Sesi kapat" aria-pressed="false">♪</button><button id="fullscreen" class="icon-button" title="Tam ekran" aria-label="Tam ekran">⛶</button></div></header>
+  <section id="intro" class="intro">
+    <div class="intro-content"><div class="eyebrow"><span class="tiny-line"></span> LEVEL 00 / THE BACKROOMS</div>
+      <h1>DUCK<span>ROOMS<span class="title-dot">.</span></span></h1>
+      <p class="intro-sub">Yanlış odadasın.<br>Kanatların var. <em>Kullan onları.</em></p>
+      <p class="intro-description">Dört yöne açılan sarı odaları keşfet.<br class="desktop-break"> Koridorlardan çıkan şeyden uzak dur.</p>
+      <div class="rules"><div><b>01<span>m</span></b><small>GÜVENLİ MESAFE</small></div><div><b>15<span>sn</span></b><small>HER KOVALAMACA</small></div><div><b>∞</b><small>LABİRENT</small></div></div>
+      <button id="start-keyboard" class="primary-button">İÇERİ GİR <span>↗</span><small>KLAVYE İLE OYNA</small></button>
+      <button id="start-camera" class="camera-start"><span class="camera-icon">◎</span> Kamerayla, kollarını çırparak uç <span>→</span></button>
+      <div class="intro-note"><span>◈</span> Kulaklığını tak. Floresanların sesini dinle.</div>
+    </div>
+    <div class="subject-label"><span class="label-line"></span><div>DENEK 001<small>Sadece küçük bir ördek.</small></div></div>
+    <div class="scene-caption"><span>35° 42′ N · KONUM BİLİNMİYOR</span><span>YOLUNU SEN SEÇ.</span></div>
+    <div class="intro-bottom"><span>BİR WINGLAB UÇUŞ DENEYİ</span><span>KORKU / KEŞİF / KANAT ÇIRPMA</span><button id="help-intro" class="text-button">NASIL OYNANIR <span>?</span></button></div>
+  </section>
+  <section id="hud" hidden aria-label="Uçuş bilgileri">
+    <div class="mission"><span class="eyebrow">LEVEL 00</span><strong>Keşfet. Hayatta kal.</strong><div class="encounters"><span id="encounters-label">0 TAKİP ATLATILDI</span><span id="bearing">K · 000°</span></div></div>
+    <div id="chase-status" class="chase-status" aria-live="polite"><span class="status-dot"></span><span id="status-label">BURALAR FAZLA SESSİZ</span><strong id="chase-clock"></strong></div>
+    <div class="run-actions"><button id="help" class="icon-button" aria-label="Kontroller">?</button><button id="pause" class="icon-button" aria-label="Duraklat">Ⅱ</button></div>
+    <div id="toast" class="toast" role="status"></div>
+    <div class="bottom-hud">
+      <section class="pilot-panel"><div class="pilot-header"><span><i id="pilot-dot"></i> <b id="source-label">KLAVYE KONTROLÜ</b></span><button id="switch-source" title="Kontrol kaynağını değiştir">KAMERA ↗</button></div><div id="camera-view" hidden><video id="camera-video" autoplay playsinline muted></video><canvas id="pose-map"></canvas></div><div id="keyboard-hint" class="keyboard-hint"><div><kbd>←</kbd><kbd>→</kbd><span>Dön</span></div><div><kbd>B</kbd><span>Kanat çırp</span></div><div><kbd>↑</kbd><kbd>↓</kbd><span>Fren / dalış</span></div></div><p id="camera-status" hidden>Omuzların ve kolların kamerada görünsün.</p></section>
+      <div class="flight-readout"><div class="flight-mode" id="flight-mode">İLK KANADINI ÇIRP</div><div class="telemetry"><div><strong id="speed">0.0</strong><small>m/s · HIZ</small></div><span></span><div><strong id="altitude">0.3</strong><small>m · YÜKSEKLİK</small></div></div><div class="height-track"><i id="height-fill"></i><span>TAVAN 3.8 m</span></div></div>
+    </div>
+    <div class="route-progress"><i id="route-fill"></i></div><div class="distance-readout"><span id="distance">000</span> m · ∞ LABİRENT <span id="monster-distance"></span></div>
+    <div id="touch-controls" aria-label="Dokunmatik kontroller"><button data-hold="ArrowLeft" aria-label="Sola dön">←</button><button id="touch-flap">KANAT ÇIRP</button><button data-hold="ArrowRight" aria-label="Sağa dön">→</button><button data-hold="ArrowUp" aria-label="Yavaşla">FREN</button><button data-hold="ArrowDown" aria-label="Alçal">DALIŞ</button></div>
+  </section>
+  <section id="modal" class="modal" hidden aria-labelledby="modal-title"><div class="modal-card"><div class="eyebrow" id="modal-kicker">BİR NEFES AL.</div><h2 id="modal-title">Duraklatıldı.</h2><div id="modal-copy"></div><div class="modal-buttons"><button id="modal-primary" class="primary-button">DEVAM ET <span>→</span></button><button id="modal-secondary" class="secondary-button">YENİDEN BAŞLA</button></div></div></section>
+  <div id="fatal" hidden role="alert">Üç boyutlu sahne açılamadı. WebGL destekli bir tarayıcıda yeniden dene.</div>
+</main><script type="module" src="./app.js"></script></body></html>

@@ -1,0 +1,4 @@
+* text=auto
+
+# Preserve the bundled games byte for byte for the integrity manifest.
+public/oyunlar/** -text

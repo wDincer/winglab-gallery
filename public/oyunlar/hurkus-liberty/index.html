@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12232b"><meta name="description" content="Kollarını aç, uçuşa geç. WINGLAB, vücut hareketlerinle kontrol ettiğin deneysel uçuş simülasyonu.">
+  <title>Hürkuş · Özgürlük Savunması — WINGLAB</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./diamonds.css"><link rel="stylesheet" href="./eagle.css">
+</head>
+<body>
+<main id="simulator" aria-label="WINGLAB uçuş simülasyonu" tabindex="-1">
+  <canvas id="world" aria-label="Üç boyutlu uçuş alanı"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="WINGLAB ana ekran"><svg viewBox="0 0 40 36" aria-hidden="true"><path d="M3 6 18 14 20 30 23 13 37 3 29 23 20 33 11 25Z" fill="currentColor"/></svg><span>WING<span class="brand-light">LAB</span><small>VÜCUDUNLA UÇ.</small></span><span class="beta">BETA</span></a>
+    <div class="session"><span class="live-dot"></span><span>Vadi parkuru</span><span class="session-divider"></span><span id="flight-time">00:00</span></div>
+    <nav class="top-actions" aria-label="Simülasyon araçları">
+      <button id="choose-mode" class="vehicle-button" title="Uçuş modunu değiştir"><span id="vehicle-label">01 · Uçak</span><span aria-hidden="true">⌄</span></button>
+      <button id="sound" class="icon-button" title="Sesi aç" aria-label="Sesi aç" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="m11 5-6 4H2v6h3l6 4V5Zm5 4 5 6m0-6-5 6"/></svg></button>
+      <button id="reset" class="icon-button" title="Uçuşu sıfırla (R)" aria-label="Uçuşu sıfırla"><svg viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg></button>
+      <button id="help" class="icon-button" title="Nasıl uçulur?" aria-label="Uçuş rehberini aç"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 8a2.5 2.5 0 1 1 4 2c-1 .7-1.5 1-1.5 3m0 3v.1"/></svg></button>
+      <button id="fullscreen" class="icon-button" title="Tam ekran (F)" aria-label="Tam ekran"><svg viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
+      <button id="pause" class="pause-button" title="Duraklat (Boşluk)" aria-label="Uçuşu duraklat"><svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg><span>Duraklat</span></button>
+    </nav>
+  </header>
+
+  <section class="instruments" aria-label="Uçuş göstergeleri">
+    <div class="instrument"><span class="instrument-label">HAVA HIZI <i></i></span><div><strong id="speed">0</strong><span class="unit">KT</span></div><span class="instrument-foot" id="speed-label">Kalkış bekleniyor</span></div>
+    <div class="instrument"><span class="instrument-label">İRTİFA <i></i></span><div><strong id="altitude">0</strong><span class="unit">FT</span></div><span class="instrument-foot">Yerden yükseklik</span></div>
+    <div class="instrument heading-instrument"><span class="instrument-label">İSTİKAMET</span><div><strong id="heading">000</strong><span class="unit">°</span></div><span class="instrument-foot" id="heading-label">Kuzey</span></div>
+    <div class="instrument vertical-instrument"><span class="instrument-label">DİKEY HIZ</span><div><strong id="vertical">0</strong><span class="unit">FT/M</span></div><span class="instrument-foot" id="vertical-label">Pistte</span></div>
+  </section>
+
+  <div class="compass-ribbon" aria-hidden="true"><span>330</span><i></i><span>345</span><i></i><b id="compass-center">N</b><i></i><span>015</span><i></i><span>030</span><div class="compass-pointer"></div></div>
+  <div class="location-tag"><span class="location-pin">⌖</span><span><span id="course-name">Kademeli Vadi</span><small id="course-distance">DAĞ PARKURU · 0,0 / 8,0 KM</small><small id="course-training">GEÇİT 01 / 09 · DÜZ</small></span></div>
+  <aside class="diamond-score glass" id="diamond-score" aria-label="Toplanan elmaslar"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m4 11 6-7h12l6 7-12 17Z" fill="#6ce8f0" fill-opacity=".18"/><path d="m4 11 6-7h12l6 7-12 17Zm0 0h24M10 4l6 24L22 4M10 4l6 7 6-7" fill="none" stroke="#86f2f7" stroke-width="1.3" stroke-linejoin="round"/></svg><div><span>TOPLANAN ELMAS</span><strong id="diamond-count">0</strong></div><span class="diamond-pickup" id="diamond-pickup" aria-hidden="true">+1</span><span class="sr-only" id="diamond-announcement" role="status" aria-live="polite"></span></aside>
+
+  <section class="start-prompt" id="start-prompt" aria-label="Uçuşa başla">
+    <div class="prompt-eyebrow"><span></span> UÇUŞ İÇİN HER ŞEY HAZIR</div>
+    <h1 id="start-title">Kollarını aç.<br><em>Gökyüzü senin.</em></h1>
+    <p id="start-description">80–100° ile dengeli uç, vadi hattındaki elmasları topla.</p>
+    <button id="start-camera" class="primary-button"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="12" height="12" rx="3"/><path d="m15 10 6-3v10l-6-3"/></svg>Kamerayla uçuşa başla<span>↗</span></button>
+    <button id="try-keyboard" class="text-button">Önce klavyeyle dene <span>→</span></button>
+  </section>
+
+  <div class="flight-toast" id="flight-toast" role="status" aria-live="polite"></div>
+  <div class="course-event glass" id="course-event" role="status" aria-live="polite" hidden></div>
+  <div class="crosshair" aria-hidden="true"><span></span><b>+</b><span></span></div>
+  <div class="ground-label" id="ground-label"><span class="orange-line"></span><span>KALKIŞ PİSTİ <b>36</b></span></div>
+
+  <aside class="camera-card glass" aria-label="Kamera ve vücut haritası">
+    <div class="camera-header"><span><i id="camera-dot"></i> VÜCUT TAKİBİ</span><button id="camera-toggle" title="Kamerayı aç" aria-label="Kamerayı aç"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="m15 10 6-3v10l-6-3"/></svg></button></div>
+    <div class="camera-view">
+      <video id="camera-video" playsinline muted autoplay></video><canvas id="pose-canvas"></canvas>
+      <div id="camera-placeholder"><svg class="body-map" viewBox="0 0 220 110" aria-hidden="true"><path class="ghost" d="M18 36h184M35 84V17m150 67V17"/><circle cx="110" cy="23" r="9"/><path d="M110 34v34m0-27L75 44 42 28m68 13 35 3 33-16m-68 40L90 99m20-31 20 31"/><g><circle cx="110" cy="41" r="3"/><circle cx="75" cy="44" r="3"/><circle cx="145" cy="44" r="3"/><circle cx="42" cy="28" r="3"/><circle cx="178" cy="28" r="3"/><circle cx="110" cy="68" r="3"/><circle cx="90" cy="99" r="3"/><circle cx="130" cy="99" r="3"/></g></svg><span id="camera-message">Kameranı aç, kontrolü devral.</span></div>
+      <span class="camera-corner tl"></span><span class="camera-corner tr"></span><span class="camera-corner bl"></span><span class="camera-corner br"></span>
+      <span id="tracking-badge" class="tracking-badge" hidden>CANLI</span>
+    </div>
+    <div class="camera-footer"><span>SOL KOL <b id="left-angle">—</b></span><span class="angle-divider"></span><span>SAĞ KOL <b id="right-angle">—</b></span></div>
+    <div class="camera-privacy"><svg viewBox="0 0 16 16"><path d="M4 7V5a4 4 0 0 1 8 0v2M3 7h10v7H3Z"/></svg>Görüntü kaydedilmez · Cihazında işlenir</div>
+  </aside>
+
+  <aside class="gesture-guide glass" id="gesture-guide" aria-label="Kol hareketleri">
+    <div class="guide-heading"><span>HAREKET REHBERİ</span><span>↗</span></div>
+    <button class="gesture" data-angle="140" title="Klavyeyle hızlı uçuşu dene"><svg viewBox="0 0 48 35"><circle cx="24" cy="7" r="3"/><path d="M24 13v13m0-11L13 4m11 11L35 4M24 26l-6 7m6-7 6 7"/></svg><span>Yüksel & hızlan<small>100° üzeri</small></span><i class="gesture-speed fast"><b></b><b></b><b></b></i></button>
+    <button class="gesture selected" data-angle="90" title="Klavyeyle orta hızı dene"><svg viewBox="0 0 48 35"><circle cx="24" cy="5" r="3"/><path d="M24 11v14M7 13h34M24 25l-6 8m6-8 6 8"/></svg><span>Dengeli uçuş<small>80° – 100°</small></span><i class="gesture-speed medium"><b></b><b></b><b></b></i></button>
+    <button class="gesture" data-angle="50" title="İleri uçuşu sürdürerek alçalmayı dene"><svg viewBox="0 0 48 35"><circle cx="24" cy="5" r="3"/><path d="M24 11v14m0-12L10 24m14-11 14 11M24 25l-6 8m6-8 6 8"/></svg><span>İlerle & alçal<small>İki kol hafif aşağı · 25°–80°</small></span><span class="descent-arrow">↘</span></button>
+    <button class="gesture" data-angle="0" title="İleri hareketi durdurarak alçalmayı dene"><svg viewBox="0 0 48 35"><circle cx="24" cy="5" r="3"/><path d="M24 11v14m-3-12-4 12m10-12 4 12M24 25l-6 8m6-8 6 8"/></svg><span>Fren & alçal<small>Kollar tamamen kapalı</small></span><span class="descent-arrow">↓</span></button>
+    <div class="engine-throttle"><button id="test-throttle" class="throttle-button" data-throttle aria-pressed="false" title="Klavyeyle gövde gazını dene: tıkla veya G tuşunu basılı tut"><svg viewBox="0 0 48 35" aria-hidden="true"><circle cx="29" cy="5" r="3"/><path d="m27 11-6 14m5-11-15-1m15 1 15 3M21 25l-7 8m7-8 7 8"/></svg><span>Gövdeni öne eğ<small>Dik durunca normal güç · G ile dene</small></span><strong id="throttle-value">%0</strong></button><div class="throttle-meter" id="throttle-meter" role="progressbar" aria-label="Gövde gazı" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="throttle-fill"></span></div><div class="throttle-arms"><span id="body-lean">Öne eğim —</span><span id="body-calibration-status">Dik duruş bekleniyor</span></div><button class="body-calibrate" id="calibrate-body" data-calibrate-body title="Kamerada dik dururken normal duruşunu yeniden ayarla" disabled>Dik duruşu ayarla ↻</button></div>
+    <div class="guide-tip">Kolların kanat gibi açık kalsın. Öne eğil: gaz. Dik dur: normal güç.</div>
+  </aside>
+
+  <div class="bottom-center">
+    <div class="keyboard-panel glass" id="keyboard-panel" hidden><div><span>KOL AÇISI</span><strong id="manual-angle-label">90°</strong><span class="keyboard-hint">↑ ↓ kol · ← → yön</span></div><input id="manual-angle" type="range" min="0" max="180" value="90" aria-label="Test için kol açısı"><div class="range-labels"><span>0° · Fren</span><span>90° · Dengeli</span><span>180° · Yüksel</span></div></div>
+    <div class="control-dock glass"><div class="control-status"><span class="status-symbol" id="status-symbol">⌁</span><span><b id="control-title">Seni bekliyor</b><small id="control-subtitle">Kalkış için kollarını kaldır.</small></span></div><span class="dock-divider"></span><div class="mode-switch" aria-label="Kontrol modu"><button id="camera-mode" class="active" aria-pressed="true">Kamera</button><button id="keyboard-mode" aria-pressed="false">Klavye</button></div></div>
+    <div class="bottom-caption"><span class="live-dot"></span> DENEYSEL UÇUŞ SİMÜLASYONU <span class="caption-dot">·</span> <span id="edition-label">WINGLAB 01</span></div>
+  </div>
+  <div class="view-control"><button id="view-toggle" class="glass" title="Kamera görünümünü değiştir (C)"><svg viewBox="0 0 24 24"><path d="M3 7h4l2-3h6l2 3h4v13H3Z"/><circle cx="12" cy="13" r="4"/></svg><span id="view-label">Takip kamerası</span><kbd>C</kbd></button><span>Rüzgâr sakin <i>↗</i> 3 KT</span></div>
+  <div id="fatal-error" class="fatal-error" hidden><strong>Uçuş alanı açılamadı.</strong><p>WebGL destekleyen güncel bir tarayıcıda tekrar dene.</p><button onclick="location.reload()">Tekrar dene</button></div>
+</main>
+<dialog id="help-dialog"><div class="modal-header"><span class="eyebrow">WINGLAB / UÇUŞ NOTLARI</span><button id="close-help" aria-label="Rehberi kapat">×</button></div><h2>Kumanda sensin.</h2><p>Kameradan 2–3 metre uzaklaş. Başın, kalçan ve iki kolun bütünüyle kadrajda olsun. Kol açısı, gövdenin aşağı yönüne göre ölçülür.</p><ol>
+  <li><b>Kalkış:</b> İki kolunu yana, en az 80°'ye kaldır. Uçak hızlanıp pistten ayrılır.</li>
+  <li><b>Dengeli uçuş:</b> 80–100° orta hız; 100° üzeri hızlı uçuş ve tırmanış.</li>
+  <li><b>İlerleyerek alçalma:</b> İki kolunu birlikte biraz aşağı indir, tamamen kapatma. 25–80° arasında uçak yaklaşık 70 KT ile ilerlerken alçalır. Kolları 90°'ye açınca alçalış durur. Bu sırada gövdenle gaz da verebilirsin.</li>
+  <li><b>Fren ve alçalma:</b> Kollarını tamamen indir veya kapat; ileri hareket durur.</li>
+  <li><b>Dönüş:</b> Sağa dönmek için sağ kolunu, sola dönmek için sol kolunu alçalt.</li>
+</ol><p class="help-note">Vücut takibi kaybolursa simülasyon bekler. Bu prototip hareketle kontrolü denemek içindir; gerçek uçuş eğitiminin yerini almaz.</p><div class="keyboard-shortcuts"><span><kbd>↑</kbd><kbd>↓</kbd> Kol açısı</span><span><kbd>←</kbd><kbd>→</kbd> Dönüş</span><span><kbd>Space</kbd> Duraklat</span><span><kbd>R</kbd> Sıfırla</span></div><button id="help-done" class="primary-button">Anladım, uçuşa dön ↗</button></dialog>
+<dialog id="vehicle-dialog" aria-labelledby="vehicle-title" aria-describedby="vehicle-description">
+  <div class="selection-brand"><svg viewBox="0 0 40 36" aria-hidden="true"><path d="M3 6 18 14 20 30 23 13 37 3 29 23 20 33 11 25Z" fill="currentColor"/></svg><span>WINGLAB <small>VÜCUDUNLA UÇ.</small></span></div>
+  <span class="eyebrow">İKİ DENEYİM. AYNI GÖKYÜZÜ.</span>
+  <h2 id="vehicle-title">Nasıl uçmak istersin?</h2>
+  <p id="vehicle-description">Bir uçuş modu seç, kollarınla kontrolü devral.</p>
+  <div class="vehicle-options">
+    <button class="vehicle-option" id="select-airplane" data-vehicle="airplane"><span class="option-number">01 <span>KLASİK UÇUŞ</span></span><svg class="vehicle-art plane-art" viewBox="0 0 240 100" aria-hidden="true"><path d="m117 10 8 0 5 37 83 19 0 7-82-6-3 15 22 8v5l-29-3-29 3v-5l22-8-3-15-82 6v-7l83-19Z"/><path d="M120 18v65M43 69l63-10m29 0 63 10"/></svg><strong>Uçak</strong><span class="option-copy">Kollarını aç, hızını ayarla.<br>Alıştığın uçuş kontrolleri.</span><span class="option-action">Uçağı seç <span>↗</span></span></button>
+    <button class="vehicle-option eagle-option" id="select-eagle" data-vehicle="eagle"><span class="option-number">02 <span>YENİ DENEYİM</span></span><svg class="vehicle-art" viewBox="0 0 240 100" aria-hidden="true"><path d="m120 37-12 12-19-8-21-16-19-7 5 13-21-8 8 14-22-6 10 14-18-2 12 13-13 2 20 11 32 4 37-6 12 8-5 16 14-6 14 6-5-16 12-8 37 6 32-4 20-11-13-2 12-13-18 2 10-14-22 6 8-14-21 8 5-13-19 7-21 16-19 8Z"/><path d="m120 37 3-12 8 0 5 6-12 5m-34 18L53 43m97 11 37-11M112 68l8-16 8 16"/></svg><strong>Kartal</strong><span class="option-copy">Kanat çırparak hızlan.<br>Süzül, yavaşla, dalışa geç.</span><span class="option-action">Kartalı seç <span>↗</span></span></button>
+  </div><p class="selection-note">Kamera veya klavyeyle deneyebilirsin. <kbd>1</kbd> Uçak <kbd>2</kbd> Kartal</p><button id="cancel-mode" class="text-button" hidden>Mevcut uçuşa dön →</button>
+</dialog>
+<script type="module" src="./app.js"></script>
+<dialog id="crash-dialog" aria-labelledby="crash-title" aria-describedby="crash-message"><div class="crash-symbol" aria-hidden="true">!</div><span class="eyebrow">UÇUŞ DURDU</span><h2 id="crash-title">Çarpışma!</h2><p id="crash-message">Bir engele çarptın.</p><div class="crash-summary"><div><strong id="crash-diamonds">0</strong><span>TOPLANAN ELMAS</span></div><div><strong id="crash-distance">0,0 km</strong><span>GİDİLEN MESAFE</span></div></div><button id="restart-flight" class="primary-button" type="button">↻ Yeniden başla</button><p class="crash-shortcut"><kbd>R</kbd> ile de yeniden başlayabilirsin.</p></dialog>
+</body>
+</html>
