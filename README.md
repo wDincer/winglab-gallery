@@ -26,6 +26,27 @@ Varsayılan portu değiştirmek için `.env.example` dosyasını `.env` adıyla 
 
 Uzak bir sunucuda da aynı klasörü taşıyıp aynı Compose komutunu çalıştırabilirsin. Kamera ile oyun için alan adında HTTPS kullan; `localhost` kamera erişimini doğrudan destekler. Ağ üzerinden HTTP ile erişimde oyunların klavye modu kullanılabilir.
 
+## Dokploy üzerinde HTTPS
+
+`docker-compose.dokploy.yml`, mevcut Dokploy Traefik servisini kullanır. Alan adı yönlendirmesi, HTTP → HTTPS geçişi ve Let's Encrypt sertifika isteği bu dosyada tanımlıdır. Uygulamanın iç portu `8080` olarak kalır.
+
+1. Dokploy uygulamasında Compose dosyası yolunu `./docker-compose.dokploy.yml` yap.
+2. Environment bölümüne `.env.dokploy.example` içeriğini ekle. `APP_DOMAIN` yalnızca host adı olmalı; `https://`, port veya yol ekleme.
+3. Aynı alan adına ait Domains sekmesindeki otomatik kaydı kaldır; bu alan adının yönlendirmesini Compose dosyası yönetecek.
+4. Kaydet ve **Deploy** çalıştır. Başarılı dağıtımdan sonra `https://<APP_DOMAIN>/` adresini aç.
+
+Bu dosya, standart Dokploy kurulumundaki `dokploy-network` ağını, `web` / `websecure` girişlerini ve `letsencrypt` sertifika çözücüsünü bekler. Ağ veya çözücü adı özelleştirildiyse ilgili `TRAEFIK_NETWORK` / `TRAEFIK_CERT_RESOLVER` değişkenini güncelle. Gelen TCP `80` ve `443` trafiği Traefik'e ulaşmalıdır; HTTP-01 doğrulamasını ve sertifika yenilemeyi Traefik yapar. Compose dosyası bu mevcut sunucu bileşenlerini kurmaz veya değiştirmez.
+
+Yapılandırmayı dağıtımdan önce denetlemek için:
+
+```sh
+docker compose --env-file .env.dokploy.example -f docker-compose.dokploy.yml config --quiet
+```
+
+Sertifika alınamazsa sunucuda `docker logs dokploy-traefik --since 10m --tail 100` çıktısını kontrol et. `nonexistent certificate resolver` mevcut Traefik çözücüsünün adını/yapılandırmasını, `rateLimited` sertifika sağlayıcısının belirttiği bekleme süresini kontrol etmeyi gerektirir. `sslip.io` ortak bir DNS hizmetidir; bu adrese de host adına özel TLS sertifikası alınabilir, ancak ortak sertifika kotaları uygulanabilir.
+
+Kaynaklar: [Dokploy manuel Compose yönlendirmesi](https://docs.dokploy.com/docs/core/docker-compose/domains), [Traefik ACME / HTTP-01](https://doc.traefik.io/traefik/v3.3/https/acme/), [sslip.io TLS açıklaması](https://nip.io/).
+
 ## İçerik
 
 - 14 oyun, 14 detay sayfası ve gerçek oyun görselleri.
