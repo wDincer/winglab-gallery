@@ -12,6 +12,8 @@ Docker Desktop veya Docker Engine ve Compose kurulu olmalıdır. Bu klasörde:
 docker compose up -d --build
 ```
 
+Sunucu panellerinde çalışma dizini depo kökü, Compose dosyası yolu `./docker-compose.yml` olmalıdır. Dosyayı açıkça seçmek için `docker compose -f ./docker-compose.yml up -d --build` kullanabilirsin.
+
 Site: **http://localhost:8080/**
 
 ```sh
