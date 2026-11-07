@@ -26,7 +26,10 @@ export const COURSE_DESIGN = {
     "positivePoints": 1,
     "negativePoints": -2,
     "positiveRatio": 0.75,
-    "collectibleCount": 120,
+    "collectibleCount": 240,
+    "collectibleHalfWidth": 550,
+    "collectibleMinAltitude": 100,
+    "collectibleMaxAltitude": 1100,
     "positiveAudioSeconds": 8,
     "negativeAudioSeconds": 3
   }

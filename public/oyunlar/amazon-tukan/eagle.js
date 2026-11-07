@@ -1,6 +1,9 @@
 import {clamp,createFlightState} from './flight.js';
 
 export const TAKEOFF_FLAPS=2;
+export const FLAP_RISE_METRES=100;
+export const MAX_ALTITUDE=1200;
+const climbSpeed=150;
 
 // Keep gesture history outside flight telemetry. Pausing can discard incomplete
 // gestures while leaving the visible flight state completely frozen.
@@ -16,7 +19,8 @@ export function eagleBand(angle,flapping=false){
 
 export function createEagleState(){
   return {...createFlightState(),vehicle:'eagle',band:'glide',flapCount:0,
-    flapping:false,flapPower:0,leftWingAngle:90,rightWingAngle:90,launching:false};
+    flapping:false,flapPower:0,leftWingAngle:90,rightWingAngle:90,launching:false,
+    climbTarget:null,launchAltitude:null};
 }
 
 function newGesture(left,right,time){
@@ -31,10 +35,10 @@ function updateGesture(state,input,dt,left,right){
   gesture.idle=moving?0:gesture.idle+dt;
   gesture.power=Math.max(0,gesture.power-dt*.6);
   const symmetric=Math.abs(left-right)<30;
-  // Shoulder-height strokes are enough to leave the summit. Keep a separate
+  // Shoulder-height strokes work on the summit and in the air. Keep a separate
   // low reset threshold so one long downstroke cannot count twice.
-  const raisedAngle=state.flying?110:85;
-  const resetAngle=state.flying?100:70;
+  const raisedAngle=85;
+  const resetAngle=70;
   if(left<=resetAngle&&right<=resetAngle)gesture.canArm=true;
   if(!symmetric)gesture.armed=false;
   if(symmetric&&left>=raisedAngle&&right>=raisedAngle&&gesture.canArm&&!gesture.armed){
@@ -44,6 +48,8 @@ function updateGesture(state,input,dt,left,right){
   if(gesture.armed){
     gesture.peakLeft=Math.max(gesture.peakLeft,left);
     gesture.peakRight=Math.max(gesture.peakRight,right);
+    // Time the downstroke, not a steady glide held before it begins.
+    if(left>=gesture.peakLeft-5&&right>=gesture.peakRight-5)gesture.raisedAt=state.time;
     if(state.time-gesture.raisedAt>1.8)gesture.armed=false;
   }
   const elapsed=state.time-gesture.raisedAt;
@@ -86,10 +92,16 @@ export function stepEagle(state,input,dt){
   const angle=(left+right)/2;
   state.time+=dt;
   const stroke=updateGesture(state,input,dt,left,right);
+  if(stroke){
+    // Every accepted stroke contributes exactly 100 m, including the two
+    // preparation strokes. Closely spaced strokes add to the unfinished climb.
+    state.climbTarget=Math.min(MAX_ALTITUDE,Math.max(state.altitude,state.climbTarget??state.altitude)+FLAP_RISE_METRES);
+  }
   if(stroke&&(state.flying||state.flapCount>=TAKEOFF_FLAPS)){
     state.speed=Math.max(state.speed,Math.min(210,state.speed+46));
-    if(!state.flying){state.flying=true;state.launching=true;}
+    if(!state.flying){state.flying=true;state.launching=true;state.launchAltitude=state.altitude;}
   }
+  if(state.flying&&Number.isFinite(state.climbTarget)&&state.climbTarget<=state.altitude)state.climbTarget=null;
   const band=eagleBand(angle,state.flapping);
   state.band=band.id;
   const requestedBoost=Number(input.boost);
@@ -104,21 +116,22 @@ export function stepEagle(state,input,dt){
   if(target===0&&state.speed<.5)state.speed=0;
 
   let verticalTarget=0;
+  const climbing=state.flying&&Number.isFinite(state.climbTarget)&&state.climbTarget>state.altitude;
+  const preparing=gestures.get(state)?.armed===true;
   if(state.flying){
-    // The second stroke clears the long wingtips smoothly. Once airborne, a held
-    // level posture fixes the height immediately rather than slowly drifting.
-    if(state.launching&&state.altitude<12)verticalTarget=10;
-    else if(band.id==='flap')verticalTarget=10+state.flapPower*5;
-    else if(band.id==='dive')verticalTarget=-(7+clamp((80-angle)/80,0,1)*15);
-    if(state.altitude>=1200)verticalTarget=Math.min(0,verticalTarget);
+    // Finish the promised gain even after the downstroke stops. Level wings
+    // then hold the new height, without a short flap-animation lift timer.
+    if(climbing)verticalTarget=climbSpeed;
+    else if(band.id==='dive'&&!preparing)verticalTarget=-(7+clamp((80-angle)/80,0,1)*15);
+    if(state.altitude>=MAX_ALTITUDE)verticalTarget=Math.min(0,verticalTarget);
   }
   if(verticalTarget===0)state.verticalSpeed=0;
   else state.verticalSpeed+=(verticalTarget-state.verticalSpeed)*(1-Math.exp(-dt*7));
-  state.altitude=clamp(state.altitude+state.verticalSpeed*dt,0,1200);
-  if(state.launching&&state.altitude>=12){
-    state.launching=false;
-    if(band.id==='glide'||band.id==='brake'){state.altitude=12;state.verticalSpeed=0;}
+  state.altitude=clamp(state.altitude+state.verticalSpeed*dt,0,MAX_ALTITUDE);
+  if(climbing&&state.altitude>=state.climbTarget){
+    state.altitude=state.climbTarget;state.climbTarget=null;state.verticalSpeed=0;
   }
+  if(state.launching&&state.altitude>=state.launchAltitude+12)state.launching=false;
   if(state.altitude===0&&state.flying&&state.verticalSpeed<0){
     state.flying=false;state.launching=false;state.landings++;state.verticalSpeed=0;
   }

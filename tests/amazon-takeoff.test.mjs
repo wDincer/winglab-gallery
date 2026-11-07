@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createRun, stepRun, RULES } from '../public/oyunlar/amazon-tukan/amazon-game.js';
+import { createRun, stepRun, RULES, createChocolates, collectChocolates } from '../public/oyunlar/amazon-tukan/amazon-game.js';
+import { groundSurface } from '../public/oyunlar/amazon-tukan/amazon-world.js';
 import { measurePose } from '../public/oyunlar/amazon-tukan/pose.js';
 
 function advance(run, seconds, input = {}, fps = 60) {
@@ -61,14 +62,19 @@ for (const fps of [15, 30, 60]) {
     assert.equal(run.state.flapCount, 2);
     assert.equal(run.state.flying, true);
     assert.ok(run.state.altitude > RULES.startAltitude);
-    assert.ok(run.state.altitude < RULES.startAltitude + 1, 'takeoff must not teleport');
+    assert.ok(run.state.altitude < RULES.startAltitude + 10, 'takeoff must not teleport');
     advance(run, 2, {}, fps);
-    assert.ok(run.state.altitude >= RULES.startAltitude + 12);
+    assert.equal(run.state.altitude, RULES.startAltitude + 200, 'both takeoff strokes contribute 100 m');
     assert.ok(run.state.distance > 80);
     const height = run.state.altitude, speed = run.state.speed;
     advance(run, 1, {}, fps);
     assert.equal(run.state.altitude, height, 'level wings hold the cleared summit height');
     assert.ok(run.state.speed > speed * .8, 'gliding retains flap momentum');
+    for (const gain of [100, 200]) {
+      stepRun(run, { active: true, angle: 90, flap: true }, 1 / fps);
+      advance(run, 1.5, {}, fps);
+      assert.equal(run.state.altitude, height + gain, 'each airborne stroke adds exactly 100 m');
+    }
   });
 
   test(`two shoulder-height camera flaps launch with 30 Hz pose smoothing at ${fps} FPS`, () => {
@@ -80,8 +86,15 @@ for (const fps of [15, 30, 60]) {
     assert.equal(run.state.flapCount, 2);
     assert.equal(run.state.flying, true);
     assert.equal(run.state.launching, false);
-    assert.ok(run.state.altitude >= RULES.startAltitude + 12);
+    assert.equal(run.state.altitude, RULES.startAltitude + 200);
     assert.ok(run.state.distance > 80);
+    for (const gain of [300, 400]) {
+      cameraMotion(run, fps, [
+        [0, 90], [2.1, 90], [2.35, 45], [2.5, 45], [2.8, 90], [4, 90],
+      ]);
+      assert.equal(run.state.altitude, RULES.startAltitude + gain, 'a shoulder-height stroke after a long glide adds 100 m');
+    }
+    assert.equal(run.state.flapCount, 4, 'shoulder-height strokes keep working while airborne');
   });
 }
 
@@ -123,9 +136,66 @@ test('pausing or losing tracking discards an unfinished stroke and restarting cl
 
 test('terrain contact still ends a flight after clearing the summit', () => {
   const run = createRun();
-  run.launchRelative = false;
   Object.assign(run.state, { flying: true, launching: false, altitude: RULES.startAltitude - 3, speed: 100 });
   const events = stepRun(run, { active: true, angle: 90, bank: 0 }, 1 / 60);
   assert.equal(run.state.crashed, true);
   assert.equal(events[0]?.type, 'crash');
+});
+
+test('rapid strokes queue the full climb, obey the ceiling, and freeze while paused', () => {
+  const run = createRun();
+  for (let stroke = 0; stroke < 4; stroke++) {
+    stepRun(run, { active: true, angle: 90, flap: true }, 1 / 60);
+    advance(run, .25);
+  }
+  const frozen = { ...run.state };
+  stepRun(run, { active: true, paused: true }, .1);
+  assert.deepEqual(run.state, frozen);
+  advance(run, 4);
+  assert.equal(run.state.altitude, 900);
+  for (let stroke = 0; stroke < 5; stroke++) {
+    stepRun(run, { active: true, angle: 90, flap: true }, 1 / 60);
+    advance(run, .25);
+  }
+  advance(run, 4);
+  assert.equal(run.state.altitude, RULES.maxAltitude);
+  assert.equal(run.state.climbTarget, null, 'the ceiling leaves no unfinished climb');
+  advance(run, 1, { angle: 45 });
+  assert.ok(run.state.altitude < RULES.maxAltitude, 'a deliberate dive still works at the ceiling');
+  assert.equal(createRun().state.climbTarget, null);
+});
+
+test('chocolates cover the width, height and length of the course above the forest', () => {
+  const chocolates = createChocolates();
+  assert.deepEqual(chocolates, createChocolates(), 'a restart keeps the same scattered course');
+  assert.equal(chocolates.length, 240);
+  assert.equal(chocolates.filter(c => c.type === 'positive').length, 180);
+  assert.equal(chocolates.filter(c => c.type === 'negative').length, 60);
+  assert.equal(new Set(chocolates.map(c => c.z)).size, chocolates.length, 'no paired rows');
+  for (const c of chocolates) {
+    assert.ok(Math.abs(c.x) <= RULES.collectibleHalfWidth);
+    assert.ok(c.y >= groundSurface(c.x, c.z) + 60, 'rewards clear the canopy');
+    assert.ok(c.y >= RULES.collectibleMinAltitude && c.y <= RULES.collectibleMaxAltitude);
+    assert.ok(-c.z > 0 && -c.z < RULES.length);
+  }
+  for (let third = 0; third < 3; third++) {
+    const section = chocolates.filter(c => -c.z >= third * RULES.length / 3 && -c.z < (third + 1) * RULES.length / 3);
+    for (const region of [c => c.x < -250, c => c.x > 250, c => c.y < 350, c => c.y > 850]) {
+      assert.ok(section.filter(region).length >= 8, 'every course section has lateral and vertical variety');
+    }
+  }
+});
+
+test('scattered chocolates collect along swept flight paths and cannot score twice', () => {
+  for (const type of ['positive', 'negative']) {
+    const run = createRun();
+    const c = run.chocolates.find(c => c.type === type && Math.abs(c.x) > 300 && c.y > 850);
+    assert.ok(c);
+    run.chocolates = [c];
+    Object.assign(run.state, { flying: true, altitude: c.y - 2.15, x: c.x, distance: -c.z + 25 });
+    const previous = { ...run.state, distance: -c.z - 25 };
+    assert.equal(collectChocolates(run, previous).length, 1);
+    assert.equal(run.score, c.points);
+    assert.equal(collectChocolates(run, previous).length, 0);
+  }
 });

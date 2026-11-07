@@ -2,11 +2,11 @@ export const projects = [
   {
     slug: 'amazon-tukan', title: 'Amazon Tukan', team: 'WINGLAB', date: '2026-10-31', time: '09:34', mode: 'eagle', genre: 'Keşif', image: 'amazon-tukan.png', accent: '#33795e',
     summary: 'Amazon’un üzerinde süzül. Kartalları atlat, doğru çikolatayı topla.',
-    description: '500 metrelik bir dağ zirvesinden başlayan bu yolculukta kontrol, kanatların yerine geçen kollarında. Amazon ormanının üzerinde uçarken hareketli kartallardan uzak dur ve havaya dağılmış çikolataları topla.',
+    description: '500 metrelik bir dağ zirvesinden başlayan bu yolculukta kontrol, kanatların yerine geçen kollarında. Her kanat çırpışında 100 metre yüksel. Amazon ormanının farklı yön ve irtifalarına dağılmış 240 çikolatayı toplarken hareketli kartallardan uzak dur.',
     vehicle: 'Tukan', setting: 'Amazon ormanı', objective: 'Kartallara çarpmadan uç ve çikolata puanını artır.',
-    features: ['500 metrelik zirveden iki çırpışta kalkış', 'Puan kazandıran ve puan düşüren çikolatalar', 'Hareketli kartal engelleri'],
+    features: ['500 metrelik zirveden iki çırpışta kalkış', 'Her kanat çırpışında 100 metre yükseliş', 'Farklı yön ve irtifalara dağılmış 240 çikolata', 'Hareketli kartal engelleri'],
     keys: [['B', 'Kanat çırp'], ['← →', 'Yön değiştir'], ['↑ ↓', 'Kanat açısını ayarla'], ['R', 'Yeniden başlat']],
-    gesture: 'Kalkış için kollarını omuz hizasına açıp iki kez birlikte aşağı çırp. Havada kollarını yukarı kaldırıp çırparak hızlan ve yüksel. Bir kolunu indirerek o yöne dön.'
+    gesture: 'Kollarını omuz hizasına açıp iki kez birlikte aşağı çırparak kalkış yap. Bu iki çırpış toplam 200 metre yükseltir; havada her yeni çırpış 100 metre daha ekler. Bir kolunu indirerek o yöne dön.'
   },
   {
     slug: 'kaan-durum', title: 'KAAN Dürüm Filosu', team: 'Şampiyonlar', date: '2026-10-31', time: '11:03', mode: 'airplane', genre: 'Hava savaşı', image: 'kaan-durum.jpg', accent: '#967b34',

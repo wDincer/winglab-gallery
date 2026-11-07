@@ -2,7 +2,7 @@ import * as THREE from './vendor/three.module.js';
 import {createToucanModel} from './toucan-model.js';
 import {createEagleModel} from './eagle-model.js';
 import {LAND,groundHeight,groundSurface,riverX,riverWidth,makeTrees,randomSource,smooth} from './amazon-world.js';
-import {eaglePose,wingClearance} from './amazon-game.js?v=takeoff-2';
+import {eaglePose,wingClearance} from './amazon-game.js?v=flap-rise-100';
 export function createAmazonScene(canvas){
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.outputColorSpace=THREE.SRGBColorSpace;

@@ -1,17 +1,27 @@
-import {createEagleState,stepEagle,TAKEOFF_FLAPS} from './eagle.js?v=takeoff-2';
+import {createEagleState,stepEagle,TAKEOFF_FLAPS,FLAP_RISE_METRES,MAX_ALTITUDE} from './eagle.js?v=flap-rise-100';
 import {eagleProbes,transformedProbe} from './collision.js';
 import {groundSurface,randomSource} from './amazon-world.js';
-import {COURSE_DESIGN} from './course-design.js';
-export const RULES=Object.freeze({...COURSE_DESIGN.amazon,length:COURSE_DESIGN.course.length,collectionRadius:18,takeoffFlaps:TAKEOFF_FLAPS});
+import {COURSE_DESIGN} from './course-design.js?v=flap-rise-100';
+export const RULES=Object.freeze({...COURSE_DESIGN.amazon,length:COURSE_DESIGN.course.length,collectionRadius:18,takeoffFlaps:TAKEOFF_FLAPS,flapRise:FLAP_RISE_METRES,maxAltitude:MAX_ALTITUDE});
 export function createChocolates(){
   const random=randomSource(1114),types=Array.from({length:RULES.collectibleCount},(_,i)=>i<RULES.collectibleCount*(1-RULES.positiveRatio)?'negative':'positive');
   for(let i=types.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[types[i],types[j]]=[types[j],types[i]];}
   if(types[0]!=='positive'){const first=types.indexOf('positive');[types[0],types[first]]=[types[first],types[0]];}
+  const shuffledCells=()=>{
+    const cells=types.map((_,index)=>index);
+    for(let i=cells.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[cells[i],cells[j]]=[cells[j],cells[i]];}
+    return cells;
+  };
+  const horizontal=shuffledCells(),vertical=shuffledCells();
   return types.map((type,id)=>{
-    const row=Math.floor(id/2),distance=100+row*(RULES.length-250)/(RULES.collectibleCount/2);
-    // One reachable, irregular flight line and one wider, scattered reward line.
-    const x=id%2? (random()-.5)*260:34*Math.sin(row*.43);
-    const y=id%2?465+random()*115:512+15*Math.sin(row*.57);
+    // Independent shuffled cells fill the course in all three dimensions,
+    // rather than lining rewards up at the summit's original flight height.
+    let distance=160+(id+random())*(RULES.length-320)/RULES.collectibleCount;
+    let x=((horizontal[id]+random())/RULES.collectibleCount*2-1)*RULES.collectibleHalfWidth;
+    const floor=Math.max(RULES.collectibleMinAltitude,groundSurface(x,-distance)+70);
+    let y=floor+(RULES.collectibleMaxAltitude-floor)*(vertical[id]+random())/RULES.collectibleCount;
+    // One visible first reward introduces the new takeoff altitude.
+    if(id===0){x=0;y=RULES.startAltitude+RULES.takeoffFlaps*RULES.flapRise;distance=160;}
     return {id,type,x,y,z:-distance,collected:false,collectedAt:null,points:type==='positive'?RULES.positivePoints:RULES.negativePoints};
   });
 }
@@ -25,7 +35,7 @@ export function eaglePose(e,time){
 }
 export function createRun(){
   const state=createEagleState();state.altitude=RULES.startAltitude;
-  return {state,chocolates:createChocolates(),eagles:createEagles(),score:0,positive:0,negative:0,launchRelative:true,finished:false,crashReason:null};
+  return {state,chocolates:createChocolates(),eagles:createEagles(),score:0,positive:0,negative:0,finished:false,crashReason:null};
 }
 export function wingClearance(state){
   const ground=groundSurface(state.x,-state.distance);
@@ -76,10 +86,8 @@ export function stepRun(run,input,dt){
   const s=run.state;
   if(!input.active||input.paused||s.crashed||run.finished){stepEagle(s,{active:false},0);return [];}
   const previous={...s};
-  // Apply the existing smooth 12 m takeoff relative to the mountain summit.
-  if(run.launchRelative)s.altitude-=RULES.startAltitude;
+  // Flight telemetry and the climb target use the same absolute world altitude.
   stepEagle(s,input,dt);
-  if(run.launchRelative){s.altitude+=RULES.startAltitude;if(s.flying&&!s.launching)run.launchRelative=false;}
   const hit=collisionBetween(previous,s,run.eagles);
   if(hit){
     for(const k of ['x','distance','altitude','time'])s[k]=previous[k]+(s[k]-previous[k])*hit.fraction;
