@@ -4,13 +4,13 @@
     "files": [
       {
         "path": "amazon-game.js",
-        "size": 6529,
-        "sha256": "5e180992afb32b4fc61bf16e0a7505ad735ce2576375034f0524751c76608574"
+        "size": 6527,
+        "sha256": "58129dd4fbcdecb1f15a1c0256c0796eec985748a7149f00aa700b2774e505d7"
       },
       {
         "path": "amazon-scene.js",
-        "size": 8239,
-        "sha256": "c0c3cd4aeb06a0e71ea0e7f24be2b16893735f3478391d8b1be8d25ff9930a36"
+        "size": 8238,
+        "sha256": "1c7f015fe8ecf0702286dd80353889751da33500225d2f7affbe3309cb0eaf1b"
       },
       {
         "path": "amazon-world.js",
@@ -24,8 +24,8 @@
       },
       {
         "path": "app.js",
-        "size": 10403,
-        "sha256": "23647407768f5f2776d9afbd0662d41eebdb17005790a86e4ae02778c1704b92"
+        "size": 10397,
+        "sha256": "abc4e30d0a740e95a6b1a26525a2e1073ed9ee7e89dab06f37f601a1d84a1ff3"
       },
       {
         "path": "assets/favicon.svg",
@@ -104,8 +104,8 @@
       },
       {
         "path": "eagle.js",
-        "size": 7576,
-        "sha256": "b41828b3bdfcc9a47c18c747bfc32799d22a68de631a8c065e0b260e75caf549"
+        "size": 7574,
+        "sha256": "4f27d74c5dda208613a4fcd5a1204911a72fefbc4a1d191b7bef41779124d3ad"
       },
       {
         "path": "flight.js",
@@ -114,8 +114,8 @@
       },
       {
         "path": "index.html",
-        "size": 7310,
-        "sha256": "217450eb151ecfd226d393eb55fad45f80cfc3642c028c064624ca77eeeece7e"
+        "size": 7305,
+        "sha256": "2c562271895cb10f293c2e9d1541558cf4e4fc23399809abc21eaa81da3426c7"
       },
       {
         "path": "pose.js",
@@ -1919,8 +1919,8 @@
     "files": [
       {
         "path": "app.js",
-        "size": 11355,
-        "sha256": "8187d6b255fd684cd3201d37ca2568ee17e1f0970b243cab2c9e3e5191990e96"
+        "size": 11737,
+        "sha256": "76cffb594287c7ac2690db730d8b6bc27fe4dbb3191fb6a7e20a9932160df02b"
       },
       {
         "path": "assets/ambience.mp3",
@@ -1974,8 +1974,8 @@
       },
       {
         "path": "course-design.js",
-        "size": 854,
-        "sha256": "2baa1972b166dae26abe202de257ec2f1a305f6d3a1be7f6a5e0b1602e2e707b"
+        "size": 926,
+        "sha256": "e5baa1edd5cf1139d331ad7c9a594c9ada66d6d7c1d3441247bae94e0bb65966"
       },
       {
         "path": "course.js",
@@ -1994,8 +1994,8 @@
       },
       {
         "path": "duck-model.js",
-        "size": 3166,
-        "sha256": "6fa0291503df1ce7e5e99003e84c55d423a8b285da80b0317b8814c7b330489c"
+        "size": 3183,
+        "sha256": "40e9479b53e7bf70de8398312abbd4570e6e2ee439c9cb907cb98a8c309ec915"
       },
       {
         "path": "eagle-geometry.js",
@@ -2024,8 +2024,8 @@
       },
       {
         "path": "index.html",
-        "size": 5796,
-        "sha256": "896283447d52ac476e525ee81f32e27332eaaa6892ee4575e86c7b7d9d37e97c"
+        "size": 5881,
+        "sha256": "984047b9149f3bec5a86c13c2a8def6b61d0939f5af38fc6280dc86601d2f19e"
       },
       {
         "path": "maze.js",
@@ -2039,13 +2039,13 @@
       },
       {
         "path": "room-scene.js",
-        "size": 10954,
-        "sha256": "232c289d9eb989cf97a074dca388b0ae610c1001e553b3008733e10cbf826c0f"
+        "size": 12536,
+        "sha256": "94a1536807010e4ff6f68955366461fe8a0c3ba95933839b5c61d8c9081d840a"
       },
       {
         "path": "rooms.js",
-        "size": 9370,
-        "sha256": "0da45fe271f50b2b5e722621a83d4f9e6ceb897aaef1d03fb86a594f022eebdb"
+        "size": 11744,
+        "sha256": "0caea4ff2c2f9849acca258f1f126c18308b1d976d48779f7c032e1f70889eae"
       },
       {
         "path": "scene.js",
@@ -2054,8 +2054,8 @@
       },
       {
         "path": "style.css",
-        "size": 12986,
-        "sha256": "d15b1b7d45a11b8f4516710a3afdb68f75cb33a83e7fa9ce5ec302ff4741f603"
+        "size": 13186,
+        "sha256": "0ec51c8b1daa8e8af1cc52f3c98437daaa6a76aedde76a9f3f11c6f7f8c9e389"
       },
       {
         "path": "vendor/APACHE-2.0-LICENSE.txt",

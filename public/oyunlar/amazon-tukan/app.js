@@ -1,7 +1,7 @@
-import {createAmazonScene} from './amazon-scene.js?v=flap-rise-100';
-import {createRun,stepRun,RULES} from './amazon-game.js?v=flap-rise-100';
+import {createAmazonScene} from './amazon-scene.js?v=flap-rise-50';
+import {createRun,stepRun,RULES} from './amazon-game.js?v=flap-rise-50';
 import {PoseController} from './pose.js';
-import {stepEagle,eagleBand} from './eagle.js?v=flap-rise-100';
+import {stepEagle,eagleBand} from './eagle.js?v=flap-rise-50';
 import {CollectionAudio} from './collection-audio.js';
 const $=id=>document.getElementById(id);
 let run=createRun(),mode='camera',started=false,paused=false,hiddenPause=false,helpPause=false,pose=null,cameraStatus='off',angle=90,pendingFlap=false;
@@ -26,10 +26,10 @@ const poseController=new PoseController({video:$('camera-video'),canvas:$('pose-
   $('camera-toggle').setAttribute('aria-label',['tracking','lost','loading'].includes(cameraStatus)?'Kamerayı kapat':'Kamerayı aç');
   if(status.state==='error')toast(status.message,6000);refreshMode();
 }});
-function startKeyboard(){stopActivity();mode='keyboard';poseController.stop();started=true;paused=false;document.body.classList.add('started');refreshMode();$('game').focus();toast('B ile iki çırpışta kalkış. Her çırpış +100 m · ← → yön.');}
+function startKeyboard(){stopActivity();mode='keyboard';poseController.stop();started=true;paused=false;document.body.classList.add('started');refreshMode();$('game').focus();toast('B ile iki çırpışta kalkış. Her çırpış +50 m · ← → yön.');}
 async function startCamera(){
   stopActivity();mode='camera';refreshMode();$('start-camera').disabled=true;
-  try{if(await poseController.start()){started=true;paused=false;document.body.classList.add('started');refreshMode();$('game').focus();toast('Kollarını omuz hizasına açıp iki kez çırp. Her çırpış +100 m.');}}
+  try{if(await poseController.start()){started=true;paused=false;document.body.classList.add('started');refreshMode();$('game').focus();toast('Kollarını omuz hizasına açıp iki kez çırp. Her çırpış +50 m.');}}
   finally{$('start-camera').disabled=false;}
 }
 function togglePause(){if(!started||run.state.crashed||run.finished)return;paused=!paused;if(paused)stopActivity();hud();}
@@ -43,7 +43,7 @@ function hud(){
   $('speed').innerHTML=`${Math.round(s.speed)} <small>KT</small>`;$('altitude').innerHTML=`${Math.round(s.altitude).toLocaleString('tr-TR')} <small>m</small>`;
   $('flight-time').textContent=`${String(Math.floor(s.time/60)).padStart(2,'0')}:${String(Math.floor(s.time%60)).padStart(2,'0')}`;
   $('distance').textContent=`${(s.distance/1000).toFixed(2).replace('.',',')} / 6,00 km`;$('progress').style.width=Math.max(0,Math.min(100,s.distance/RULES.length*100))+'%';
-  const label=!started?'Dağın zirvesi · İki çırpışta +200 m':s.crashed?'Uçuş sona erdi':run.finished?'Amazon keşfi tamamlandı':paused||hiddenPause||helpPause?'Uçuş duraklatıldı':mode==='camera'&&cameraStatus!=='tracking'?'Vücut takibi bekleniyor':!s.flying?`Kalkış · ${s.flapCount}/${RULES.takeoffFlaps} çırpış · ${s.flapCount===1?'Bir kez daha kanat çırp':'İki kez kanat çırp'}`:Number.isFinite(s.climbTarget)&&s.climbTarget>s.altitude?`Yükseliyorsun · Hedef ${Math.round(s.climbTarget)} m`:{flap:'Kanat çırpışı · +100 m yükseliş',glide:'Amazon üzerinde · Dengeli süzülüş',brake:'Kanatlar yukarı · Yavaşlıyorsun',dive:'Kanatlar aşağı · Hızlı dalış'}[band.id];
+  const label=!started?'Dağın zirvesi · İki çırpışta +100 m':s.crashed?'Uçuş sona erdi':run.finished?'Amazon keşfi tamamlandı':paused||hiddenPause||helpPause?'Uçuş duraklatıldı':mode==='camera'&&cameraStatus!=='tracking'?'Vücut takibi bekleniyor':!s.flying?`Kalkış · ${s.flapCount}/${RULES.takeoffFlaps} çırpış · ${s.flapCount===1?'Bir kez daha kanat çırp':'İki kez kanat çırp'}`:Number.isFinite(s.climbTarget)&&s.climbTarget>s.altitude?`Yükseliyorsun · Hedef ${Math.round(s.climbTarget)} m`:{flap:'Kanat çırpışı · +50 m yükseliş',glide:'Amazon üzerinde · Dengeli süzülüş',brake:'Kanatlar yukarı · Yavaşlıyorsun',dive:'Kanatlar aşağı · Hızlı dalış'}[band.id];
   $('flight-status').innerHTML='<span class="live-dot"></span>'+label;
   $('gesture-status').textContent=`${Math.round(source?.angle??90)}° · `+{flap:'Kanat çırpışı',glide:'Dengeli süzülüş',brake:'Fren',dive:'Hızlı dalış'}[band.id];
   $('pause').textContent=paused?'▶':'Ⅱ';$('pause').setAttribute('aria-label',paused?'Uçuşa devam et':'Uçuşu duraklat');

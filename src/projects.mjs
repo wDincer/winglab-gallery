@@ -2,11 +2,11 @@ export const projects = [
   {
     slug: 'amazon-tukan', title: 'Amazon Tukan', team: 'WINGLAB', date: '2026-10-31', time: '09:34', mode: 'eagle', genre: 'Keşif', image: 'amazon-tukan.png', accent: '#33795e',
     summary: 'Amazon’un üzerinde süzül. Kartalları atlat, doğru çikolatayı topla.',
-    description: '500 metrelik bir dağ zirvesinden başlayan bu yolculukta kontrol, kanatların yerine geçen kollarında. Her kanat çırpışında 100 metre yüksel. Amazon ormanının farklı yön ve irtifalarına dağılmış 240 çikolatayı toplarken hareketli kartallardan uzak dur.',
+    description: '500 metrelik bir dağ zirvesinden başlayan bu yolculukta kontrol, kanatların yerine geçen kollarında. Her kanat çırpışında 50 metre yüksel. Amazon ormanının farklı yön ve irtifalarına dağılmış 240 çikolatayı toplarken hareketli kartallardan uzak dur.',
     vehicle: 'Tukan', setting: 'Amazon ormanı', objective: 'Kartallara çarpmadan uç ve çikolata puanını artır.',
-    features: ['500 metrelik zirveden iki çırpışta kalkış', 'Her kanat çırpışında 100 metre yükseliş', 'Farklı yön ve irtifalara dağılmış 240 çikolata', 'Hareketli kartal engelleri'],
+    features: ['500 metrelik zirveden iki çırpışta kalkış', 'Her kanat çırpışında 50 metre yükseliş', 'Farklı yön ve irtifalara dağılmış 240 çikolata', 'Hareketli kartal engelleri'],
     keys: [['B', 'Kanat çırp'], ['← →', 'Yön değiştir'], ['↑ ↓', 'Kanat açısını ayarla'], ['R', 'Yeniden başlat']],
-    gesture: 'Kollarını omuz hizasına açıp iki kez birlikte aşağı çırparak kalkış yap. Bu iki çırpış toplam 200 metre yükseltir; havada her yeni çırpış 100 metre daha ekler. Bir kolunu indirerek o yöne dön.'
+    gesture: 'Kollarını omuz hizasına açıp iki kez birlikte aşağı çırparak kalkış yap. Bu iki çırpış toplam 100 metre yükseltir; havada her yeni çırpış 50 metre daha ekler. Bir kolunu indirerek o yöne dön.'
   },
   {
     slug: 'kaan-durum', title: 'KAAN Dürüm Filosu', team: 'Şampiyonlar', date: '2026-10-31', time: '11:03', mode: 'airplane', genre: 'Hava savaşı', image: 'kaan-durum.jpg', accent: '#967b34',
@@ -92,9 +92,9 @@ export const projects = [
   {
     slug: 'duckrooms', title: 'Duckrooms', team: 'Youngmaster', date: '2026-11-01', time: '11:50', mode: 'eagle', genre: 'Kaçış', image: 'duckrooms.png', accent: '#9c8d48',
     summary: 'Sarı odalarda küçük bir ördek. Arkanda ise hiç beklemediğin bir misafir.',
-    description: 'Alçak tavanlı Backrooms odalarında uçan küçük bir ördeği yönet. Dört yöne uzayan sınırsız labirenti keşfederken yan koridorlardan çıkan canavardan kaç; her kovalamaca 15 saniye sürer.',
+    description: 'Alçak tavanlı Backrooms odalarında uçan küçük bir ördeği yönet. Dört yöne uzayan sınırsız labirenti keşfederken yan koridorlardan çıkan canavardan kaç; her kovalamaca 15 saniye sürer. Duvara çarptığında ördek geri dönüp uçmaya devam eder.',
     vehicle: 'Sarı ördek', setting: 'Sonsuz Backrooms labirenti', objective: '15 saniyelik kovalamacayı atlat; canavarı bir metreden uzakta tut.',
-    features: ['Dört yönde uzayan sınırsız labirent', '15 saniyelik kovalamacalar', 'Canavara bir metre yaklaşınca oyun sonu'],
+    features: ['Dört yönde uzayan sınırsız labirent', '15 saniyelik kovalamacalar', 'Duvar temasında çarpma efekti ve otomatik geri dönüş', 'Canavara bir metre yaklaşınca oyun sonu'],
     keys: [['B / Boşluk', 'Kanat çırp'], ['← →', 'Yön değiştir'], ['↑ ↓', 'Fren / dalış'], ['Esc', 'Duraklat / devam et']],
     gesture: 'İki kolunu kaldırıp aşağı indirerek kanat çırp. Bir kolunu alçaltarak labirentte o yöne dön.'
   },

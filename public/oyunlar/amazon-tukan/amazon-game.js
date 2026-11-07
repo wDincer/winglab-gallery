@@ -1,7 +1,7 @@
-import {createEagleState,stepEagle,TAKEOFF_FLAPS,FLAP_RISE_METRES,MAX_ALTITUDE} from './eagle.js?v=flap-rise-100';
+import {createEagleState,stepEagle,TAKEOFF_FLAPS,FLAP_RISE_METRES,MAX_ALTITUDE} from './eagle.js?v=flap-rise-50';
 import {eagleProbes,transformedProbe} from './collision.js';
 import {groundSurface,randomSource} from './amazon-world.js';
-import {COURSE_DESIGN} from './course-design.js?v=flap-rise-100';
+import {COURSE_DESIGN} from './course-design.js?v=flap-rise-50';
 export const RULES=Object.freeze({...COURSE_DESIGN.amazon,length:COURSE_DESIGN.course.length,collectionRadius:18,takeoffFlaps:TAKEOFF_FLAPS,flapRise:FLAP_RISE_METRES,maxAltitude:MAX_ALTITUDE});
 export function createChocolates(){
   const random=randomSource(1114),types=Array.from({length:RULES.collectibleCount},(_,i)=>i<RULES.collectibleCount*(1-RULES.positiveRatio)?'negative':'positive');

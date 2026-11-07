@@ -1,4 +1,4 @@
-import {COURSE_DESIGN} from './course-design.js';
+import {COURSE_DESIGN} from './course-design.js?v=duck-bounce-v1';
 import {clamp} from './flight.js';
 import {createEagleState,stepEagle} from './eagle.js';
 import {InfiniteMaze,cellAt,cellCenter} from './maze.js';
@@ -43,6 +43,47 @@ export function sweptWall(previous,player,flight,walls){
   }
   return false;
 }
+function separateFromWalls(player,flight,walls){
+  // A changing wing pose or the turnaround can make a previously clear probe
+  // overlap. Push the entire duck out using the same probes as the renderer.
+  for(let pass=0;pass<24;pass++){
+    let overlap=false;
+    for(const p of bodyProbes(player,flight))for(const w of walls){
+      if(p.y-p.r>w.h)continue;
+      const left=w.x-w.w/2,right=w.x+w.w/2,near=w.z-w.d/2,far=w.z+w.d/2;
+      const dx=p.x-clamp(p.x,left,right),dz=p.z-clamp(p.z,near,far),distance=Math.hypot(dx,dz);
+      if(distance>=p.r)continue;
+      if(distance>1e-8){
+        const push=(p.r-distance+.002)/distance;player.x+=dx*push;player.z+=dz*push;
+      }else{
+        const sides=[{depth:p.x-left,x:-1,z:0},{depth:right-p.x,x:1,z:0},{depth:p.z-near,x:0,z:-1},{depth:far-p.z,x:0,z:1}];
+        const side=sides.reduce((a,b)=>a.depth<b.depth?a:b),push=side.depth+p.r+.002;
+        player.x+=side.x*push;player.z+=side.z*push;
+      }
+      overlap=true;break;
+    }
+    if(!overlap)break;
+  }
+}
+function bounceOffWall(state,previous,walls){
+  const destination={...state.player},flight=state.flight;
+  const steps=Math.max(1,Math.ceil(Math.hypot(destination.x-previous.x,destination.z-previous.z)/.075));
+  let safe=0,hit=1;
+  for(let i=1;i<=steps;i++){
+    const t=i/steps,p={x:previous.x+(destination.x-previous.x)*t,y:previous.y+(destination.y-previous.y)*t,z:previous.z+(destination.z-previous.z)*t};
+    if(touchesWall(p,flight,walls)){hit=t;break;}safe=t;
+  }
+  // Finish immediately before contact, including at high speed and thin walls.
+  if(!touchesWall(previous,flight,walls))for(let i=0;i<10;i++){
+    const t=(safe+hit)/2,p={x:previous.x+(destination.x-previous.x)*t,y:previous.y+(destination.y-previous.y)*t,z:previous.z+(destination.z-previous.z)*t};
+    if(touchesWall(p,flight,walls))hit=t;else safe=t;
+  }
+  state.player.x=previous.x+(destination.x-previous.x)*safe;
+  state.player.z=previous.z+(destination.z-previous.z)*safe;
+  flight.heading=(flight.heading+180)%360;
+  separateFromWalls(state.player,flight,walls);
+  state.impact={remaining:.55,duration:.55};state.wallHits++;state.events.push('wall');
+}
 export function clearSight(a,b,walls){
   const dx=b.x-a.x,dz=b.z-a.z;
   for(const wall of walls){
@@ -72,7 +113,7 @@ export function createRun(){
   const maze=new InfiniteMaze(),player={x:0,y:ROOMS.floorCenter,z:0};maze.update(player);
   return {flight:createEagleState(),player,maze,elapsed:0,travelled:0,room:cellAt(player),roomsEntered:1,
     mode:'playing',monster:null,encounter:0,escaped:0,chaseRemaining:0,sightingRemaining:0,
-    nextEncounter:ROOMS.firstEncounterAfter,safeUntil:0,events:[],reason:null,closest:Infinity};
+    nextEncounter:ROOMS.firstEncounterAfter,safeUntil:0,events:[],reason:null,closest:Infinity,impact:null,wallHits:0};
 }
 function spawnMonster(state){
   const cell=cellAt(state.player),neighbors=state.maze.neighbors(cell);
@@ -115,6 +156,7 @@ export function stepRun(state,input,dt){
   state.events=[];
   if(!input.active||input.paused||state.mode!=='playing'){stepEagle(state.flight,{active:false},0);return state;}
   dt=clamp(Number.isFinite(dt)?dt:0,0,.1);if(dt===0)return state;
+  if(state.impact){state.impact.remaining=Math.max(0,state.impact.remaining-dt);if(state.impact.remaining===0)state.impact=null;}
   const previous={...state.player},beforeHeading=state.flight.heading;
   stepEagle(state.flight,input,dt);
   // Explicitly requested indoor manoeuvrability: amplify yaw without altering
@@ -124,17 +166,17 @@ export function stepRun(state,input,dt){
   state.flight.heading=(beforeHeading+turn+360)%360;
   const midHeading=(beforeHeading+turn*.5)*Math.PI/180,moved=worldSpeed(state.flight)*dt;
   state.player.x+=Math.sin(midHeading)*moved;state.player.z-=Math.cos(midHeading)*moved;
-  state.travelled+=moved;
-  // Keep telemetry in sync when travelling east, west, south or making U-turns.
-  state.flight.x=state.player.x/ROOMS.flightScale;state.flight.distance=-state.player.z/ROOMS.flightScale;
   const maxAltitude=(ROOMS.maxCenter-ROOMS.floorCenter)/ROOMS.heightScale;
   if(state.flight.altitude>maxAltitude){state.flight.altitude=maxAltitude;state.flight.verticalSpeed=Math.min(0,state.flight.verticalSpeed);}
   state.player.y=worldHeight(state.flight.altitude);
   state.maze.update(state.player);
   state.elapsed+=dt;state.safeUntil=Math.max(0,state.safeUntil-dt);state.sightingRemaining=Math.max(0,state.sightingRemaining-dt);
   if(sweptWall(previous,state.player,state.flight,state.maze.layout.walls)){
-    state.mode='lost';state.reason='wall';state.flight.crashed=true;state.events.push('wall');return state;
+    bounceOffWall(state,previous,state.maze.layout.walls);
   }
+  state.travelled+=Math.hypot(state.player.x-previous.x,state.player.z-previous.z);
+  // Keep telemetry in sync after movement and automatic wall turnarounds.
+  state.flight.x=state.player.x/ROOMS.flightScale;state.flight.distance=-state.player.z/ROOMS.flightScale;
   const room=cellAt(state.player);
   if(room.x!==state.room.x||room.z!==state.room.z){state.room=room;state.roomsEntered++;}
   if(!state.monster&&state.elapsed>=state.nextEncounter&&state.flight.flying)spawnMonster(state);
@@ -142,13 +184,13 @@ export function stepRun(state,input,dt){
   if(monster){
     monster.age+=dt;
     if(monster.stage==='emerging'){
-      navigateMonster(state,state.player,4.3,dt);
+      navigateMonster(state,state.player,ROOMS.monsterEmergingSpeed,dt);
       if(seesMonster(state)){sighting(state);beginChase(state);}
       else if(monster.age>3.5)beginChase(state);
     }else if(monster.stage==='chasing'){
       state.chaseRemaining=Math.max(0,state.chaseRemaining-dt);
       if(!monster.seen&&seesMonster(state))sighting(state);
-      navigateMonster(state,state.player,ROOMS.monsterSpeed+Math.min(.65,state.escaped*.06),dt);
+      navigateMonster(state,state.player,ROOMS.monsterSpeed+Math.min(.4875,state.escaped*.045),dt);
       if(state.chaseRemaining<=1e-8){
         monster.stage='retreating';monster.retreatAge=0;monster.path=[];monster.repath=0;
         state.escaped++;state.safeUntil=4;state.events.push('escaped');
@@ -156,7 +198,7 @@ export function stepRun(state,input,dt){
       }
     }else{
       monster.retreatAge+=dt;
-      navigateMonster(state,cellCenter(monster.spawnCell),5,dt);
+      navigateMonster(state,cellCenter(monster.spawnCell),ROOMS.monsterRetreatSpeed,dt);
       if(monster.retreatAge>3.5||monsterDistance(state)>45)state.monster=null;
     }
     if(state.monster&&monster.stage!=='retreating'){

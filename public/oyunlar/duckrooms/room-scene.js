@@ -1,6 +1,6 @@
 import * as THREE from './vendor/three.module.js';
-import {ROOMS,DUCK,clearSight} from './rooms.js';
-import {createDuck} from './duck-model.js';
+import {ROOMS,DUCK,clearSight} from './rooms.js?v=duck-bounce-v1';
+import {createDuck} from './duck-model.js?v=duck-bounce-v1';
 
 function seeded(seed=78){return()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};}
 function surfaceTexture(kind){
@@ -52,6 +52,13 @@ export class RoomScene{
     };
     this.cube=new THREE.BoxGeometry(1,1,1);this.origin={x:0,z:0};this.layoutId=null;this.worldGroup=null;
     this.duck=createDuck();this.scene.add(this.duck.root);
+    this.impact=new THREE.Group();this.impact.visible=false;this.scene.add(this.impact);
+    this.impactMaterial=new THREE.MeshBasicMaterial({color:0xfff1a6,transparent:true,depthWrite:false});
+    this.impactRing=new THREE.Mesh(new THREE.RingGeometry(.26,.29,40),this.impactMaterial);this.impactRing.rotation.x=-Math.PI/2;this.impact.add(this.impactRing);
+    this.impactStars=[];
+    const sparkGeometry=new THREE.OctahedronGeometry(.065);
+    for(let i=0;i<6;i++){const spark=new THREE.Mesh(sparkGeometry,this.impactMaterial);this.impactStars.push(spark);this.impact.add(spark);}
+    this.wallHits=0;this.reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
     const shadowCanvas=document.createElement('canvas');shadowCanvas.width=shadowCanvas.height=64;
     const ctx=shadowCanvas.getContext('2d'),gradient=ctx.createRadialGradient(32,32,1,32,32,32);gradient.addColorStop(0,'#151b11aa');gradient.addColorStop(1,'#151b1100');ctx.fillStyle=gradient;ctx.fillRect(0,0,64,64);
     const shadowMap=new THREE.CanvasTexture(shadowCanvas);
@@ -99,6 +106,7 @@ export class RoomScene{
   render(state,intro,dt,time){
     const layout=state.maze.layout;if(this.layoutId!==layout.id)this.buildRooms(layout);
     const p=state.player,flight=state.flight,ox=this.origin.x,oz=this.origin.z;
+    if(this.wallHits!==state.wallHits){this.wallHits=state.wallHits;this.started=false;}
     if(intro){
       this.duck.root.position.set(1.15,.5,-3.8);
       this.duck.update({...flight,leftWingAngle:75,rightWingAngle:75,heading:180,pitch:0,bank:0},.5);
@@ -118,6 +126,14 @@ export class RoomScene{
       if(!clearSight(p,{x:this.camera.position.x+ox,z:this.camera.position.z+oz},layout.walls))this.camera.position.copy(this.followPosition);
       this.camera.lookAt(this.lookTarget);
       this.shadow.position.set(p.x-ox,.013,p.z-oz);this.shadow.material.opacity=Math.max(.25,1-p.y*.2);
+    }
+    const remaining=state.impact?.remaining??0,progress=1-remaining/(state.impact?.duration||.55);
+    this.impact.visible=!intro&&remaining>0;
+    if(this.impact.visible){
+      this.impact.position.set(p.x-ox,p.y+.45,p.z-oz);
+      this.impactRing.scale.setScalar(1+progress*2.4);this.impactMaterial.opacity=(1-progress)*.9;
+      this.impactStars.forEach((spark,i)=>{const angle=i*Math.PI/3+progress*1.1,radius=.32+progress*.5;spark.position.set(Math.cos(angle)*radius,.1+Math.sin(progress*Math.PI)*.16,Math.sin(angle)*radius);spark.rotation.set(progress*3,angle,Math.PI/4);});
+      if(!this.reducedMotion){const shake=Math.sin(progress*34)*(1-progress)*.035;this.camera.position.x+=shake;this.camera.position.y+=Math.cos(progress*27)*(1-progress)*.018;}
     }
     const px=intro?0:p.x,pz=intro?0:p.z;
     const anchorX=Math.round(px/ROOMS.cellSize)*ROOMS.cellSize,anchorZ=Math.round(pz/ROOMS.cellSize)*ROOMS.cellSize;

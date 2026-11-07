@@ -1,7 +1,7 @@
 import {clamp,createFlightState} from './flight.js';
 
 export const TAKEOFF_FLAPS=2;
-export const FLAP_RISE_METRES=100;
+export const FLAP_RISE_METRES=50;
 export const MAX_ALTITUDE=1200;
 const climbSpeed=150;
 
@@ -93,7 +93,7 @@ export function stepEagle(state,input,dt){
   state.time+=dt;
   const stroke=updateGesture(state,input,dt,left,right);
   if(stroke){
-    // Every accepted stroke contributes exactly 100 m, including the two
+    // Every accepted stroke contributes exactly 50 m, including the two
     // preparation strokes. Closely spaced strokes add to the unfinished climb.
     state.climbTarget=Math.min(MAX_ALTITUDE,Math.max(state.altitude,state.climbTarget??state.altitude)+FLAP_RISE_METRES);
   }

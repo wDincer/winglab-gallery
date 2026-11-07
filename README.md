@@ -84,10 +84,14 @@ npm test
 
 `public/oyunlar/` içindeki oyun kopyaları bağımsızdır; asıl öğrenci projeleri değiştirilmedi. Orijinal klasörlerden yeniden toplamak için bu bilgisayarda `npm run collect`, ardından `npm run build` çalıştır. Kaynak eşlemesi `scripts/collect-games.mjs` dosyasındadır; başka bilgisayarda bu adım gerekmez. Derlenmiş `public/` klasörü Docker imajına doğrudan kopyalanır.
 
-Amazon Tukan'ın galeri kopyasında iki çırpışta kalkış, çırpış başına 100 metre yükseliş ve 240 çikolatanın üç boyutlu dağılımı bulunur. Kalkışın iki çırpışı 200 metre yükseliş sağlar; sonraki çırpışlar 100 metre ekler ve kısa aralıklarla yapılan çırpışlar birikir. Yükseliş 1200 metre tavanında durur. `collect`, galeri kopyalarını özgün klasörlerden yeniden oluşturduğu için bu değişiklikleri üzerine yazar; normal geliştirme ve dağıtımda yalnızca `build` kullanılır. Oyun dosyalarını değiştirirken `data/game-manifest.json` içindeki ilgili dosyaların boyut ve SHA-256 kayıtları da güncellenmelidir.
+Amazon Tukan'ın galeri kopyasında iki çırpışta kalkış, çırpış başına 50 metre yükseliş ve 240 çikolatanın üç boyutlu dağılımı bulunur. Kalkışın iki çırpışı 100 metre yükseliş sağlar; sonraki çırpışlar 50 metre ekler ve kısa aralıklarla yapılan çırpışlar birikir. Yükseliş 1200 metre tavanında durur. `collect`, galeri kopyalarını özgün klasörlerden yeniden oluşturduğu için bu değişiklikleri üzerine yazar; normal geliştirme ve dağıtımda yalnızca `build` kullanılır. Oyun dosyalarını değiştirirken `data/game-manifest.json` içindeki ilgili dosyaların boyut ve SHA-256 kayıtları da güncellenmelidir.
+
+Duckrooms'un galeri kopyasında ördek %10 büyütülmüştür; model ve kanat/gövde çarpışma ölçüleri aynı ölçeği kullanır. Canavarın yaklaşma, takip ve geri çekilme hızları %25 azaltılmıştır. Duvar veya sütuna çarpmak oyunu bitirmez: kısa bir çarpma efekti gösterilir, ördek 180° dönüp uçmaya devam eder. Canavarın bir metrelik yakalama alanı geçerlidir.
 
 ## Doğrulama
 
-Testler koleksiyonun 7+7 dağılımını, 14 detay ve oyun bağlantısını, her oyun dosyasının HTTP erişimini ve MIME türünü, alt dizinlerden modül/varlık yüklemeyi, dosya bütünlüğünü, ses için Range desteğini ve hata sayfalarını denetler. Amazon Tukan testleri, 15/30/60 FPS'de kalkışı, kamera/klavye çırpışı başına 100 metre yükselişi, yükseliş birikimini ve tavanını, tek kol/jitter filtrelerini, takip kaybını, süzülüşü, arazi çarpışmasını ve çikolataların üç boyutlu dağılım/toplanmasını doğrular.
+Testler koleksiyonun 7+7 dağılımını, 14 detay ve oyun bağlantısını, her oyun dosyasının HTTP erişimini ve MIME türünü, alt dizinlerden modül/varlık yüklemeyi, dosya bütünlüğünü, ses için Range desteğini ve hata sayfalarını denetler. Amazon Tukan testleri, 15/30/60 FPS'de kalkışı, kamera/klavye çırpışı başına 50 metre yükselişi, yükseliş birikimini ve tavanını, tek kol/jitter filtrelerini, takip kaybını, süzülüşü, arazi çarpışmasını ve çikolataların üç boyutlu dağılım/toplanmasını doğrular.
+
+Duckrooms testleri model/çarpışma ölçeğini, 30/60 FPS'de duvar-sütun-köşe temasında güvenli geri dönüşü, tekrarlanan temasları, yüksek hızda ince duvardan geçmemeyi, duraklama/takip kaybını ve canavarın tüm hareket aşamalarındaki hızını doğrular.
 
 Kamera görüntüsü cihazda işlenir. Galeri hesap, kayıt veya görüntü aktarımı eklemez.

@@ -22,7 +22,7 @@ export const COURSE_DESIGN = {
     "ceiling": 3.8,
     "floorCenter": 0.18,
     "maxCenter": 2.2,
-    "duckScale": 0.46,
+    "duckScale": 0.506,
     "flightScale": 0.065,
     "heightScale": 0.07,
     "turnGain": 6.5,
@@ -35,7 +35,9 @@ export const COURSE_DESIGN = {
     "chaseSeconds": 15,
     "sightingSeconds": 5,
     "dangerRadius": 1,
-    "monsterSpeed": 3.4,
+    "monsterSpeed": 2.55,
+    "monsterEmergingSpeed": 3.225,
+    "monsterRetreatSpeed": 3.75,
     "firstEncounterAfter": 6,
     "encounterCooldown": 11
   }

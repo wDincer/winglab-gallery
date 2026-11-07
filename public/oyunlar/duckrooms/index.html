@@ -2,11 +2,12 @@
 <html lang="tr"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#11120c">
 <meta name="description" content="Küçük bir ördek. Sınırsız bir sarı oda labirenti. Kanat çırp ve peşindekinden kaç.">
-<title>DUCKROOMS — WINGLAB</title><link rel="icon" href="./assets/favicon.svg"><link rel="stylesheet" href="./style.css">
+<title>DUCKROOMS — WINGLAB</title><link rel="icon" href="./assets/favicon.svg"><link rel="stylesheet" href="./style.css?v=duck-bounce-v1">
 </head><body>
 <main id="game" aria-label="Duckrooms uçuş oyunu">
   <canvas id="world" aria-label="Üç boyutlu Backrooms odaları"></canvas>
   <div class="grain" aria-hidden="true"></div><div class="vignette" aria-hidden="true"></div><div id="danger" aria-hidden="true"></div>
+  <div id="wall-impact" aria-hidden="true"></div>
   <header class="topbar"><a class="wordmark" href="./" aria-label="Duckrooms ana ekran">W<span class="wing-mark">/</span> WINGLAB <span class="wordmark-divider"></span><span class="edition">PLAYGROUND 01</span></a><div class="top-actions"><span class="local-tag"><i></i> YEREL DENEYİM</span><button id="sound" class="icon-button" title="Sesi aç / kapat" aria-label="Sesi kapat" aria-pressed="false">♪</button><button id="fullscreen" class="icon-button" title="Tam ekran" aria-label="Tam ekran">⛶</button></div></header>
   <section id="intro" class="intro">
     <div class="intro-content"><div class="eyebrow"><span class="tiny-line"></span> LEVEL 00 / THE BACKROOMS</div>
@@ -36,4 +37,4 @@
   </section>
   <section id="modal" class="modal" hidden aria-labelledby="modal-title"><div class="modal-card"><div class="eyebrow" id="modal-kicker">BİR NEFES AL.</div><h2 id="modal-title">Duraklatıldı.</h2><div id="modal-copy"></div><div class="modal-buttons"><button id="modal-primary" class="primary-button">DEVAM ET <span>→</span></button><button id="modal-secondary" class="secondary-button">YENİDEN BAŞLA</button></div></div></section>
   <div id="fatal" hidden role="alert">Üç boyutlu sahne açılamadı. WebGL destekli bir tarayıcıda yeniden dene.</div>
-</main><script type="module" src="./app.js"></script></body></html>
+</main><script type="module" src="./app.js?v=duck-bounce-v1"></script></body></html>

@@ -64,16 +64,16 @@ for (const fps of [15, 30, 60]) {
     assert.ok(run.state.altitude > RULES.startAltitude);
     assert.ok(run.state.altitude < RULES.startAltitude + 10, 'takeoff must not teleport');
     advance(run, 2, {}, fps);
-    assert.equal(run.state.altitude, RULES.startAltitude + 200, 'both takeoff strokes contribute 100 m');
+    assert.equal(run.state.altitude, RULES.startAltitude + 100, 'both takeoff strokes contribute 50 m');
     assert.ok(run.state.distance > 80);
     const height = run.state.altitude, speed = run.state.speed;
     advance(run, 1, {}, fps);
     assert.equal(run.state.altitude, height, 'level wings hold the cleared summit height');
     assert.ok(run.state.speed > speed * .8, 'gliding retains flap momentum');
-    for (const gain of [100, 200]) {
+    for (const gain of [50, 100]) {
       stepRun(run, { active: true, angle: 90, flap: true }, 1 / fps);
       advance(run, 1.5, {}, fps);
-      assert.equal(run.state.altitude, height + gain, 'each airborne stroke adds exactly 100 m');
+      assert.equal(run.state.altitude, height + gain, 'each airborne stroke adds exactly 50 m');
     }
   });
 
@@ -86,13 +86,13 @@ for (const fps of [15, 30, 60]) {
     assert.equal(run.state.flapCount, 2);
     assert.equal(run.state.flying, true);
     assert.equal(run.state.launching, false);
-    assert.equal(run.state.altitude, RULES.startAltitude + 200);
+    assert.equal(run.state.altitude, RULES.startAltitude + 100);
     assert.ok(run.state.distance > 80);
-    for (const gain of [300, 400]) {
+    for (const gain of [150, 200]) {
       cameraMotion(run, fps, [
         [0, 90], [2.1, 90], [2.35, 45], [2.5, 45], [2.8, 90], [4, 90],
       ]);
-      assert.equal(run.state.altitude, RULES.startAltitude + gain, 'a shoulder-height stroke after a long glide adds 100 m');
+      assert.equal(run.state.altitude, RULES.startAltitude + gain, 'a shoulder-height stroke after a long glide adds 50 m');
     }
     assert.equal(run.state.flapCount, 4, 'shoulder-height strokes keep working while airborne');
   });
@@ -152,8 +152,8 @@ test('rapid strokes queue the full climb, obey the ceiling, and freeze while pau
   stepRun(run, { active: true, paused: true }, .1);
   assert.deepEqual(run.state, frozen);
   advance(run, 4);
-  assert.equal(run.state.altitude, 900);
-  for (let stroke = 0; stroke < 5; stroke++) {
+  assert.equal(run.state.altitude, 700);
+  for (let stroke = 0; stroke < 12; stroke++) {
     stepRun(run, { active: true, angle: 90, flap: true }, 1 / 60);
     advance(run, .25);
   }

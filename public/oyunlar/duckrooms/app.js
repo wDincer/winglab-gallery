@@ -1,7 +1,7 @@
-import {RoomScene} from './room-scene.js';
+import {RoomScene} from './room-scene.js?v=duck-bounce-v1';
 import {PoseController} from './pose.js';
 import {stepEagle} from './eagle.js';
-import {createRun,stepRun,ROOMS,worldSpeed,monsterDistance} from './rooms.js';
+import {createRun,stepRun,ROOMS,worldSpeed,monsterDistance} from './rooms.js?v=duck-bounce-v1';
 import {Soundscape} from './audio.js';
 
 const $=id=>document.getElementById(id);
@@ -55,11 +55,11 @@ function pause(){
   showModal({kicker:'BİR NEFES AL.',title:'Duraklatıldı.',copy:'<p>Odalar bekleyebilir. Kovalamaca ve tüm sesler durduruldu.</p><p><em>Esc</em> ile uçuşa dön.</p>'});
 }
 function help(){
-  showModal({kicker:'UÇUŞ NOTLARI / DENEK 001',title:'Kanatların yeter.',copy:'<ul><li><em>B / Boşluk:</em> Bir kez kanat çırp. Tekrar hızlanmak için yeniden bas.</li><li><em>← / → veya A / D:</em> Yatış ve dönüş. Tuşu bırakınca mevcut yönünde süzülürsün; düzeltmek için ters yöne yat.</li><li><em>↑ / W:</em> Kanatları kaldır, frenle. <em>↓ / S:</em> Kanatları indir, dalış yap.</li><li><em>Kamerayla:</em> İki kolu birlikte kaldırıp indirerek çırp. Kolları yana açık tutarak süzül; dönmek istediğin kolunu indir.</li><li>18×18 metrelik odalar, geniş geçitler ve çevik dönüşler. Tavan <em>3.8 m</em>; ördek alçaktan uçar.</li><li>Canavarla <em>1 m</em> aranı koru. Her takip <em>15 saniye</em>. Labirent dört yönde sınırsız uzar. İstediğin yöne uç, dön, geri gel ve keşfet.</li></ul>',primary:'ANLADIM',secondary:''});
+  showModal({kicker:'UÇUŞ NOTLARI / DENEK 001',title:'Kanatların yeter.',copy:'<ul><li><em>B / Boşluk:</em> Bir kez kanat çırp. Tekrar hızlanmak için yeniden bas.</li><li><em>← / → veya A / D:</em> Yatış ve dönüş. Tuşu bırakınca mevcut yönünde süzülürsün; düzeltmek için ters yöne yat.</li><li><em>↑ / W:</em> Kanatları kaldır, frenle. <em>↓ / S:</em> Kanatları indir, dalış yap.</li><li><em>Kamerayla:</em> İki kolu birlikte kaldırıp indirerek çırp. Kolları yana açık tutarak süzül; dönmek istediğin kolunu indir.</li><li>18×18 metrelik odalar, geniş geçitler ve çevik dönüşler. Tavan <em>3.8 m</em>; ördek alçaktan uçar.</li><li>Duvara ya da sütuna çarpınca oyun bitmez. Çarpma efektiyle <em>180° geri dönüp</em> uçuşuna devam edersin.</li><li>Canavarla <em>1 m</em> aranı koru. Her takip <em>15 saniye</em>. Labirent dört yönde sınırsız uzar. İstediğin yöne uç, dön, geri gel ve keşfet.</li></ul>',primary:'ANLADIM',secondary:''});
 }
 function finish(){
-  const reason=run.reason==='wall'?'Duvara ya da bir sütuna dokundun. Küçük ördeğinin kanatları için de yer bırak.':'Canavar bir metrelik güvenli alanına girdi. Çırpışlarla hız kazan; geniş odalarda dönerek uzaklaş.';
-  showModal({kicker:'SİNYAL KESİLDİ / SONSUZ LABİRENT',title:run.reason==='wall'?'Kanatlarına dikkat.':'Fazla yakındı.',copy:`<p>${reason}</p><p><em>${Math.floor(run.travelled)} metre</em> · ${run.roomsEntered} oda geçişi · ${run.escaped} takip atlatıldı · ${Math.floor(run.elapsed)} saniye</p>`,primary:'YENİDEN DENE',secondary:'ANA EKRAN',action:reset,secondaryAction:()=>{
+  const reason='Canavar bir metrelik güvenli alanına girdi. Çırpışlarla hız kazan; geniş odalarda dönerek uzaklaş.';
+  showModal({kicker:'SİNYAL KESİLDİ / SONSUZ LABİRENT',title:'Fazla yakındı.',copy:`<p>${reason}</p><p><em>${Math.floor(run.travelled)} metre</em> · ${run.roomsEntered} oda geçişi · ${run.escaped} takip atlatıldı · ${Math.floor(run.elapsed)} saniye</p>`,primary:'YENİDEN DENE',secondary:'ANA EKRAN',action:reset,secondaryAction:()=>{
     sound.reset();tracker.stop();clearInput();run=createRun();intro=true;paused=false;source='keyboard';
     $('modal').hidden=true;$('intro').hidden=false;$('hud').hidden=true;document.body.classList.remove('playing');
   }});
@@ -138,15 +138,18 @@ function frame(now){
   const control=input(),active=!intro&&!paused&&control.active&&!document.hidden&&run.mode==='playing';
   if(!intro){
     const wasPlaying=run.mode==='playing';stepRun(run,{...control,active},dt);flap=false;
+    if(run.events.includes('wall'))toast('Duvara çarptın · Geri dönüp devam ediyorsun.',2.2);
     if(run.events.includes('sighting'))toast('ONU GÖRDÜN. Kanat çırp ve 15 saniye uzak kal!',5);
     if(run.events.includes('escaped'))toast(`${run.escaped}. takip atlatıldı. Labirent devam ediyor.`,4);
     sound.sync(run,active&&run.mode==='playing');
     if(wasPlaying&&run.mode!=='playing')finish();
     updateHud(dt,active);
   }
+  const impact=intro?0:(run.impact?.remaining??0)/(run.impact?.duration||.55);
+  $('wall-impact').style.opacity=String(Math.max(0,impact)*.6);
   scene.render(run,intro,dt,now/1000);
 }
 requestAnimationFrame(frame);
 // Read-only telemetry is convenient for local diagnostics without bypassing
 // the gesture input or changing a run from the developer console.
-Object.defineProperty(window,'duckrooms',{value:{get state(){return {mode:run.mode,source,paused,distance:run.travelled,x:run.player.x,z:run.player.z,heading:run.flight.heading,altitude:run.player.y,flaps:run.flight.flapCount,escaped:run.escaped,chaseRemaining:run.chaseRemaining,rooms:run.roomsEntered,duckScale:ROOMS.duckScale,layout:run.maze.layout.id,cachedChunks:run.maze.chunks.size};}}});
+Object.defineProperty(window,'duckrooms',{value:{get state(){return {mode:run.mode,source,paused,distance:run.travelled,x:run.player.x,z:run.player.z,heading:run.flight.heading,altitude:run.player.y,flaps:run.flight.flapCount,escaped:run.escaped,chaseRemaining:run.chaseRemaining,rooms:run.roomsEntered,duckScale:ROOMS.duckScale,wallHits:run.wallHits,impactRemaining:run.impact?.remaining??0,monsterDistance:monsterDistance(run),monsterSpeed:ROOMS.monsterSpeed,layout:run.maze.layout.id,cachedChunks:run.maze.chunks.size};}}});
