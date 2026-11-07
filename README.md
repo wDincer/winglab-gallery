@@ -84,8 +84,10 @@ npm test
 
 `public/oyunlar/` içindeki oyun kopyaları bağımsızdır; asıl öğrenci projeleri değiştirilmedi. Orijinal klasörlerden yeniden toplamak için bu bilgisayarda `npm run collect`, ardından `npm run build` çalıştır. Kaynak eşlemesi `scripts/collect-games.mjs` dosyasındadır; başka bilgisayarda bu adım gerekmez. Derlenmiş `public/` klasörü Docker imajına doğrudan kopyalanır.
 
+Amazon Tukan'ın galeri kopyasında iki çırpışta kalkış düzeltmesi vardır. `collect`, galeri kopyalarını özgün klasörlerden yeniden oluşturduğu için bu düzeltmeyi üzerine yazar; normal geliştirme ve dağıtımda yalnızca `build` kullanılır. Oyun dosyalarını değiştirirken `data/game-manifest.json` içindeki ilgili dosyaların boyut ve SHA-256 kayıtları da güncellenmelidir.
+
 ## Doğrulama
 
-Testler koleksiyonun 7+7 dağılımını, 14 detay ve oyun bağlantısını, her oyun dosyasının HTTP erişimini ve MIME türünü, alt dizinlerden modül/varlık yüklemeyi, dosya bütünlüğünü, ses için Range desteğini ve hata sayfalarını denetler. Oyunların mekaniklerine değişiklik yapılmadı.
+Testler koleksiyonun 7+7 dağılımını, 14 detay ve oyun bağlantısını, her oyun dosyasının HTTP erişimini ve MIME türünü, alt dizinlerden modül/varlık yüklemeyi, dosya bütünlüğünü, ses için Range desteğini ve hata sayfalarını denetler. Amazon Tukan testleri, iki klavye/kamera çırpışında zirveden kalkışı 15/30/60 FPS'de, tek kol/jitter filtrelerini, takip kaybını, süzülüşü ve arazi çarpışmasını doğrular.
 
 Kamera görüntüsü cihazda işlenir. Galeri hesap, kayıt veya görüntü aktarımı eklemez.

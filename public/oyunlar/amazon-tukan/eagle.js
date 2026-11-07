@@ -1,5 +1,7 @@
 import {clamp,createFlightState} from './flight.js';
 
+export const TAKEOFF_FLAPS=2;
+
 // Keep gesture history outside flight telemetry. Pausing can discard incomplete
 // gestures while leaving the visible flight state completely frozen.
 const gestures=new WeakMap();
@@ -29,9 +31,13 @@ function updateGesture(state,input,dt,left,right){
   gesture.idle=moving?0:gesture.idle+dt;
   gesture.power=Math.max(0,gesture.power-dt*.6);
   const symmetric=Math.abs(left-right)<30;
-  if(left<=100&&right<=100)gesture.canArm=true;
+  // Shoulder-height strokes are enough to leave the summit. Keep a separate
+  // low reset threshold so one long downstroke cannot count twice.
+  const raisedAngle=state.flying?110:85;
+  const resetAngle=state.flying?100:70;
+  if(left<=resetAngle&&right<=resetAngle)gesture.canArm=true;
   if(!symmetric)gesture.armed=false;
-  if(symmetric&&left>=110&&right>=110&&gesture.canArm&&!gesture.armed){
+  if(symmetric&&left>=raisedAngle&&right>=raisedAngle&&gesture.canArm&&!gesture.armed){
     gesture.armed=true;gesture.canArm=false;gesture.raisedAt=state.time;
     gesture.peakLeft=left;gesture.peakRight=right;
   }
@@ -80,7 +86,7 @@ export function stepEagle(state,input,dt){
   const angle=(left+right)/2;
   state.time+=dt;
   const stroke=updateGesture(state,input,dt,left,right);
-  if(stroke){
+  if(stroke&&(state.flying||state.flapCount>=TAKEOFF_FLAPS)){
     state.speed=Math.max(state.speed,Math.min(210,state.speed+46));
     if(!state.flying){state.flying=true;state.launching=true;}
   }
@@ -99,7 +105,7 @@ export function stepEagle(state,input,dt){
 
   let verticalTarget=0;
   if(state.flying){
-    // The first stroke clears the long wingtips smoothly. Once airborne, a held
+    // The second stroke clears the long wingtips smoothly. Once airborne, a held
     // level posture fixes the height immediately rather than slowly drifting.
     if(state.launching&&state.altitude<12)verticalTarget=10;
     else if(band.id==='flap')verticalTarget=10+state.flapPower*5;

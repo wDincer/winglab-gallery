@@ -2,7 +2,7 @@ import * as THREE from './vendor/three.module.js';
 import {createToucanModel} from './toucan-model.js';
 import {createEagleModel} from './eagle-model.js';
 import {LAND,groundHeight,groundSurface,riverX,riverWidth,makeTrees,randomSource,smooth} from './amazon-world.js';
-import {eaglePose} from './amazon-game.js';
+import {eaglePose,wingClearance} from './amazon-game.js?v=takeoff-2';
 export function createAmazonScene(canvas){
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.outputColorSpace=THREE.SRGBColorSpace;
@@ -67,7 +67,7 @@ export function createAmazonScene(canvas){
   function update(run,dt=.016){
     const s=run.state,heading=s.heading*Math.PI/180,center=new THREE.Vector3(s.x,s.altitude+2.15,-s.distance);
     toucan.root.position.copy(center);toucan.root.rotation.set(s.pitch*Math.PI/180,-heading,-s.bank*Math.PI/180,'YXZ');
-    toucan.update({...s,altitude:Math.max(0,s.altitude-groundSurface(s.x,-s.distance))});
+    toucan.update({...s,altitude:wingClearance(s)});
     toucan.root.visible=s.camera!=='cockpit';
     if(s.camera==='cockpit'){
       desired.copy(center).add(new THREE.Vector3(Math.sin(heading)*5,2,-Math.cos(heading)*5));target.copy(center).add(new THREE.Vector3(Math.sin(heading)*250,-18,-Math.cos(heading)*250));

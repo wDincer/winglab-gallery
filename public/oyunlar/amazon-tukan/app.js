@@ -1,7 +1,7 @@
-import {createAmazonScene} from './amazon-scene.js';
-import {createRun,stepRun,RULES} from './amazon-game.js';
+import {createAmazonScene} from './amazon-scene.js?v=takeoff-2';
+import {createRun,stepRun,RULES} from './amazon-game.js?v=takeoff-2';
 import {PoseController} from './pose.js';
-import {stepEagle,eagleBand} from './eagle.js';
+import {stepEagle,eagleBand} from './eagle.js?v=takeoff-2';
 import {CollectionAudio} from './collection-audio.js';
 const $=id=>document.getElementById(id);
 let run=createRun(),mode='camera',started=false,paused=false,hiddenPause=false,helpPause=false,pose=null,cameraStatus='off',angle=90,pendingFlap=false;
@@ -26,14 +26,14 @@ const poseController=new PoseController({video:$('camera-video'),canvas:$('pose-
   $('camera-toggle').setAttribute('aria-label',['tracking','lost','loading'].includes(cameraStatus)?'Kamerayı kapat':'Kamerayı aç');
   if(status.state==='error')toast(status.message,6000);refreshMode();
 }});
-function startKeyboard(){stopActivity();mode='keyboard';poseController.stop();started=true;paused=false;document.body.classList.add('started');refreshMode();$('game').focus();toast('B ile kanat çırp. ← → yön · ↑ ↓ kol açısı · Boşluk duraklat.');}
+function startKeyboard(){stopActivity();mode='keyboard';poseController.stop();started=true;paused=false;document.body.classList.add('started');refreshMode();$('game').focus();toast('Kalkış için B ile iki kez kanat çırp. ← → yön · ↑ ↓ kol açısı.');}
 async function startCamera(){
   stopActivity();mode='camera';refreshMode();$('start-camera').disabled=true;
-  try{if(await poseController.start()){started=true;paused=false;document.body.classList.add('started');refreshMode();$('game').focus();toast('İki kolunu birlikte yukarı kaldır, sonra aşağı çırp.');}}
+  try{if(await poseController.start()){started=true;paused=false;document.body.classList.add('started');refreshMode();$('game').focus();toast('Kollarını omuz hizasına aç; iki kez birlikte aşağı çırparak havalan.');}}
   finally{$('start-camera').disabled=false;}
 }
 function togglePause(){if(!started||run.state.crashed||run.finished)return;paused=!paused;if(paused)stopActivity();hud();}
-function reset(){const view=run.state.camera;stopActivity();run=createRun();run.state.camera=view;paused=false;angle=90;$('manual-angle').value='90';$('angle-label').textContent='90°';if($('result-dialog').open)$('result-dialog').close();hud();scene.update(run,1);$('game').focus();toast('Zirveye döndün. Kalkış için kanat çırp.');}
+function reset(){const view=run.state.camera;stopActivity();run=createRun();run.state.camera=view;paused=false;angle=90;$('manual-angle').value='90';$('angle-label').textContent='90°';if($('result-dialog').open)$('result-dialog').close();hud();scene.update(run,1);$('game').focus();toast('Zirveye döndün. Kalkış için iki kez kanat çırp.');}
 function flap(){if(!active())return;pendingFlap=true;}
 function result(event){stopActivity();$('result-label').textContent=event.type==='finish'?'AMAZON KEŞFİ TAMAMLANDI':'YENİDEN KANATLAN';$('result-title').textContent=event.type==='finish'?'Harika bir uçuştu.':'Uçuş sona erdi.';$('result-message').textContent=event.message||'Amazon üzerinde 6 kilometrelik parkuru tamamladın.';$('result-score').textContent=run.score;$('result-count').textContent=run.positive+run.negative;$('result-distance').textContent=Math.round(run.state.distance).toLocaleString('tr-TR');$('result-dialog').showModal();}
 function pickup(event){audio.play(event.type);const n=$('pickup');n.textContent=(event.points>0?'+':'−')+Math.abs(event.points);n.classList.toggle('negative',event.type==='negative');n.classList.remove('animate');void n.offsetWidth;n.classList.add('animate');toast(event.type==='positive'?'Milat topladın · +1 puan':'Feastables topladın · −2 puan',1800);}
@@ -43,7 +43,7 @@ function hud(){
   $('speed').innerHTML=`${Math.round(s.speed)} <small>KT</small>`;$('altitude').innerHTML=`${Math.round(s.altitude).toLocaleString('tr-TR')} <small>m</small>`;
   $('flight-time').textContent=`${String(Math.floor(s.time/60)).padStart(2,'0')}:${String(Math.floor(s.time%60)).padStart(2,'0')}`;
   $('distance').textContent=`${(s.distance/1000).toFixed(2).replace('.',',')} / 6,00 km`;$('progress').style.width=Math.max(0,Math.min(100,s.distance/RULES.length*100))+'%';
-  const label=!started?'Dağın zirvesi · Kalkışa hazır':s.crashed?'Uçuş sona erdi':run.finished?'Amazon keşfi tamamlandı':paused||hiddenPause||helpPause?'Uçuş duraklatıldı':mode==='camera'&&cameraStatus!=='tracking'?'Vücut takibi bekleniyor':!s.flying?'Zirve · Kanat çırp ve havalan':{flap:'Kanat çırpışı · Hızlanıyorsun',glide:'Amazon üzerinde · Dengeli süzülüş',brake:'Kanatlar yukarı · Yavaşlıyorsun',dive:'Kanatlar aşağı · Hızlı dalış'}[band.id];
+  const label=!started?'Dağın zirvesi · Kalkış için iki çırpış':s.crashed?'Uçuş sona erdi':run.finished?'Amazon keşfi tamamlandı':paused||hiddenPause||helpPause?'Uçuş duraklatıldı':mode==='camera'&&cameraStatus!=='tracking'?'Vücut takibi bekleniyor':!s.flying?`Kalkış · ${s.flapCount}/${RULES.takeoffFlaps} çırpış · ${s.flapCount===1?'Bir kez daha kanat çırp':'İki kez kanat çırp'}`:{flap:'Kanat çırpışı · Hızlanıyorsun',glide:'Amazon üzerinde · Dengeli süzülüş',brake:'Kanatlar yukarı · Yavaşlıyorsun',dive:'Kanatlar aşağı · Hızlı dalış'}[band.id];
   $('flight-status').innerHTML='<span class="live-dot"></span>'+label;
   $('gesture-status').textContent=`${Math.round(source?.angle??90)}° · `+{flap:'Kanat çırpışı',glide:'Dengeli süzülüş',brake:'Fren',dive:'Hızlı dalış'}[band.id];
   $('pause').textContent=paused?'▶':'Ⅱ';$('pause').setAttribute('aria-label',paused?'Uçuşa devam et':'Uçuşu duraklat');

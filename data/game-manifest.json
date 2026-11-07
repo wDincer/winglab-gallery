@@ -4,13 +4,13 @@
     "files": [
       {
         "path": "amazon-game.js",
-        "size": 5580,
-        "sha256": "5062c24efb7099484d57702c7edbdf91ac952c5610ff68d9cc38b4ff8cd301f9"
+        "size": 5965,
+        "sha256": "bd750877ae281dbc2e07d9276789af51d389b8fb7aa7a1282367384667fba8ef"
       },
       {
         "path": "amazon-scene.js",
-        "size": 8246,
-        "sha256": "3c1808692aa22bf7f1e7e90bb36411b43be9e563b0d29dc390e79da3c4d6f461"
+        "size": 8235,
+        "sha256": "499dc2c5c2dff2fd2ab22e9618c99218132068f00afe4c2c192ecd10fb946325"
       },
       {
         "path": "amazon-world.js",
@@ -24,8 +24,8 @@
       },
       {
         "path": "app.js",
-        "size": 10116,
-        "sha256": "cbdd4d767bc87497e7787395bcce746a0fc6e39a4f6e65c5fb7bb201863235ba"
+        "size": 10294,
+        "sha256": "63dbe972cf30eea3c1c316c16651d13f1c09e371a503fb38a19d39cb695dbb71"
       },
       {
         "path": "assets/favicon.svg",
@@ -104,8 +104,8 @@
       },
       {
         "path": "eagle.js",
-        "size": 6386,
-        "sha256": "b36139bd1980842be7131e5859ba9ff19b7f21bd3e523cb6c6bd27ee9eb8b1de"
+        "size": 6722,
+        "sha256": "68fff768e3518f4379f8c82891e2722c18464a85e9174f347bc511015c115d8e"
       },
       {
         "path": "flight.js",
@@ -114,8 +114,8 @@
       },
       {
         "path": "index.html",
-        "size": 7104,
-        "sha256": "3f93048238ea12be0513287a511b6edffa963a8dc75dc0d5e12ef85b5aa9ebb9"
+        "size": 7221,
+        "sha256": "7dcdce16a901291460dbd0aaf58f5e7691f29bfef1150018586c2bddd896121c"
       },
       {
         "path": "pose.js",

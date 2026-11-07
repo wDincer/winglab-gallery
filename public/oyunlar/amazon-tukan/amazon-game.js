@@ -1,8 +1,8 @@
-import {createEagleState,stepEagle} from './eagle.js';
+import {createEagleState,stepEagle,TAKEOFF_FLAPS} from './eagle.js?v=takeoff-2';
 import {eagleProbes,transformedProbe} from './collision.js';
 import {groundSurface,randomSource} from './amazon-world.js';
 import {COURSE_DESIGN} from './course-design.js';
-export const RULES=Object.freeze({...COURSE_DESIGN.amazon,length:COURSE_DESIGN.course.length,collectionRadius:18});
+export const RULES=Object.freeze({...COURSE_DESIGN.amazon,length:COURSE_DESIGN.course.length,collectionRadius:18,takeoffFlaps:TAKEOFF_FLAPS});
 export function createChocolates(){
   const random=randomSource(1114),types=Array.from({length:RULES.collectibleCount},(_,i)=>i<RULES.collectibleCount*(1-RULES.positiveRatio)?'negative':'positive');
   for(let i=types.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[types[i],types[j]]=[types[j],types[i]];}
@@ -27,9 +27,16 @@ export function createRun(){
   const state=createEagleState();state.altitude=RULES.startAltitude;
   return {state,chocolates:createChocolates(),eagles:createEagles(),score:0,positive:0,negative:0,launchRelative:true,finished:false,crashReason:null};
 }
+export function wingClearance(state){
+  const ground=groundSurface(state.x,-state.distance);
+  // The falling ground ahead must not unfold the downstroke into the summit
+  // still underneath the trailing feathers. The model and collision share this.
+  const support=state.launching?Math.max(ground,RULES.startAltitude+1):ground;
+  return Math.max(0,state.altitude-support);
+}
 export function birdProbes(state,toucan=true){
   const center={x:state.x,y:state.altitude+2.15,z:-state.distance};
-  const clearance=Math.max(0,state.altitude-groundSurface(state.x,-state.distance));
+  const clearance=wingClearance(state);
   const local=eagleProbes(state.leftWingAngle??90,state.rightWingAngle??90,clearance);
   if(toucan)local.push([0,.7,-4,.5],[0,.5,-5.2,.3]);
   return local.map(p=>transformedProbe(p,center,state.heading||0,state.bank||0,state.pitch||0));

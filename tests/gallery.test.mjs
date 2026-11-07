@@ -50,7 +50,7 @@ test('catalog, detail pages and game launches work from a single server', async 
   }
 });
 
-test('all bundled game files match the collected originals, including models, audio and licenses', async () => {
+test('all bundled game files match the integrity manifest, including models, audio and licenses', async () => {
   const manifest = JSON.parse(await readFile(path.join(root, 'data/game-manifest.json'), 'utf8'));
   assert.equal(manifest.length, 14);
   for (const game of manifest) {

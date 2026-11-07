@@ -4,9 +4,9 @@ export const projects = [
     summary: 'Amazon’un üzerinde süzül. Kartalları atlat, doğru çikolatayı topla.',
     description: '500 metrelik bir dağ zirvesinden başlayan bu yolculukta kontrol, kanatların yerine geçen kollarında. Amazon ormanının üzerinde uçarken hareketli kartallardan uzak dur ve havaya dağılmış çikolataları topla.',
     vehicle: 'Tukan', setting: 'Amazon ormanı', objective: 'Kartallara çarpmadan uç ve çikolata puanını artır.',
-    features: ['500 metrelik zirveden kalkış', 'Puan kazandıran ve puan düşüren çikolatalar', 'Hareketli kartal engelleri'],
+    features: ['500 metrelik zirveden iki çırpışta kalkış', 'Puan kazandıran ve puan düşüren çikolatalar', 'Hareketli kartal engelleri'],
     keys: [['B', 'Kanat çırp'], ['← →', 'Yön değiştir'], ['↑ ↓', 'Kanat açısını ayarla'], ['R', 'Yeniden başlat']],
-    gesture: 'İki kolunu kaldırıp aşağı çırparak hızlan ve yüksel. Bir kolunu indirerek o yöne dön.'
+    gesture: 'Kalkış için kollarını omuz hizasına açıp iki kez birlikte aşağı çırp. Havada kollarını yukarı kaldırıp çırparak hızlan ve yüksel. Bir kolunu indirerek o yöne dön.'
   },
   {
     slug: 'kaan-durum', title: 'KAAN Dürüm Filosu', team: 'Şampiyonlar', date: '2026-10-31', time: '11:03', mode: 'airplane', genre: 'Hava savaşı', image: 'kaan-durum.jpg', accent: '#967b34',

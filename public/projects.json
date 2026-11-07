@@ -15,7 +15,7 @@
     "setting": "Amazon ormanı",
     "objective": "Kartallara çarpmadan uç ve çikolata puanını artır.",
     "features": [
-      "500 metrelik zirveden kalkış",
+      "500 metrelik zirveden iki çırpışta kalkış",
       "Puan kazandıran ve puan düşüren çikolatalar",
       "Hareketli kartal engelleri"
     ],
@@ -37,7 +37,7 @@
         "Yeniden başlat"
       ]
     ],
-    "gesture": "İki kolunu kaldırıp aşağı çırparak hızlan ve yüksel. Bir kolunu indirerek o yöne dön."
+    "gesture": "Kalkış için kollarını omuz hizasına açıp iki kez birlikte aşağı çırp. Havada kollarını yukarı kaldırıp çırparak hızlan ve yüksel. Bir kolunu indirerek o yöne dön."
   },
   {
     "slug": "kaan-durum",
