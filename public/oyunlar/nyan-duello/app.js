@@ -2,7 +2,9 @@ import {createDuelState,stepDuel,ClapGesture,ENEMY_MAX_HEALTH,PLAYER_MAX_HEALTH}
 import {stepEagle} from './eagle.js';
 import {PoseController} from './pose.js';
 import {createDuelScene} from './duel-scene.js';
-import {NyanAudio} from './audio.js?v=nyan-results-v1';
+import {NyanAudio} from './audio.js?v=nyan-loss-video-v1';
+import {LossVideo} from './loss-video.js?v=nyan-loss-video-v1';
+import {LOSS_VIDEO_SOURCE} from './loss-video-config.js?v=nyan-loss-video-v1';
 
 const $=id=>document.getElementById(id);
 let state=createDuelState(),source='camera',pose=null,manualPaused=false,loading=false,queuedFlap=false,queuedFire=false;
@@ -10,9 +12,10 @@ let cameraAttempt=0;
 let toastUntil=0,flashUntil=0,reticleUntil=0;
 const keys=new Set(),clap=new ClapGesture();
 const formatTime=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.floor(s%60)).padStart(2,'0')}`;
-const sounds=new NyanAudio({onError:()=>toast('Ses yüklenemedi. Ses düğmesiyle yeniden deneyebilirsin.',4)});
+const lossVideo=new LossVideo({overlay:$('loss-video-overlay'),video:$('loss-video'),playButton:$('loss-video-play'),closeButton:$('loss-video-close'),fullscreenButton:$('loss-video-fullscreen'),source:LOSS_VIDEO_SOURCE,onError:()=>toast('Video açılamadı. Oynat düğmesiyle yeniden deneyebilirsin.',4)});
+const sounds=new NyanAudio({onError:()=>toast('Ses yüklenemedi. Ses düğmesiyle yeniden deneyebilirsin.',4),onLossVideo:()=>{void lossVideo.play();}});
 let muted=false;try{muted=localStorage.getItem('nyan-muted')==='true';}catch{}
-function applyMute(){sounds.setEnabled(!muted);$('sound').textContent=muted?'♪̸':'♫';$('sound').setAttribute('aria-label',muted?'Sesi aç':'Sesi kapat');$('sound').setAttribute('aria-pressed',String(muted));}
+function applyMute(){sounds.setEnabled(!muted);lossVideo.setEnabled(!muted);$('sound').textContent=muted?'♪̸':'♫';$('sound').setAttribute('aria-label',muted?'Sesi aç':'Sesi kapat');$('sound').setAttribute('aria-pressed',String(muted));}
 applyMute();
 function play(name){if(name==='hurt')void sounds.playHurt();if(name==='hit')void sounds.playHit();}
 function toast(message,seconds=2){$('toast').textContent=message;toastUntil=performance.now()+seconds*1000;}
@@ -40,7 +43,7 @@ function updateSource(){
 function begin(){
   state=createDuelState();state.status='playing';manualPaused=false;view.reset();resetInput();
   $('intro').hidden=true;$('result').hidden=true;document.body.classList.add('playing');
-  sounds.reset();sounds.unlock();sounds.setHidden(document.hidden);sounds.setRunning(!document.hidden);
+  lossVideo.reset();sounds.reset();sounds.unlock();sounds.setHidden(document.hidden);sounds.setRunning(!document.hidden);
   updateSource();toast(source==='camera'?'İKİ KOLUNU KALDIR VE ÇIRP':'KALKIŞ İÇİN B TUŞUNA BAS',4);
 }
 async function startCamera(){
@@ -84,7 +87,7 @@ window.addEventListener('keydown',event=>{
 });
 window.addEventListener('keyup',event=>keys.delete(event.code));
 window.addEventListener('blur',()=>{if(state.status==='playing'){manualPaused=true;resetInput();}});
-document.addEventListener('visibilitychange',()=>{sounds.setHidden(document.hidden);if(document.hidden&&state.status==='playing'){manualPaused=true;resetInput();}});
+document.addEventListener('visibilitychange',()=>{sounds.setHidden(document.hidden);lossVideo.setHidden(document.hidden);if(document.hidden&&state.status==='playing'){manualPaused=true;resetInput();}});
 for(const [id,key]of[['touch-left','ArrowLeft'],['touch-right','ArrowRight']]){
   $(id).onpointerdown=e=>{e.preventDefault();keys.add(key);$(id).setPointerCapture(e.pointerId);};
   $(id).onpointerup=$(id).onpointercancel=()=>keys.delete(key);
@@ -107,7 +110,7 @@ function frame(now){
   const playing=state.status==='playing',trackingLost=source==='camera'&&!pose;
   const paused=playing&&(manualPaused||trackingLost||document.hidden||$('help-dialog').open);
   if(paused&&!wasPaused)resetInput();
-  sounds.setHidden(document.hidden);sounds.setRunning(playing&&!paused);
+  sounds.setHidden(document.hidden);sounds.setRunning(playing&&!paused);lossVideo.setHidden(document.hidden);
   wasPaused=paused;
   let input={active:playing&&!paused,paused,angle:90,bank:0};
   if(source==='camera'&&pose)input={...input,...pose};
@@ -146,5 +149,5 @@ function frame(now){
   }
   requestAnimationFrame(frame);
 }
-window.addEventListener('pagehide',()=>{controller.dispose();sounds.dispose();});
+window.addEventListener('pagehide',()=>{controller.dispose();sounds.dispose();lossVideo.dispose();});
 updateSource();requestAnimationFrame(frame);

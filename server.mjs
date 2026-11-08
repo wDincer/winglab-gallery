@@ -12,6 +12,7 @@ const types = {
   '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp',
   '.ico': 'image/x-icon', '.wasm': 'application/wasm', '.task': 'application/octet-stream',
   '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.ogg': 'audio/ogg',
+  '.mp4': 'video/mp4', '.webm': 'video/webm',
   '.woff2': 'font/woff2', '.txt': 'text/plain; charset=utf-8'
 };
 

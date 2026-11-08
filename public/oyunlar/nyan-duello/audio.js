@@ -4,7 +4,7 @@ export const NYAN_AUDIO_URLS=Object.freeze({
   hit:'./assets/audio/hit.mp3',
   won:'./assets/audio/victory-tamek.mp3',
   lost:'./assets/audio/defeat-cokokrem.mp3',
-  explosion:'./assets/audio/defeat-explosion.mp3'
+  lostExtra:'./assets/audio/defeat-fah.mp3'
 });
 export const HURT_SECONDS=3;
 
@@ -12,8 +12,8 @@ export const HURT_SECONDS=3;
 // Result recordings use one media element so their real ended event, rather than
 // a timer or an estimated MP3 duration, advances the defeat sequence.
 export class NyanAudio{
-  constructor({createContext=()=>new (window.AudioContext||window.webkitAudioContext)(),createMedia=url=>new Audio(url),fetchAudio=url=>fetch(url),onError=()=>{}}={}){
-    this.createContext=createContext;this.createMedia=createMedia;this.fetchAudio=fetchAudio;this.onError=onError;
+  constructor({createContext=()=>new (window.AudioContext||window.webkitAudioContext)(),createMedia=url=>new Audio(url),fetchAudio=url=>fetch(url),onError=()=>{},onLossVideo=()=>{}}={}){
+    this.createContext=createContext;this.createMedia=createMedia;this.fetchAudio=fetchAudio;this.onError=onError;this.onLossVideo=onLossVideo;
     this.context=null;this.contextIntent=null;this.buffers=new Map();this.loads=new Map();this.voices=new Set();
     this.enabled=true;this.running=false;this.hidden=false;this.unlocked=false;this.disposed=false;
     this.generation=0;this.effectVersions={hurt:0,hit:0};this.outcome=null;this.music=null;this.result=null;this.resultEnded=null;
@@ -161,7 +161,10 @@ export class NyanAudio{
       if(this.disposed||generation!==this.generation||this.outcome!==outcome||outcome.index!==index||!this.resultAudible()||!media.ended)return;
       this.pauseMedia(this.result);
       outcome.index++;
-      if(outcome.index>=outcome.tracks.length){outcome.completed=true;this.clearResultListener();this.sync();}
+      if(outcome.index>=outcome.tracks.length){
+        outcome.completed=true;this.clearResultListener();this.sync();
+        if(outcome.kind==='lost')try{this.onLossVideo();}catch(error){this.report(error);}
+      }
       else{this.prepareResult();this.sync();}
     };
     media.addEventListener('ended',this.resultEnded);
@@ -172,7 +175,7 @@ export class NyanAudio{
     if(kind==='won')this.effectVersions.hurt++;
     for(const voice of [...this.voices])if(kind==='won'||voice.kind!=='hurt')this.stopVoice(voice);
     this.pauseMedia(this.music,true);
-    this.outcome={kind,index:0,completed:false,tracks:kind==='won'?[NYAN_AUDIO_URLS.won]:[NYAN_AUDIO_URLS.lost,NYAN_AUDIO_URLS.explosion]};
+    this.outcome={kind,index:0,completed:false,tracks:kind==='won'?[NYAN_AUDIO_URLS.won]:[NYAN_AUDIO_URLS.lost,NYAN_AUDIO_URLS.lostExtra]};
     this.prepareResult();this.sync();
   }
   reset(){

@@ -1554,13 +1554,13 @@
     "files": [
       {
         "path": "/app.js",
-        "size": 12665,
-        "sha256": "7461771a3cc0b0af3fd631d151fe9c193016151ecfcf2e82799aa757e44f5fbe"
+        "size": 13302,
+        "sha256": "2a1bced88cb8c8fb61c841694cdf37980850c313414f8a9806451c4342280310"
       },
       {
         "path": "/audio.js",
-        "size": 9644,
-        "sha256": "a4695214332f2bfd51d189e49ca665449682e95f789a918ef89c0d9d2b33cb18"
+        "size": 9793,
+        "sha256": "9eae49e37e477f528b01265e75aa5378f3df04d09fa6d13503e06dae4c0cd925"
       },
       {
         "path": "/cat-geometry.js",
@@ -1604,8 +1604,8 @@
       },
       {
         "path": "/duel.css",
-        "size": 17984,
-        "sha256": "2af9de6ef5d188ed107fb23782772b5bb13e22dea9c6874c25abb0489e91c108"
+        "size": 18838,
+        "sha256": "22c526f6536a283939896c6708c069147e9c72899e85ca63ca467cd2bfbb7fea"
       },
       {
         "path": "/duel.js",
@@ -1639,8 +1639,18 @@
       },
       {
         "path": "/index.html",
-        "size": 7644,
-        "sha256": "ae9aa3635dce825e8211bd3804f35c7abaeb696ff25ef70090b3fbe4ce580470"
+        "size": 8138,
+        "sha256": "2b92b5a0cd8b50ba32e61bbf080add0748e87cddb21c869990d84d57a0718b68"
+      },
+      {
+        "path": "/loss-video-config.js",
+        "size": 198,
+        "sha256": "c34ca9b9f2cbafc310e7a952e6fb9ad546f2a693c81e41fe22cfaa0c788dfa7e"
+      },
+      {
+        "path": "/loss-video.js",
+        "size": 7643,
+        "sha256": "1171071d1ca685d257e946c6dd86e834e5dc4598a205966db4803ee519d315d0"
       },
       {
         "path": "/pose.js",
@@ -1676,6 +1686,11 @@
         "path": "assets/audio/defeat-explosion.mp3",
         "size": 43303,
         "sha256": "018eb8007462400c7e8298573eb37c4b8a0c7c1513fca8e77867c7ca76003b34"
+      },
+      {
+        "path": "assets/audio/defeat-fah.mp3",
+        "size": 56842,
+        "sha256": "ba5dd30be0e6559c8b0e28a362058f86b411f5d18a73a38f7a30e4f6b34e6bb4"
       },
       {
         "path": "assets/audio/game-over.mp3",
