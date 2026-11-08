@@ -593,14 +593,129 @@
     "slug": "ucan-inek",
     "files": [
       {
-        "path": "app.js",
-        "size": 13976,
-        "sha256": "1a24ccb4ff4c375f647bfdf0d702fd3e6650a6055cc56fba6dbb3a41858b95f9"
+        "path": "/app.js",
+        "size": 14958,
+        "sha256": "cc2eede8b8afc9552d99a5300dca3e242fa18ce6af43dc1a67412da11993d6f9"
+      },
+      {
+        "path": "/audio.js",
+        "size": 2760,
+        "sha256": "04abd47ac85f932d7bbfb5285325bcd997f3c6fa0300b7b79b4bba13474bfa0a"
+      },
+      {
+        "path": "/collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "/course-design.js",
+        "size": 485,
+        "sha256": "ddaac380f52a4ad9c066a50b970aeb20e778322a478b4a87c88566693b0fafcf"
+      },
+      {
+        "path": "/course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "/cow-geometry.js",
+        "size": 1248,
+        "sha256": "1f013f3e717cc357d27a8e443d05e4ebb36a9e529e32b530b053500f3995853c"
+      },
+      {
+        "path": "/cow-model.js",
+        "size": 5823,
+        "sha256": "db3b9cc720411d0e7bcab023d97dbead6c92617cb19097c760892d8d6cb3b73f"
+      },
+      {
+        "path": "/cow-world.js",
+        "size": 286,
+        "sha256": "b7baff31f8ddc46bc78cd3a64480c29abf450348b239d38afe6d4eceefac760d"
+      },
+      {
+        "path": "/diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "/diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "/eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "/eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "/eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "/eagle.js",
+        "size": 7327,
+        "sha256": "1d3709996773bed26856a05e0194d19daab4dc25452ad07d308b4988a0407266"
+      },
+      {
+        "path": "/flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "/game.css",
+        "size": 18572,
+        "sha256": "6dcc1981c78e757a0b389868cbc063ff9e18689c35af04cb9bb984e346206fd9"
+      },
+      {
+        "path": "/gameplay.js",
+        "size": 9015,
+        "sha256": "61aebdaa0ea94a93088376afce810a5015034712db5cef2bb1e283bb54fbda4b"
+      },
+      {
+        "path": "/index.html",
+        "size": 10096,
+        "sha256": "1c1b88c541d29a2c0bdf791a7ffde22af7fd00dd45b340b20bd6838790ed822b"
+      },
+      {
+        "path": "/neighborhood.js",
+        "size": 1095,
+        "sha256": "fab69e941894cae838211af64116fe2589a505c3888252cad3490c337a8b8f71"
+      },
+      {
+        "path": "/pose.js",
+        "size": 15695,
+        "sha256": "1cdb6ed1eae4362f3cdf1d563cd1c89a1e701e4d5e03a2837411a8c08175702c"
+      },
+      {
+        "path": "/scene.js",
+        "size": 21378,
+        "sha256": "cc8a597014406d8f6064281a768abf1d7ab3a1031f453f9cb5c47b106595cd31"
+      },
+      {
+        "path": "/style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "/world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
       },
       {
         "path": "assets/chef.jpg",
         "size": 28492,
         "sha256": "9b80785b0e9ad91a93602c5b3e9af81f26acad71aa5f96c86b34037440e310c0"
+      },
+      {
+        "path": "assets/cow-moo.mp3",
+        "size": 50991,
+        "sha256": "ea4b094d4e465628b4eb8dd8148a234309ecaacf50cd902938968c8b4706aad0"
       },
       {
         "path": "assets/favicon.svg",
@@ -611,101 +726,6 @@
         "path": "assets/pose_landmarker_lite.task",
         "size": 5777746,
         "sha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
-      },
-      {
-        "path": "collision.js",
-        "size": 9608,
-        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
-      },
-      {
-        "path": "course-design.js",
-        "size": 658,
-        "sha256": "cff7955591699d5de3b46df35cdfb7b9f65cd361acc1320097f40471fd63f17a"
-      },
-      {
-        "path": "course.js",
-        "size": 4661,
-        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
-      },
-      {
-        "path": "cow-geometry.js",
-        "size": 1248,
-        "sha256": "1f013f3e717cc357d27a8e443d05e4ebb36a9e529e32b530b053500f3995853c"
-      },
-      {
-        "path": "cow-model.js",
-        "size": 3384,
-        "sha256": "ebe21fec5d695591c77cf9a8d01016fb1292e1ffcb45f34c00952f7ee23d24ae"
-      },
-      {
-        "path": "diamonds.css",
-        "size": 1697,
-        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
-      },
-      {
-        "path": "diamonds.js",
-        "size": 4126,
-        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
-      },
-      {
-        "path": "eagle-geometry.js",
-        "size": 760,
-        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
-      },
-      {
-        "path": "eagle-model.js",
-        "size": 8410,
-        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
-      },
-      {
-        "path": "eagle.css",
-        "size": 6242,
-        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
-      },
-      {
-        "path": "eagle.js",
-        "size": 7142,
-        "sha256": "5646c5afd5e87634e289c0328e782a93c077126382071b23286966d7d08b780c"
-      },
-      {
-        "path": "flight.js",
-        "size": 4309,
-        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
-      },
-      {
-        "path": "game.css",
-        "size": 17995,
-        "sha256": "886ff1004c99fb6612e67f9b0f91242b7f6c24736749ac11a946d4b82675dcc2"
-      },
-      {
-        "path": "gameplay.js",
-        "size": 5260,
-        "sha256": "0b9d38ae4d3d4f73352c4a2955c12f238cd73d053b93a1d8eef5bdc962472fd6"
-      },
-      {
-        "path": "index.html",
-        "size": 9502,
-        "sha256": "784bd2f1d25e3825acc70600a3c47f1c23e376e1d159eb07e1f8649c93faec1c"
-      },
-      {
-        "path": "neighborhood.js",
-        "size": 979,
-        "sha256": "3a7257513b921bd90a440c10f04a646cc9a6007a9eeffbebf7b19a57228df796"
-      },
-      {
-        "path": "pose.js",
-        "size": 14344,
-        "sha256": "8efb99c35fd20ed6b29b21197f95363aee451507304beb72b3b8616a2b5e4bd0"
-      },
-      {
-        "path": "scene.js",
-        "size": 15935,
-        "sha256": "c9f179055e71c855beb9262b5678c8b86be8aa36df23080cbd944075b4afdef4"
-      },
-      {
-        "path": "style.css",
-        "size": 23215,
-        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
       },
       {
         "path": "vendor/APACHE-2.0-LICENSE.txt",
@@ -756,11 +776,6 @@
         "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
         "size": 9448638,
         "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
-      },
-      {
-        "path": "world.js",
-        "size": 5477,
-        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
       }
     ]
   },

@@ -28,12 +28,12 @@ export const projects = [
   },
   {
     slug: 'ucan-inek', title: 'Uçan İnek', team: 'İnsancıl Varlıklar', date: '2026-10-31', time: '13:53', mode: 'eagle', genre: 'Toplama', image: 'ucan-inek.jpg', accent: '#7f7750',
-    summary: 'Kuyruk pervane oldu. Mahallenin üzerinde saman toplama zamanı.',
-    description: 'Kuş mekaniğiyle uçan bu ineğin kuyruğu bir pervane gibi dönüyor. Mahallenin üzerinde süzül, havadaki saman balyalarını topla ve şefin rastgele fırlattığı yemekli tabaklardan uzak dur.',
-    vehicle: 'Pervane kuyruklu inek', setting: 'Mahalle', objective: 'Saman balyalarını topla, tabaklara çarpmadan uçuşunu sürdür.',
-    features: ['Pervane gibi dönen kuyruk', 'Toplanınca parçalanan saman balyaları', 'Rastgele tabak fırlatan şef'],
-    keys: [['B', 'Kanat çırp'], ['← →', 'Yön değiştir'], ['↑ ↓', 'Kanat açısını ayarla'], ['R', 'Yeniden başlat']],
-    gesture: 'Kalkış için iki kolunu yana kaldır. Ardından kanat çırpar gibi hareket ederek uçuşunu sürdür.'
+    summary: 'Kuleden havalan. Gökyüzündeki samanları topla, uçan pilavcıdan kaç.',
+    description: '80 metrelik kuleden havalanıp mahallenin üzerinde istediğin yöne uç. İki elini göğüs hizasının üstünde tutarak 500 metreye kadar yüksel. Farklı yüksekliklere dağılmış 360 saman balyasını toplarken möö sesini duy; havada yaklaşan pilavcının fırlattığı tabaklardan kaç.',
+    vehicle: 'Pervane kuyruklu inek', setting: 'Kule ve açık gökyüzü', objective: 'Serbest uçuşta samanları topla, uçan pilavcının tabaklarından kaç.',
+    features: ['80 metrelik kuleden serbest kalkış', 'Göğüs hizasının üzerindeki ellerle 500 metreye yükselme', '360 saman balyası ve toplarken möö sesi', 'Uçarak yaklaşan ve tabak fırlatan pilavcı', 'Daha ayrıntılı inek, kule, mahalle ve ışıklandırma'],
+    keys: [['B', 'Kanat çırp / hızlan'], ['← →', 'Yön değiştir'], ['↑ ↓', 'Yüksel / alçal'], ['R', 'Yeniden başlat']],
+    gesture: 'İki elini göğüs hizasının üstüne kaldırıp tutarak kalk ve yüksel. Göğüs hizasında süzül; ellerini aşağı indirerek alçal. Bir kolunu alçaltarak o yöne dön.'
   },
   {
     slug: 'kizilelma-col', title: 'Kızılelma Çöl Görevi', team: 'Ekmekspor', date: '2026-10-31', time: '14:47', mode: 'airplane', genre: 'Toplama', image: 'kizilelma-col.jpg', accent: '#ac793e',

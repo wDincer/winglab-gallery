@@ -1,4 +1,5 @@
 import {clamp,createFlightState} from './flight.js';
+import {COW_WORLD} from './cow-world.js?v=cow-freeflight-v1';
 
 // Keep gesture history outside flight telemetry. Pausing can discard incomplete
 // gestures while leaving the visible flight state completely frozen.
@@ -7,14 +8,14 @@ const radians=Math.PI/180;
 
 export function eagleBand(angle,flapping=false){
   if(flapping)return {id:'flap',label:'KANAT ÇIRP · HIZLAN',target:190};
-  if(angle<80)return {id:'dive',label:'DALIŞ · ÇOK HIZLI',target:205+clamp((80-angle)/80,0,1)*35};
-  if(angle<=100)return {id:'glide',label:'DENGELİ SÜZÜLÜŞ',target:48};
-  return {id:'brake',label:'KANATLAR YUKARI · YAVAŞLA',target:24};
+  if(angle<70)return {id:'dive',label:'ELLER AŞAĞIDA · ALÇAL',target:105};
+  if(angle<=100)return {id:'glide',label:'GÖĞÜS HİZASI · SÜZÜL',target:48};
+  return {id:'climb',label:'ELLER YUKARIDA · YÜKSEL',target:90};
 }
 
 export function createEagleState(){
-  return {...createFlightState(),vehicle:'eagle',band:'glide',flapCount:0,
-    flapping:false,flapPower:0,leftWingAngle:90,rightWingAngle:90,launching:false};
+  return {...createFlightState(),altitude:COW_WORLD.startAltitude,vehicle:'eagle',band:'glide',flapCount:0,
+    flapping:false,flapPower:0,leftWingAngle:90,rightWingAngle:90,launching:false,launchStartedAt:null};
 }
 
 function newGesture(left,right,time){
@@ -81,58 +82,54 @@ export function stepEagle(state,input,dt){
   state.time+=dt;
   const stroke=updateGesture(state,input,dt,left,right);
   const gesture=gestures.get(state);
-  // This course opts into a simple grounded launch. A brief, two-arm hold
-  // prevents one noisy landmark from launching; airborne flap physics stays intact.
-  const raised=!state.flying&&input.takeoffOnRaise===true&&left>=80&&right>=80&&Math.abs(left-right)<30;
+  // The wrist command is independent of elbow angles: bent elbows can remain
+  // below the shoulders while the hands are deliberately raised above the chest.
+  const handsAboveChest=typeof input.handsAboveChest==='boolean'?input.handsAboveChest:left>100&&right>100;
+  const handsBelowChest=!handsAboveChest&&(typeof input.handsBelowChest==='boolean'?input.handsBelowChest:left<70&&right<70);
+  const raised=!state.flying&&handsAboveChest;
   gesture.raiseTime=raised?gesture.raiseTime+dt:0;
   if(gesture.raiseTime>=.18){
-    state.flying=true;state.launching=true;state.speed=Math.max(state.speed,48);gesture.raiseTime=0;
+    state.flying=true;state.launching=true;state.launchStartedAt=state.time;state.speed=Math.max(state.speed,48);gesture.raiseTime=0;
   }
   if(stroke){
     state.speed=Math.max(state.speed,Math.min(210,state.speed+46));
-    if(!state.flying){state.flying=true;state.launching=true;}
+    if(!state.flying){state.flying=true;state.launching=true;state.launchStartedAt=state.time;}
   }
-  const band=eagleBand(angle,state.flapping);
+  const band=state.flapping?eagleBand(angle,true):handsAboveChest?eagleBand(120):handsBelowChest?eagleBand(45):eagleBand(90);
   state.band=band.id;
   const requestedBoost=Number(input.boost);
-  const boost=state.flying&&state.altitude>.03&&band.id!=='brake'
+  const boost=state.flying&&state.altitude>.03
     ?clamp(Number.isFinite(requestedBoost)?requestedBoost:1,1,1.45):1;
   state.courseBoostActive=boost>1;
   const target=state.flying?band.target*boost:0;
-  // Level wings coast on the speed earned by flapping. Raising the arms still
-  // applies the original strong brake instead of sharing this gentle drag.
-  const response=target<state.speed?(state.flying&&band.id==='glide'?.18:2.8):band.id==='flap'?5.5:3;
+  // Keep the earned flap momentum through every held-hand stance. Raising the
+  // hands now commands ascent, rather than braking the cow above the tower.
+  const response=target<state.speed?(state.flying?.18:2.8):band.id==='flap'?5.5:3;
   state.speed+=(target-state.speed)*(1-Math.exp(-dt*response));
   if(target===0&&state.speed<.5)state.speed=0;
 
   let verticalTarget=0;
   if(state.flying){
-    // The first stroke clears the long wingtips smoothly. Once airborne, a held
-    // level posture fixes the height immediately rather than slowly drifting.
-    if(state.launching&&state.altitude<12)verticalTarget=10;
-    else if(band.id==='flap')verticalTarget=10+state.flapPower*5;
-    else if(band.id==='dive')verticalTarget=-(7+clamp((80-angle)/80,0,1)*15);
-    if(state.altitude>=1200)verticalTarget=Math.min(0,verticalTarget);
+    if(handsAboveChest)verticalTarget=COW_WORLD.climbRate;
+    else if(handsBelowChest)verticalTarget=-COW_WORLD.descentRate;
+    if(state.altitude>=COW_WORLD.maxAltitude)verticalTarget=Math.min(0,verticalTarget);
   }
   if(verticalTarget===0)state.verticalSpeed=0;
   else state.verticalSpeed+=(verticalTarget-state.verticalSpeed)*(1-Math.exp(-dt*7));
-  state.altitude=clamp(state.altitude+state.verticalSpeed*dt,0,1200);
-  if(state.launching&&state.altitude>=12){
-    state.launching=false;
-    if(band.id==='glide'||band.id==='brake'){state.altitude=12;state.verticalSpeed=0;}
-  }
+  state.altitude=clamp(state.altitude+state.verticalSpeed*dt,0,COW_WORLD.maxAltitude);
+  if(state.altitude===COW_WORLD.maxAltitude)state.verticalSpeed=Math.min(0,state.verticalSpeed);
+  if(state.launching&&(state.altitude>=COW_WORLD.startAltitude+10||state.time-state.launchStartedAt>=.9))state.launching=false;
   if(state.altitude===0&&state.flying&&state.verticalSpeed<0){
     state.flying=false;state.launching=false;state.landings++;state.verticalSpeed=0;
   }
-  // During the short lift-off, noisy/asymmetric arms must not roll a wing into
-  // the pavement. Normal steering returns once the cow clears takeoff height.
+  // Briefly stabilize roll beside the tower rim, then restore normal steering.
   const bankTarget=state.flying&&!state.launching?clamp(input.bank||0,-1,1)*38:0;
   state.bank+=(bankTarget-state.bank)*(1-Math.exp(-dt*10));
   state.heading=(state.heading+state.bank*.42*dt+360)%360;
   const moved=state.speed*.514444*dt;
   state.distance+=Math.cos(state.heading*radians)*moved;
   state.x+=Math.sin(state.heading*radians)*moved;state.travelled+=moved;
-  const launchPitch=state.launching?clamp(state.altitude/6,0,1):1;
+  const launchPitch=state.launching?clamp((state.time-state.launchStartedAt)/.35,0,1):1;
   const targetPitch=state.flying?clamp(state.verticalSpeed*1.8,-26,19)*launchPitch:0;
   state.pitch+=(targetPitch-state.pitch)*(1-Math.exp(-dt*4));
   return state;

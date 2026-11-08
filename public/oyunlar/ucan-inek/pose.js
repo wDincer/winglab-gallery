@@ -13,6 +13,15 @@ const visible = (point, threshold = 0.45) => point && Number.isFinite(point.x)
   && (point.presence ?? 1) >= threshold;
 const bodyPower = angle => Number.isFinite(angle) ? clamp((angle - 5) / 25, 0, 1) : 0;
 
+// Positive values place a hand above the chest, in torso-length units. The
+// dead zone and hysteresis prevent a hand resting on the line from chattering.
+export function chestHandControl(leftHeight,rightHeight,previous={}) {
+  const tracked=Number.isFinite(leftHeight)&&Number.isFinite(rightHeight);
+  return {handsTracked:tracked,
+    handsAboveChest:tracked&&Math.min(leftHeight,rightHeight)>(previous.handsAboveChest ? .025 : .06),
+    handsBelowChest:tracked&&Math.max(leftHeight,rightHeight)<(previous.handsBelowChest ? -.16 : -.22)};
+}
+
 // Calibrate the pilot's upright stance once; never follow an intentional lean.
 // A stable window accommodates camera tilt without using arm positions as gas.
 export class BodyLeanCalibration {
@@ -41,7 +50,7 @@ export class BodyLeanCalibration {
 /** Shoulder-to-elbow elevation relative to the torso: down 0°, T-pose 90°. */
 export function measurePose(landmarks, width = 1, height = 1, worldLandmarks) {
   if (!landmarks || !(width > 0) || !(height > 0)) return null;
-  const required = [11, 12, 13, 14, 23, 24];
+  const required = [11, 12, 13, 14, 15, 16, 23, 24];
   if (!required.every((index) => visible(landmarks[index]))) return null;
   const point = (index) => ({ x: landmarks[index].x * width, y: landmarks[index].y * height });
   const elevation = (shoulderIndex, elbowIndex, hipIndex) => {
@@ -72,6 +81,15 @@ export function measurePose(landmarks, width = 1, height = 1, worldLandmarks) {
   const shoulderY = (shoulderLeft.y + shoulderRight.y) / 2;
   const hipY = (point(23).y + point(24).y) / 2;
   const shoulderWidth = Math.hypot(shoulderLeft.x - shoulderRight.x, shoulderLeft.y - shoulderRight.y);
+  const hipCenter={x:(point(23).x+point(24).x)/2,y:hipY};
+  const torsoAxis={x:hipCenter.x-centerX,y:hipCenter.y-shoulderY};
+  const torsoLengthSquared=torsoAxis.x**2+torsoAxis.y**2;
+  if(torsoLengthSquared<1e-6)return null;
+  const handHeight=index=>{
+    const wrist=point(index);
+    return .24-((wrist.x-centerX)*torsoAxis.x+(wrist.y-shoulderY)*torsoAxis.y)/torsoLengthSquared;
+  };
+  const leftHandHeight=handHeight(15),rightHandHeight=handHeight(16);
   // Crossed or folded hands count only near the chest, never when raised overhead.
   const wristsFolded = [15, 16].every((index) => {
     if (!visible(landmarks[index])) return false;
@@ -83,6 +101,8 @@ export function measurePose(landmarks, width = 1, height = 1, worldLandmarks) {
   return {
     leftAngle, rightAngle,
     angle: (leftAngle + rightAngle) / 2,
+    leftHandHeight,rightHandHeight,
+    ...chestHandControl(leftHandHeight,rightHandHeight),
     bank,
     bodyPitch, bodyLean:bodyPitch, bodyThrottle:bodyPower(bodyPitch),
     bodyCalibrated:false, bodyCalibrationProgress:0,
@@ -197,7 +217,7 @@ export class PoseController {
       this.lastVideoTime = -1;
       this.lastInference = 0;
       let lastFrameSeen = performance.now();
-      this.setStatus('lost', 'Omuzların, dirseklerin ve kalçan kamerada görünsün.');
+      this.setStatus('lost', 'Omuzların, ellerin ve kalçan kamerada görünsün.');
       const tick = (now) => {
         if (generation !== this.generation || this.disposed) return;
         this.frame = requestAnimationFrame(tick);
@@ -224,7 +244,9 @@ export class PoseController {
                 pose[key] = this.smoothed[key] + (pose[key] - this.smoothed[key]) * alpha;
               }
               if (Number.isFinite(pose.bodyPitch) && Number.isFinite(this.smoothed.bodyPitch)) pose.bodyPitch=this.smoothed.bodyPitch+(pose.bodyPitch-this.smoothed.bodyPitch)*.7;
+              for(const key of ['leftHandHeight','rightHandHeight'])pose[key]=this.smoothed[key]+(pose[key]-this.smoothed[key])*.65;
             }
+            Object.assign(pose,chestHandControl(pose.leftHandHeight,pose.rightHandHeight,this.smoothed??{}));
             Object.assign(pose,this.bodyCalibration.update(pose.bodyPitch,now));
             this.smoothed = pose;
             this.setStatus('tracking', 'Vücut takibi aktif');
@@ -232,7 +254,7 @@ export class PoseController {
           } else {
             this.smoothed = null;
             this.bodyCalibration.update(null,now);
-            this.setStatus('lost', 'Takip için bir adım geri çekil; kolların ve kalçan görünsün.');
+            this.setStatus('lost', 'Takip için bir adım geri çekil; ellerin, kolların ve kalçan görünsün.');
             this.onPose(null);
           }
         } catch (error) {
