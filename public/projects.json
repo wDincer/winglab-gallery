@@ -10,14 +10,14 @@
     "image": "amazon-tukan.png",
     "accent": "#33795e",
     "summary": "Amazon’un üzerinde süzül. Kartalları atlat, doğru çikolatayı topla.",
-    "description": "500 metrelik bir dağ zirvesinden başlayan bu yolculukta kontrol, kanatların yerine geçen kollarında. Her kanat çırpışında 50 metre yüksel. Amazon ormanının farklı yön ve irtifalarına dağılmış 240 çikolatayı toplarken hareketli kartallardan uzak dur.",
+    "description": "500 metrelik bir dağ zirvesinden başlayan bu yolculukta kontrol, kanatların yerine geçen kollarında. Her kanat çırpışında 50 metre yüksel. Amazon ormanının farklı yön ve irtifalarına dağılmış 480 çikolatayı toplarken hareketli kartallardan uzak dur.",
     "vehicle": "Tukan",
     "setting": "Amazon ormanı",
     "objective": "Kartallara çarpmadan uç ve çikolata puanını artır.",
     "features": [
       "500 metrelik zirveden iki çırpışta kalkış",
       "Her kanat çırpışında 50 metre yükseliş",
-      "Farklı yön ve irtifalara dağılmış 240 çikolata",
+      "Farklı yön ve irtifalara dağılmış 480 çikolata",
       "Hareketli kartal engelleri"
     ],
     "keys": [

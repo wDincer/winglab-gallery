@@ -1,5 +1,5 @@
-import {createAmazonScene} from './amazon-scene.js?v=flap-rise-50';
-import {createRun,stepRun,RULES} from './amazon-game.js?v=flap-rise-50';
+import {createAmazonScene} from './amazon-scene.js?v=chocolates-480-v1';
+import {createRun,stepRun,RULES} from './amazon-game.js?v=chocolates-480-v1';
 import {PoseController} from './pose.js';
 import {stepEagle,eagleBand} from './eagle.js?v=flap-rise-50';
 import {CollectionAudio} from './collection-audio.js';

@@ -168,9 +168,9 @@ test('rapid strokes queue the full climb, obey the ceiling, and freeze while pau
 test('chocolates cover the width, height and length of the course above the forest', () => {
   const chocolates = createChocolates();
   assert.deepEqual(chocolates, createChocolates(), 'a restart keeps the same scattered course');
-  assert.equal(chocolates.length, 240);
-  assert.equal(chocolates.filter(c => c.type === 'positive').length, 180);
-  assert.equal(chocolates.filter(c => c.type === 'negative').length, 60);
+  assert.equal(chocolates.length, 480);
+  assert.equal(chocolates.filter(c => c.type === 'positive').length, 360);
+  assert.equal(chocolates.filter(c => c.type === 'negative').length, 120);
   assert.equal(new Set(chocolates.map(c => c.z)).size, chocolates.length, 'no paired rows');
   for (const c of chocolates) {
     assert.ok(Math.abs(c.x) <= RULES.collectibleHalfWidth);
@@ -186,16 +186,19 @@ test('chocolates cover the width, height and length of the course above the fore
   }
 });
 
-test('scattered chocolates collect along swept flight paths and cannot score twice', () => {
-  for (const type of ['positive', 'negative']) {
+test('enlarged chocolate pickup areas collect close swept passes, reject misses and never score twice', () => {
+  for (const type of ['positive', 'negative']) for (const offset of [0, 25, 30, 30.001]) {
     const run = createRun();
     const c = run.chocolates.find(c => c.type === type && Math.abs(c.x) > 300 && c.y > 850);
     assert.ok(c);
     run.chocolates = [c];
-    Object.assign(run.state, { flying: true, altitude: c.y - 2.15, x: c.x, distance: -c.z + 25 });
-    const previous = { ...run.state, distance: -c.z - 25 };
-    assert.equal(collectChocolates(run, previous).length, 1);
-    assert.equal(run.score, c.points);
+    Object.assign(run.state, { flying: true, altitude: c.y - 2.15, x: c.x + offset, distance: -c.z + 50 });
+    const previous = { ...run.state, distance: -c.z - 50 };
+    const expected = offset <= 30 ? 1 : 0;
+    assert.equal(collectChocolates(run, previous).length, expected, `${type} at ${offset} m from the flight path`);
+    assert.equal(c.collected, Boolean(expected));
+    assert.equal(run.score, expected ? c.points : 0);
+    assert.equal(run[type], expected);
     assert.equal(collectChocolates(run, previous).length, 0);
   }
 });

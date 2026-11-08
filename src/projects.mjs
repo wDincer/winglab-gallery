@@ -2,9 +2,9 @@ export const projects = [
   {
     slug: 'amazon-tukan', title: 'Amazon Tukan', team: 'WINGLAB', date: '2026-10-31', time: '09:34', mode: 'eagle', genre: 'Keşif', image: 'amazon-tukan.png', accent: '#33795e',
     summary: 'Amazon’un üzerinde süzül. Kartalları atlat, doğru çikolatayı topla.',
-    description: '500 metrelik bir dağ zirvesinden başlayan bu yolculukta kontrol, kanatların yerine geçen kollarında. Her kanat çırpışında 50 metre yüksel. Amazon ormanının farklı yön ve irtifalarına dağılmış 240 çikolatayı toplarken hareketli kartallardan uzak dur.',
+    description: '500 metrelik bir dağ zirvesinden başlayan bu yolculukta kontrol, kanatların yerine geçen kollarında. Her kanat çırpışında 50 metre yüksel. Amazon ormanının farklı yön ve irtifalarına dağılmış 480 çikolatayı toplarken hareketli kartallardan uzak dur.',
     vehicle: 'Tukan', setting: 'Amazon ormanı', objective: 'Kartallara çarpmadan uç ve çikolata puanını artır.',
-    features: ['500 metrelik zirveden iki çırpışta kalkış', 'Her kanat çırpışında 50 metre yükseliş', 'Farklı yön ve irtifalara dağılmış 240 çikolata', 'Hareketli kartal engelleri'],
+    features: ['500 metrelik zirveden iki çırpışta kalkış', 'Her kanat çırpışında 50 metre yükseliş', 'Farklı yön ve irtifalara dağılmış 480 çikolata', 'Hareketli kartal engelleri'],
     keys: [['B', 'Kanat çırp'], ['← →', 'Yön değiştir'], ['↑ ↓', 'Kanat açısını ayarla'], ['R', 'Yeniden başlat']],
     gesture: 'Kollarını omuz hizasına açıp iki kez birlikte aşağı çırparak kalkış yap. Bu iki çırpış toplam 100 metre yükseltir; havada her yeni çırpış 50 metre daha ekler. Bir kolunu indirerek o yöne dön.'
   },

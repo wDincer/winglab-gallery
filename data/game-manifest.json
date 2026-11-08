@@ -4,13 +4,13 @@
     "files": [
       {
         "path": "amazon-game.js",
-        "size": 6527,
-        "sha256": "58129dd4fbcdecb1f15a1c0256c0796eec985748a7149f00aa700b2774e505d7"
+        "size": 6512,
+        "sha256": "34b85fa3fcc1898a7adee2656712c00156656648f93e97670fce056a29422bad"
       },
       {
         "path": "amazon-scene.js",
-        "size": 8238,
-        "sha256": "1c7f015fe8ecf0702286dd80353889751da33500225d2f7affbe3309cb0eaf1b"
+        "size": 8243,
+        "sha256": "766c448a8e1f6d3bbfa0635771b1fa72bb12f7c9e8d66dbb6f6a12169c3d9cd9"
       },
       {
         "path": "amazon-world.js",
@@ -24,8 +24,8 @@
       },
       {
         "path": "app.js",
-        "size": 10397,
-        "sha256": "abc4e30d0a740e95a6b1a26525a2e1073ed9ee7e89dab06f37f601a1d84a1ff3"
+        "size": 10407,
+        "sha256": "8e35581256a724ee5821f69a24d8e8d812881cce25b1e773db823dbd1d527a45"
       },
       {
         "path": "assets/favicon.svg",
@@ -69,8 +69,8 @@
       },
       {
         "path": "course-design.js",
-        "size": 750,
-        "sha256": "1e95a97cae1c5a95e8fea2f954d848300fb23798e79b5fef2d623160df975f7b"
+        "size": 778,
+        "sha256": "1ec24feda30e0491c7ce51fa1f09d4a1d0f8ec426492e364b2c792c68757c830"
       },
       {
         "path": "course.js",
@@ -114,8 +114,8 @@
       },
       {
         "path": "index.html",
-        "size": 7305,
-        "sha256": "2c562271895cb10f293c2e9d1541558cf4e4fc23399809abc21eaa81da3426c7"
+        "size": 7354,
+        "sha256": "1a121962907bb99ccf9753e5d37694f9854116247a46fb553b1443145cc3340d"
       },
       {
         "path": "pose.js",
