@@ -411,7 +411,7 @@
     "image": "duckrooms.png",
     "accent": "#9c8d48",
     "summary": "Bir kez havalan. Sarı odalardaki okları izle ve uzak çıkışa ulaş.",
-    "description": "İlk çırpıştan sonra havada kalan küçük ördekle Backrooms odalarında uç. Kolay dönüşler ve geniş geçitlerle ilerle; çıkmaz odası olmayan labirentte duvarlardaki ÇIKIŞ oklarını takip et. Başlangıçtan 576 metrelik yolun arkasındaki yeşil çıkışa ulaşınca kazanırsın. Canavar ilk bölümden sonra görünür; duvara çarpmak uçuşu bitirmez.",
+    "description": "İlk çırpıştan sonra havada kalan küçük ördekle Backrooms odalarında uç. Kolay dönüşler ve geniş geçitlerle ilerle; çıkmaz odası olmayan labirentte duvarlardaki ÇIKIŞ oklarını takip et. Başlangıçtan 576 metrelik yolun arkasındaki yeşil çıkışa ulaşınca kazanırsın. Canavar ilk bölümden sonra görünür; her kurtuluşta %10 hızlanır, her iki kurtuluşta sayıları bir artar. Her 10 odadan birindeki kutudan 15 saniyelik rastgele güç al. Canavar varken kutular ona karşı koruma sağlar; duvara çarpmak uçuşu bitirmez.",
     "vehicle": "Sarı ördek",
     "setting": "Uzak çıkışlı Backrooms labirenti",
     "objective": "Okları takip ederek yeşil çıkışa ulaş; canavardan uzak dur.",
@@ -421,7 +421,10 @@
       "Her odada en az iki çıkış",
       "Gerçek geçitlere yönlendiren duvar okları",
       "576 metrelik yolun sonunda kazanma çıkışı",
-      "Gecikmeli canavar ve ölümcül olmayan duvar teması"
+      "Her kurtuluşta %10 hızlı, her iki kurtuluşta bir fazla canavar",
+      "Doğuşlarda %60 ön taraf olasılığı",
+      "Her 10 odada bir, 15 saniyelik rastgele güç kutusu",
+      "Canavara karşı dondurma, yavaşlatma ve kalkan"
     ],
     "keys": [
       [

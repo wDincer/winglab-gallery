@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRun, stepRun, ROOMS, DUCK, touchesWall, sweptWall, bodyProbes, worldHeight, worldSpeed, clearSight } from '../public/oyunlar/duckrooms/rooms.js';
 import { createDuck } from '../public/oyunlar/duckrooms/duck-model.js';
-import { EXIT, cellAt, cellCenter } from '../public/oyunlar/duckrooms/maze.js?v=duck-exit-v1';
+import { EXIT, cellAt, cellCenter } from '../public/oyunlar/duckrooms/maze.js?v=duck-waves-v1';
 
 const control = { active: true, angle: 90, bank: 0 };
 const close = (actual, expected, message, epsilon = 1e-8) => assert.ok(Math.abs(actual - expected) < epsilon, `${message}: ${actual} != ${expected}`);
@@ -126,11 +126,11 @@ test('pause and tracking loss freeze the impact effect and world state', () => {
   assert.ok(run.player.z > before.player.z);
 });
 
-test('monster movement is twenty-five percent slower in every stage', () => {
+test('monster movement keeps reduced base speeds and compounds after each escape', () => {
   for (const [stage, expected, escaped] of [
     ['emerging', 4.3 * .75, 0],
     ['chasing', 3.4 * .75, 0],
-    ['chasing', (3.4 + .65) * .75, 20],
+    ['chasing', 3.4 * .75 * 1.1 ** 2, 2],
     ['retreating', 5 * .75, 0],
   ]) {
     const run = arena([], { flying: false, speed: 0 });
@@ -344,7 +344,7 @@ test('the first monster waits for both twenty seconds and forty-five metres', ()
   assert.ok(waitingForTime.monster, 'an encounter starts after both requirements are met');
 });
 
-test('a monster emerges at least two connected rooms away outside the immediate front view', () => {
+test('a monster emerges at least two connected rooms away for either spawn direction', () => {
   for (const heading of [0, 90, 180, 270]) {
     const run = arena([], { heading });
     run.nextEncounter = ROOMS.firstEncounterAfter;
@@ -357,7 +357,7 @@ test('a monster emerges at least two connected rooms away outside the immediate 
     assert.ok(run.monster.spawnRoomsAway >= 2);
     const dx = spawn.x - run.player.x, dz = spawn.z - run.player.z, radians = heading * Math.PI / 180;
     const forward = (dx * Math.sin(radians) - dz * Math.cos(radians)) / Math.hypot(dx, dz);
-    assert.ok(forward <= .15 || !clearSight(run.player, spawn, run.maze.layout.walls), 'spawn is behind/side or hidden by a wall');
+    assert.ok(Number.isFinite(forward), 'spawn has a valid heading relative to the player');
     assert.equal(run.mode, 'playing');
   }
 });

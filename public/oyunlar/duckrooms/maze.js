@@ -1,4 +1,4 @@
-import {COURSE_DESIGN} from './course-design.js?v=duck-exit-v1';
+import {COURSE_DESIGN} from './course-design.js?v=duck-waves-v1';
 
 export const MAZE=Object.freeze(COURSE_DESIGN.backrooms);
 export const DIRECTIONS=Object.freeze([

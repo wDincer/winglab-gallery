@@ -1,5 +1,5 @@
 import {clamp,createFlightState} from './flight.js';
-import {COURSE_DESIGN} from './course-design.js?v=duck-exit-v1';
+import {COURSE_DESIGN} from './course-design.js?v=duck-waves-v1';
 
 // Keep gesture history outside flight telemetry. Pausing can discard incomplete
 // gestures while leaving the visible flight state completely frozen.

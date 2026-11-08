@@ -1,5 +1,5 @@
 import * as THREE from './vendor/three.module.js';
-import {wingAngle,DUCK} from './rooms.js?v=duck-exit-v1';
+import {wingAngle,DUCK} from './rooms.js?v=duck-waves-v1';
 
 export function createDuck(){
   const root=new THREE.Group();

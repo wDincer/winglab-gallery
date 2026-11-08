@@ -1,6 +1,6 @@
 import * as THREE from './vendor/three.module.js';
-import {ROOMS,DUCK,clearSight} from './rooms.js?v=duck-exit-v1';
-import {createDuck} from './duck-model.js?v=duck-exit-v1';
+import {ROOMS,DUCK,clearSight} from './rooms.js?v=duck-waves-v1';
+import {createDuck} from './duck-model.js?v=duck-waves-v1';
 
 function seeded(seed=78){return()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};}
 function surfaceTexture(kind){
@@ -37,6 +37,16 @@ function exitSignTexture(arrow='forward'){
     ctx.beginPath();ctx.moveTo(0,-65);ctx.lineTo(-58,-3);ctx.lineTo(-21,-3);
     ctx.lineTo(-21,63);ctx.lineTo(21,63);ctx.lineTo(21,-3);ctx.lineTo(58,-3);ctx.closePath();ctx.fill();ctx.restore();
   }
+  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=4;return texture;
+}
+
+function powerBoxTexture(){
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=256;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#efd270';ctx.fillRect(0,0,256,256);
+  ctx.fillStyle='#154e54';ctx.fillRect(17,17,222,222);
+  ctx.strokeStyle='#61e4d4';ctx.lineWidth=5;ctx.strokeRect(26,26,204,204);
+  ctx.fillStyle='#fff2b5';ctx.font='bold 184px Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('?',128,141);
   const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=4;return texture;
 }
 
@@ -88,8 +98,23 @@ export class RoomScene{
     const shadowMap=new THREE.CanvasTexture(shadowCanvas);
     this.shadow=new THREE.Mesh(new THREE.PlaneGeometry(1.5*DUCK.scale,1.4*DUCK.scale),new THREE.MeshBasicMaterial({map:shadowMap,transparent:true,depthWrite:false}));this.shadow.rotation.x=-Math.PI/2;this.shadow.position.y=.012;this.scene.add(this.shadow);
     const monsterMap=new THREE.TextureLoader().load('./assets/monster.webp');monsterMap.colorSpace=THREE.SRGBColorSpace;
-    this.monster=new THREE.Sprite(new THREE.SpriteMaterial({map:monsterMap,transparent:true,alphaTest:.1,color:0xb8b29a}));this.monster.scale.set(2.05,2.7,1);this.monster.visible=false;this.scene.add(this.monster);
-    this.monsterShadow=new THREE.Mesh(new THREE.PlaneGeometry(2.3,1.7),new THREE.MeshBasicMaterial({map:shadowMap,transparent:true,depthWrite:false}));this.monsterShadow.rotation.x=-Math.PI/2;this.monsterShadow.visible=false;this.monsterShadow.position.y=.014;this.scene.add(this.monsterShadow);
+    // Actor pools share textures, geometry and materials across the whole run.
+    this.monsterMaterial=new THREE.SpriteMaterial({map:monsterMap,transparent:true,alphaTest:.1,color:0xb8b29a});
+    this.monsterShadowGeometry=new THREE.PlaneGeometry(2.3,1.7);
+    this.monsterShadowMaterial=new THREE.MeshBasicMaterial({map:shadowMap,transparent:true,depthWrite:false});
+    this.monsterPool=[];this.boxPool=[];
+    this.boxMaterials={
+      body:new THREE.MeshStandardMaterial({map:powerBoxTexture(),roughness:.34,metalness:.15,emissive:0x89c4a4,emissiveIntensity:.32}),
+      ribbon:new THREE.MeshStandardMaterial({color:0xf3d775,roughness:.26,metalness:.45,emissive:0xd6a837,emissiveIntensity:.35}),
+      halo:new THREE.MeshBasicMaterial({color:0x78ead5,transparent:true,opacity:.5,depthWrite:false,side:THREE.DoubleSide,toneMapped:false})
+    };
+    this.boxHaloGeometry=new THREE.RingGeometry(.44,.48,36);
+    this.powerEffect=new THREE.Group();this.scene.add(this.powerEffect);
+    this.powerHaloMaterial=new THREE.MeshBasicMaterial({color:0x8df5db,transparent:true,opacity:.6,depthWrite:false,side:THREE.DoubleSide,toneMapped:false});
+    this.powerRing=new THREE.Mesh(new THREE.RingGeometry(.59,.63,48),this.powerHaloMaterial);this.powerRing.rotation.x=-Math.PI/2;this.powerEffect.add(this.powerRing);
+    this.powerShieldMaterial=new THREE.MeshBasicMaterial({color:0x8df5db,transparent:true,opacity:.11,depthWrite:false,toneMapped:false});
+    this.powerShield=new THREE.Mesh(new THREE.SphereGeometry(.62,24,16),this.powerShieldMaterial);this.powerEffect.add(this.powerShield);
+    this.powerEffect.visible=false;
     this.lookTarget=new THREE.Vector3();this.followPosition=new THREE.Vector3();this.started=false;
     this.resize();this.onResize=()=>this.resize();addEventListener('resize',this.onResize);
   }
@@ -216,6 +241,57 @@ export class RoomScene{
       this.exitInLayout=cell.x>=layout.minX&&cell.x<=layout.maxX&&cell.z>=layout.minZ&&cell.z<=layout.maxZ;
     }
   }
+  monsterVisual(index){
+    if(this.monsterPool[index])return this.monsterPool[index];
+    const sprite=new THREE.Sprite(this.monsterMaterial);sprite.scale.set(2.05,2.7,1);
+    const shadow=new THREE.Mesh(this.monsterShadowGeometry,this.monsterShadowMaterial);shadow.rotation.x=-Math.PI/2;
+    this.scene.add(sprite,shadow);const pair={sprite,shadow};this.monsterPool.push(pair);return pair;
+  }
+  boxVisual(index){
+    if(this.boxPool[index])return this.boxPool[index];
+    const root=new THREE.Group(),body=new THREE.Group();root.add(body);
+    const box=new THREE.Mesh(this.cube,this.boxMaterials.body);box.scale.setScalar(.68);body.add(box);
+    for(const axis of['x','z']){
+      const band=new THREE.Mesh(this.cube,this.boxMaterials.ribbon);band.scale.set(axis==='x'?.73:.09,.025,axis==='z'?.73:.09);band.position.y=.355;body.add(band);
+    }
+    const halo=new THREE.Mesh(this.boxHaloGeometry,this.boxMaterials.halo);halo.rotation.x=-Math.PI/2;halo.position.y=-.39;root.add(halo);
+    this.scene.add(root);const visual={root,body,halo};this.boxPool.push(visual);return visual;
+  }
+  updateActors(state,intro){
+    const monsters=state.monsters??(state.monster?[state.monster]:[]),boxes=state.boxes??[];
+    const time=state.elapsed??0,ox=this.origin.x,oz=this.origin.z;
+    const power=state.power?.remaining>0?state.power.type:null;
+    this.monsterMaterial.color.set(power==='freeze'?0x8ce5fa:power==='slow'?0xc6a1ed:0xb8b29a);
+    for(let i=0;i<monsters.length;i++){
+      const monster=monsters[i],visual=this.monsterVisual(i),animation=power==='freeze'?0:time;
+      const jitter=monster.stage==='chasing'?Math.sin(animation*34+i)*.022:0;
+      visual.sprite.visible=visual.shadow.visible=!intro;
+      visual.sprite.position.set(monster.x-ox+jitter,1.36+Math.sin(animation*10+i)*.035,monster.z-oz);
+      visual.sprite.scale.x=2.05+Math.sin(animation*9+i)*.045;
+      visual.shadow.position.set(monster.x-ox,.015,monster.z-oz);
+    }
+    for(let i=monsters.length;i<this.monsterPool.length;i++)this.monsterPool[i].sprite.visible=this.monsterPool[i].shadow.visible=false;
+    // Keep two spare actors for wave transitions, releasing scene references
+    // after a reset instead of retaining the largest wave forever.
+    while(this.monsterPool.length>monsters.length+2){const visual=this.monsterPool.pop();this.scene.remove(visual.sprite,visual.shadow);}
+    for(let i=0;i<boxes.length;i++){
+      const box=boxes[i],visual=this.boxVisual(i),phase=time*1.3+i*.7;
+      visual.root.visible=!intro;visual.root.userData.boxId=box.id;
+      visual.root.position.set(box.x-ox,box.y+Math.sin(phase)*.05,box.z-oz);
+      visual.body.rotation.y=time*.65+i*.8;visual.body.rotation.z=Math.sin(phase*.8)*.045;
+      visual.halo.scale.setScalar(1+Math.sin(phase*1.5)*.08);
+    }
+    for(let i=boxes.length;i<this.boxPool.length;i++)this.boxPool[i].root.visible=false;
+    while(this.boxPool.length>boxes.length+2)this.scene.remove(this.boxPool.pop().root);
+    this.powerEffect.visible=!intro&&Boolean(power);
+    if(this.powerEffect.visible){
+      const color=power==='boost'?0xffd777:power==='slow'?0xc8acff:power==='freeze'?0x8de7ff:0x8df5db;
+      this.powerHaloMaterial.color.set(color);this.powerShieldMaterial.color.set(color);
+      this.powerEffect.position.set(state.player.x-ox,state.player.y+.03,state.player.z-oz);
+      this.powerRing.rotation.z=time*.6;this.powerRing.scale.setScalar(1+Math.sin(time*3)*.035);
+      this.powerShield.visible=power==='shield';
+    }
+  }
   resize(){
     const{clientWidth:width,clientHeight:height}=this.renderer.domElement;
     this.renderer.setSize(width,height,false);this.camera.aspect=width/Math.max(1,height);this.camera.updateProjectionMatrix();
@@ -265,8 +341,7 @@ export class RoomScene{
     const px=intro?0:p.x,pz=intro?0:p.z;
     const anchorX=Math.round(px/ROOMS.cellSize)*ROOMS.cellSize,anchorZ=Math.round(pz/ROOMS.cellSize)*ROOMS.cellSize;
     this.localLights.forEach((light,i)=>{light.position.set(anchorX-ox+(i%2?4.3:-4.3),ROOMS.ceiling-.2,anchorZ-oz+(i<2?-4.3:4.3));light.intensity=22*(1+Math.sin(time*11.7+i*5)*.025);});
-    const m=state.monster;this.monster.visible=Boolean(m)&&!intro;this.monsterShadow.visible=this.monster.visible;
-    if(m){const jitter=m.stage==='chasing'?Math.sin(time*34)*.022:0;this.monster.position.set(m.x-ox+jitter,1.36+Math.sin(time*10)*.035,m.z-oz);this.monster.scale.x=2.05+Math.sin(time*9)*.045;this.monsterShadow.position.set(m.x-ox,.015,m.z-oz);}
+    this.updateActors(state,intro);
     this.renderer.render(this.scene,this.camera);
   }
 }

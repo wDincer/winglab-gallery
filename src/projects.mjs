@@ -92,9 +92,9 @@ export const projects = [
   {
     slug: 'duckrooms', title: 'Duckrooms', team: 'Youngmaster', date: '2026-11-01', time: '11:50', mode: 'eagle', genre: 'Kaçış', image: 'duckrooms.png', accent: '#9c8d48',
     summary: 'Bir kez havalan. Sarı odalardaki okları izle ve uzak çıkışa ulaş.',
-    description: 'İlk çırpıştan sonra havada kalan küçük ördekle Backrooms odalarında uç. Kolay dönüşler ve geniş geçitlerle ilerle; çıkmaz odası olmayan labirentte duvarlardaki ÇIKIŞ oklarını takip et. Başlangıçtan 576 metrelik yolun arkasındaki yeşil çıkışa ulaşınca kazanırsın. Canavar ilk bölümden sonra görünür; duvara çarpmak uçuşu bitirmez.',
+    description: 'İlk çırpıştan sonra havada kalan küçük ördekle Backrooms odalarında uç. Kolay dönüşler ve geniş geçitlerle ilerle; çıkmaz odası olmayan labirentte duvarlardaki ÇIKIŞ oklarını takip et. Başlangıçtan 576 metrelik yolun arkasındaki yeşil çıkışa ulaşınca kazanırsın. Canavar ilk bölümden sonra görünür; her kurtuluşta %10 hızlanır, her iki kurtuluşta sayıları bir artar. Her 10 odadan birindeki kutudan 15 saniyelik rastgele güç al. Canavar varken kutular ona karşı koruma sağlar; duvara çarpmak uçuşu bitirmez.',
     vehicle: 'Sarı ördek', setting: 'Uzak çıkışlı Backrooms labirenti', objective: 'Okları takip ederek yeşil çıkışa ulaş; canavardan uzak dur.',
-    features: ['Tek kalkıştan sonra sürekli havada kalma', 'Kolay dönüşler ve geniş geçitler', 'Her odada en az iki çıkış', 'Gerçek geçitlere yönlendiren duvar okları', '576 metrelik yolun sonunda kazanma çıkışı', 'Gecikmeli canavar ve ölümcül olmayan duvar teması'],
+    features: ['Tek kalkıştan sonra sürekli havada kalma', 'Kolay dönüşler ve geniş geçitler', 'Her odada en az iki çıkış', 'Gerçek geçitlere yönlendiren duvar okları', '576 metrelik yolun sonunda kazanma çıkışı', 'Her kurtuluşta %10 hızlı, her iki kurtuluşta bir fazla canavar', 'Doğuşlarda %60 ön taraf olasılığı', 'Her 10 odada bir, 15 saniyelik rastgele güç kutusu', 'Canavara karşı dondurma, yavaşlatma ve kalkan'],
     keys: [['B / Boşluk', 'Kalkış / hızlan'], ['← →', 'Kolay yön değiştir'], ['↑ ↓', 'Yavaşla / alçal'], ['Esc', 'Duraklat / devam et']],
     gesture: 'İki kolunu kaldırıp bir kez birlikte çırparak kalk. Sonrasında yere inmezsin. Dönmek istediğin kolunu indir; kollarını eşitleyince o yönde düz devam et. Duvarlardaki çıkış oklarını izle.'
   },

@@ -1,7 +1,8 @@
-import {COURSE_DESIGN} from './course-design.js?v=duck-exit-v1';
+import {COURSE_DESIGN} from './course-design.js?v=duck-waves-v1';
 import {clamp} from './flight.js';
-import {createEagleState,stepEagle} from './eagle.js?v=duck-exit-v1';
-import {InfiniteMaze,cellAt,cellCenter,EXIT} from './maze.js?v=duck-exit-v1';
+import {createEagleState,stepEagle} from './eagle.js?v=duck-waves-v1';
+import {InfiniteMaze,cellAt,cellCenter,EXIT} from './maze.js?v=duck-waves-v1';
+import {createPowerState,syncPowerBoxes,stepPowers,monsterPowerFactor,hasMonsterShield,playerPowerFactor} from './powers.js?v=duck-waves-v1';
 
 export const ROOMS=Object.freeze(COURSE_DESIGN.backrooms);
 const scale=ROOMS.duckScale;
@@ -97,53 +98,76 @@ export function clearSight(a,b,walls){
   }
   return true;
 }
-export function seesMonster(state){
-  const monster=state.monster;if(!monster)return false;
+function enemies(state){return state.monsters??(state.monster?[state.monster]:[]);}
+function rangeToMonster(state,monster){
+  const dy=Math.max(0,state.player.y-2.7,.1-state.player.y);
+  return Math.hypot(state.player.x-monster.x,state.player.z-monster.z,dy);
+}
+function nearestMonster(state){
+  const all=enemies(state),active=all.filter(monster=>monster.stage!=='retreating'),pool=active.length?active:all;
+  return pool.reduce((nearest,monster)=>!nearest||rangeToMonster(state,monster)<rangeToMonster(state,nearest)?monster:nearest,null);
+}
+export function seesMonster(state,monster=null){
+  if(!monster)return enemies(state).some(enemy=>enemy.stage!=='retreating'&&seesMonster(state,enemy));
   const dx=monster.x-state.player.x,dz=monster.z-state.player.z,range=Math.hypot(dx,dz);
   const heading=state.flight.heading*Math.PI/180;
   const dot=(dx*Math.sin(heading)-dz*Math.cos(heading))/Math.max(.01,range);
   return range<38&&dot>.1&&clearSight(state.player,monster,state.maze.layout.walls);
 }
 export function monsterDistance(state){
-  if(!state.monster)return Infinity;
-  const m=state.monster,dy=Math.max(0,state.player.y-2.7,.1-state.player.y);
-  return Math.hypot(state.player.x-m.x,state.player.z-m.z,dy);
+  const monster=nearestMonster(state);return monster?rangeToMonster(state,monster):Infinity;
 }
-export function createRun(){
+export const waveSize=escaped=>1+Math.floor(Math.max(0,escaped)/(ROOMS.escapesPerAdditionalMonster??2));
+export const monsterMultiplier=escaped=>(ROOMS.monsterSpeedGrowth??1.1)**Math.max(0,escaped);
+export function createRun({random=Math.random}={}){
   const maze=new InfiniteMaze(),player={x:0,y:ROOMS.floorCenter,z:0};maze.update(player);
   const flight=createEagleState(),firstStep=maze.layout.pathToExit?.[1],start=cellAt(player);
   if(firstStep)flight.heading=(Math.atan2(firstStep.x-start.x,start.z-firstStep.z)*180/Math.PI+360)%360;
   const exitDistance=maze.layout.remainingDistance??Math.hypot(EXIT.x-player.x,EXIT.z-player.z);
-  return {flight,player,maze,elapsed:0,travelled:0,room:start,roomsEntered:1,
-    mode:'playing',monster:null,encounter:0,escaped:0,chaseRemaining:0,sightingRemaining:0,
+  const state={flight,player,maze,elapsed:0,travelled:0,room:start,roomsEntered:1,
+    mode:'playing',monsters:[],encounter:0,escaped:0,chaseRemaining:0,sightingRemaining:0,
     nextEncounter:ROOMS.firstEncounterAfter,safeUntil:0,events:[],reason:null,closest:Infinity,impact:null,wallHits:0,
-    exit:EXIT,initialExitDistance:exitDistance,remainingDistance:exitDistance,hasTakenOff:false,airborneLocked:false};
+    exit:EXIT,initialExitDistance:exitDistance,remainingDistance:exitDistance,hasTakenOff:false,airborneLocked:false,
+    random,...createPowerState()};
+  // Preserve consumers of the former single pursuer API. Assigning a legacy
+  // test fixture replaces the wave; reads return the nearest active threat.
+  Object.defineProperty(state,'monster',{enumerable:true,get(){return nearestMonster(this);},set(value){this.monsters=value?[value]:[];}});
+  syncPowerBoxes(state);return state;
 }
-function spawnMonster(state){
-  const cell=cellAt(state.player),minimum=Math.max(2,ROOMS.monsterSpawnMinRooms??2);
-  const heading=state.flight.heading*Math.PI/180;
-  const queue=[{...cell,depth:0}],visited=new Set([`${cell.x},${cell.z}`]),candidates=[];
-  // Search by doorway distance: a geometrically nearby room can still be many
-  // rooms away, and a pursuer must never materialise in the next doorway.
-  for(let cursor=0;cursor<queue.length&&cursor<160;cursor++){
+function spawnMonsters(state){
+  const count=waveSize(state.escaped),cell=cellAt(state.player),minimum=Math.max(2,ROOMS.monsterSpawnMinRooms??2);
+  const heading=state.flight.heading*Math.PI/180,maxDepth=minimum+Math.ceil(Math.sqrt(count))+3;
+  const queue=[{...cell,depth:0}],visited=new Set([cell.x+','+cell.z]),candidates=[];
+  // Graph distance keeps every spawn at least two real doorways away. The
+  // search expands with wave size instead of silently capping enemy count.
+  for(let cursor=0;cursor<queue.length&&cursor<Math.max(160,count*24);cursor++){
     const current=queue[cursor];
     if(current.depth>=minimum){
       const point=cellCenter(current),dx=point.x-state.player.x,dz=point.z-state.player.z;
       const forward=(dx*Math.sin(heading)-dz*Math.cos(heading))/Math.max(.01,Math.hypot(dx,dz));
-      const visible=clearSight(state.player,point,state.maze.layout.walls);
-      if(forward<=.15||!visible)candidates.push({...current,forward,visible});
+      candidates.push({...current,forward});
     }
-    if(current.depth>=minimum+3)continue;
+    if(current.depth>=maxDepth)continue;
     for(const next of state.maze.neighbors(current)){
-      const id=`${next.x},${next.z}`;if(visited.has(id))continue;
+      const id=next.x+','+next.z;if(visited.has(id))continue;
       visited.add(id);queue.push({...next,depth:current.depth+1});
     }
   }
   if(!candidates.length)return;
-  candidates.sort((a,b)=>Number(a.forward>.15)-Number(b.forward>.15)||a.depth-b.depth||a.forward-b.forward);
-  const choice=candidates[0],spawn={x:choice.x,z:choice.z};
-  const p=cellCenter(spawn);
-  state.monster={...p,stage:'emerging',seen:false,age:0,path:[],repath:0,spawnCell:spawn,spawnRoomsAway:choice.depth};
+  const draw=()=>clamp(Number(state.random?.())||0,0,.9999999999999999),used=new Set();
+  for(let index=0;index<count;index++){
+    const requestedAhead=draw()<(ROOMS.monsterFrontChance??.6);
+    let available=candidates.filter(candidate=>!used.has(candidate.x+','+candidate.z));
+    // Extremely large waves may share a room, but never exceed the requested
+    // population or spawn inside a wall. Ordinary waves use distinct rooms.
+    if(!available.length)available=candidates;
+    const preferred=available.filter(candidate=>(candidate.forward>.15)===requestedAhead);
+    const pool=preferred.length?preferred:available,minDepth=Math.min(...pool.map(candidate=>candidate.depth));
+    const near=pool.filter(candidate=>candidate.depth<=minDepth+1),choice=near[Math.floor(draw()*near.length)];
+    const spawn={x:choice.x,z:choice.z};used.add(spawn.x+','+spawn.z);
+    state.monsters.push({...cellCenter(spawn),id:state.encounter+'-'+index,stage:'emerging',seen:false,age:0,path:[],repath:0,
+      spawnCell:spawn,spawnRoomsAway:choice.depth,spawnAhead:choice.forward>.15,requestedAhead,speedMultiplier:monsterMultiplier(state.escaped)});
+  }
   state.encounter++;state.events.push('emerge');
 }
 function reachesExit(previous,player,exit){
@@ -151,8 +175,8 @@ function reachesExit(previous,player,exit){
   const t=lengthSquared?clamp(((exit.x-previous.x)*dx+(exit.z-previous.z)*dz)/lengthSquared,0,1):0;
   return Math.hypot(previous.x+dx*t-exit.x,previous.z+dz*t-exit.z)<=exit.radius;
 }
-function navigateMonster(state,target,speed,dt){
-  const monster=state.monster,walls=state.maze.layout.walls;
+function navigateMonster(state,monster,target,speed,dt){
+  const walls=state.maze.layout.walls;
   monster.repath-=dt;
   if(clearSight(monster,target,walls))monster.path=[{x:target.x,z:target.z}];
   else if(monster.repath<=0||!monster.path.length){
@@ -172,10 +196,12 @@ function navigateMonster(state,target,speed,dt){
   }
 }
 function beginChase(state){
-  state.monster.stage='chasing';state.chaseRemaining=ROOMS.chaseSeconds;state.events.push('chase-start');
+  for(const monster of state.monsters)if(monster.stage!=='retreating')monster.stage='chasing';
+  state.chaseRemaining=ROOMS.chaseSeconds;state.events.push('chase-start');
 }
-function sighting(state){
-  state.monster.seen=true;state.sightingRemaining=ROOMS.sightingSeconds;state.events.push('sighting');
+function sighting(state,monster){
+  monster.seen=true;state.sightingRemaining=ROOMS.sightingSeconds;
+  if(!state.events.includes('sighting'))state.events.push('sighting');
 }
 export function stepRun(state,input,dt){
   state.events=[];
@@ -188,7 +214,7 @@ export function stepRun(state,input,dt){
   // In particular, the duck stops yawing as soon as the player straightens up.
   const turn=state.flight.flying?clamp(Number(input.bank)||0,-1,1)*38*.42*ROOMS.turnGain*dt:0;
   state.flight.heading=(beforeHeading+turn+360)%360;
-  const midHeading=(beforeHeading+turn*.5)*Math.PI/180,moved=worldSpeed(state.flight)*dt;
+  const midHeading=(beforeHeading+turn*.5)*Math.PI/180,moved=worldSpeed(state.flight)*playerPowerFactor(state)*dt;
   state.player.x+=Math.sin(midHeading)*moved;state.player.z-=Math.cos(midHeading)*moved;
   const maxAltitude=(ROOMS.maxCenter-ROOMS.floorCenter)/ROOMS.heightScale;
   if(state.flight.altitude>maxAltitude){state.flight.altitude=maxAltitude;state.flight.verticalSpeed=Math.min(0,state.flight.verticalSpeed);}
@@ -208,6 +234,7 @@ export function stepRun(state,input,dt){
   state.flight.x=state.player.x/ROOMS.flightScale;state.flight.distance=-state.player.z/ROOMS.flightScale;
   const room=cellAt(state.player);
   if(room.x!==state.room.x||room.z!==state.room.z){state.room=room;state.roomsEntered++;}
+  stepPowers(state,previous,dt);
   // Use the actual post-collision segment, so an exit beyond a wall cannot be
   // reached by the intended movement. Arrival takes priority over a pursuer.
   if(reachesExit(previous,state.player,state.exit)){
@@ -216,32 +243,41 @@ export function stepRun(state,input,dt){
     state.events.push('won');return state;
   }
   const firstEncounterReady=state.encounter>0||state.travelled>=(ROOMS.firstEncounterDistance??45);
-  if(!state.monster&&state.elapsed>=state.nextEncounter&&firstEncounterReady&&state.flight.flying)spawnMonster(state);
-  const monster=state.monster;
-  if(monster){
-    monster.age+=dt;
-    if(monster.stage==='emerging'){
-      navigateMonster(state,state.player,ROOMS.monsterEmergingSpeed,dt);
-      if(seesMonster(state)){sighting(state);beginChase(state);}
-      else if(monster.age>3.5)beginChase(state);
-    }else if(monster.stage==='chasing'){
-      state.chaseRemaining=Math.max(0,state.chaseRemaining-dt);
-      if(!monster.seen&&seesMonster(state))sighting(state);
-      navigateMonster(state,state.player,ROOMS.monsterSpeed+Math.min(.4875,state.escaped*.045),dt);
-      if(state.chaseRemaining<=1e-8){
-        monster.stage='retreating';monster.retreatAge=0;monster.path=[];monster.repath=0;
-        state.escaped++;state.safeUntil=4;state.events.push('escaped');
-        state.nextEncounter=state.elapsed+ROOMS.encounterCooldown;
-      }
-    }else{
-      monster.retreatAge+=dt;
-      navigateMonster(state,cellCenter(monster.spawnCell),ROOMS.monsterRetreatSpeed,dt);
-      if(monster.retreatAge>3.5||monsterDistance(state)>45)state.monster=null;
+  if(!state.monsters.length&&state.elapsed>=state.nextEncounter&&firstEncounterReady&&state.flight.flying)spawnMonsters(state);
+  const active=state.monsters.filter(monster=>monster.stage!=='retreating'),chasing=active.some(monster=>monster.stage==='chasing');
+  const effect=monsterPowerFactor(state);
+  for(const monster of state.monsters)monster.age+=dt;
+  if(active.length&&!chasing){
+    for(const monster of active){
+      navigateMonster(state,monster,state.player,ROOMS.monsterEmergingSpeed*(monster.speedMultiplier??monsterMultiplier(state.escaped))*effect,dt);
+      if(!monster.seen&&seesMonster(state,monster))sighting(state,monster);
     }
-    if(state.monster&&monster.stage!=='retreating'){
-      const range=monsterDistance(state);state.closest=Math.min(state.closest,range);
-      if(range<=ROOMS.dangerRadius){state.mode='lost';state.reason='monster';state.flight.crashed=true;state.events.push('caught');}
+    if(active.some(monster=>seesMonster(state,monster)||monster.age>3.5))beginChase(state);
+  }else if(chasing){
+    // One clock per wave: surviving several simultaneous monsters counts as
+    // one escape, rather than multiplying progression by enemy population.
+    state.chaseRemaining=Math.max(0,state.chaseRemaining-dt);
+    for(const monster of active){
+      if(!monster.seen&&seesMonster(state,monster))sighting(state,monster);
+      navigateMonster(state,monster,state.player,ROOMS.monsterSpeed*(monster.speedMultiplier??monsterMultiplier(state.escaped))*effect,dt);
+    }
+    if(state.chaseRemaining<=1e-8){
+      for(const monster of active){monster.stage='retreating';monster.retreatAge=0;monster.path=[];monster.repath=0;}
+      state.escaped++;state.safeUntil=4;state.events.push('escaped');state.nextEncounter=state.elapsed+ROOMS.encounterCooldown;
     }
   }
+  for(const monster of state.monsters){
+    if(monster.stage==='retreating'){
+      monster.retreatAge=(monster.retreatAge??0)+dt;
+      navigateMonster(state,monster,cellCenter(monster.spawnCell),ROOMS.monsterRetreatSpeed*(monster.speedMultiplier??1)*effect,dt);
+    }else{
+      const range=rangeToMonster(state,monster);state.closest=Math.min(state.closest,range);
+      if(range<=ROOMS.dangerRadius&&!hasMonsterShield(state)){
+        state.mode='lost';state.reason='monster';state.flight.crashed=true;
+        if(!state.events.includes('caught'))state.events.push('caught');
+      }
+    }
+  }
+  state.monsters=state.monsters.filter(monster=>monster.stage!=='retreating'||(monster.retreatAge<=3.5&&rangeToMonster(state,monster)<=45));
   return state;
 }

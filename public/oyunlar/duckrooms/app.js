@@ -1,8 +1,9 @@
-import {RoomScene} from './room-scene.js?v=duck-exit-v1';
+import {RoomScene} from './room-scene.js?v=duck-waves-v1';
 import {PoseController} from './pose.js';
-import {stepEagle} from './eagle.js?v=duck-exit-v1';
-import {createRun,stepRun,ROOMS,worldSpeed,monsterDistance} from './rooms.js?v=duck-exit-v1';
+import {stepEagle} from './eagle.js?v=duck-waves-v1';
+import {createRun,stepRun,ROOMS,worldSpeed,monsterDistance} from './rooms.js?v=duck-waves-v1';
 import {Soundscape} from './audio.js';
+import {playerPowerFactor,monsterPowerFactor} from './powers.js?v=duck-waves-v1';
 
 const $=id=>document.getElementById(id);
 let run=createRun(),intro=true,paused=false,source='keyboard',pose=null,flap=false,modalAction=null;
@@ -56,7 +57,7 @@ function pause(){
   showModal({kicker:'BİR NEFES AL.',title:'Duraklatıldı.',copy:'<p>Odalar bekleyebilir. Kovalamaca ve tüm sesler durduruldu.</p><p><em>Esc</em> ile uçuşa dön.</p>'});
 }
 function help(){
-  showModal({kicker:'ÇIKIŞ REHBERİ / DENEK 001',title:'Okları izle. Kurtul.',copy:'<ul><li><em>B / Boşluk:</em> İlk çırpışla kalk. Sonrasında yere inmezsin; hızlanmak istersen tekrar çırp.</li><li><em>← / → veya A / D:</em> Kolay dönüş. Tuşu bırakınca dönüş durur ve o yönde uçmaya devam edersin.</li><li><em>↑ / W:</em> Yavaşla. <em>↓ / S:</em> Alçal; havada kalma desteği yere inmene izin vermez.</li><li><em>Kamerayla:</em> İki kolunu kaldırıp birlikte aşağı çırparak kalk. Dönmek istediğin kolunu indir; eşitleyince düz devam et.</li><li><em>Çıkmaz oda yok.</em> Her odanın en az iki geçidi var. Geçitler geniş, duvar ve sütun teması ölümcül değil; çarpınca geri dönersin.</li><li><em>Yeşil ÇIKIŞ oklarını izle.</em> Uzak çıkışa birkaç dönüşten sonra varırsın. Yeşil çıkış kapısından geçince kazanırsın.</li><li>Canavar başlangıçta hemen görünmez. Sonrasında onunla <em>1 m</em> aranı koru; her takip <em>15 saniye</em> sürer.</li></ul>',primary:'ANLADIM',secondary:''});
+  showModal({kicker:'ÇIKIŞ REHBERİ / DENEK 001',title:'Okları izle. Kurtul.',copy:'<ul><li><em>B / Boşluk:</em> İlk çırpışla kalk. Sonrasında yere inmezsin; hızlanmak istersen tekrar çırp.</li><li><em>← / → veya A / D:</em> Kolay dönüş. Tuşu bırakınca dönüş durur ve o yönde uçmaya devam edersin.</li><li><em>↑ / W:</em> Yavaşla. <em>↓ / S:</em> Alçal; havada kalma desteği yere inmene izin vermez.</li><li><em>Kamerayla:</em> İki kolunu kaldırıp birlikte aşağı çırparak kalk. Dönmek istediğin kolunu indir; eşitleyince düz devam et.</li><li><em>Çıkmaz oda yok.</em> Her odanın en az iki geçidi var. Geçitler geniş, duvar ve sütun teması ölümcül değil; çarpınca geri dönersin.</li><li><em>Yeşil ÇIKIŞ oklarını izle.</em> Uzak çıkışa birkaç dönüşten sonra varırsın. Yeşil çıkış kapısından geçince kazanırsın.</li><li>Canavar başlangıçta hemen görünmez. Sonrasında onunla <em>1 m</em> aranı koru; her takip <em>15 saniye</em> sürer. Her kurtuluşta canavarlar <em>%10 hızlanır</em>; her iki kurtuluşta sayıları bir artar. Doğuşların %60’ı ön taraftadır.</li><li><em>Her 10 odadan birinde havada bir güç kutusu var.</em> İçinden geçerek al; rastgele güç 15 saniye sürer. Canavar varken dondurma, yavaşlatma veya kalkan verir. Sakin bölümde hız ya da kalkan çıkabilir.</li></ul>',primary:'ANLADIM',secondary:''});
 }
 function finish(){
   const won=run.mode==='won';document.body.classList.toggle('won',won);
@@ -114,7 +115,7 @@ function input(){
 let uiClock=0;
 function updateHud(dt,active){
   uiClock-=dt;if(uiClock>0)return;uiClock=.08;
-  $('speed').textContent=worldSpeed(run.flight).toFixed(1);$('altitude').textContent=run.player.y.toFixed(1);
+  $('speed').textContent=(worldSpeed(run.flight)*playerPowerFactor(run)).toFixed(1);$('altitude').textContent=run.player.y.toFixed(1);
   $('height-fill').style.width=(run.player.y/ROOMS.ceiling*100)+'%';
   const remaining=run.mode==='won'?0:(run.remainingDistance??run.maze.layout.remainingDistance);
   $('exit-distance').textContent=Number.isFinite(remaining)?`ÇIKIŞA ${Math.ceil(remaining)} m`:'ÇIKIŞ OKLARINI İZLE';
@@ -125,13 +126,24 @@ function updateHud(dt,active){
   $('encounters-label').textContent=`${run.escaped} TAKİP · ${run.roomsEntered} ODA`;
   const heading=run.flight.heading;
   $('bearing').textContent=['K','KD','D','GD','G','GB','B','KB'][Math.round(heading/45)%8]+' · '+String(Math.round(heading)%360).padStart(3,'0')+'°';
-  const chasing=run.monster?.stage==='chasing';
+  const monsters=(run.monsters??(run.monster?[run.monster]:[])).filter(monster=>monster.stage!=='retreating');
+  const chasing=monsters.some(monster=>monster.stage==='chasing');
+  const count=monsters.length||1+Math.floor(run.escaped/2),multiplier=monsters[0]?.speedMultiplier??1.1**run.escaped;
+  $('threat-count').textContent=`${monsters.length?'DALGA':'SONRAKİ DALGA'} · ${count} CANAVAR · HIZ ×${multiplier.toFixed(2)}`;
+  const power=run.power;
+  $('power-status').hidden=!power;
+  $('power-status').dataset.power=power?.type??'';
+  if(power){
+    $('power-name').textContent=power.label;
+    $('power-time').textContent=power.remaining.toFixed(1)+' sn';
+    $('power-fill').style.width=(Math.max(0,Math.min(1,power.remaining/power.duration))*100)+'%';
+  }
   $('chase-status').classList.toggle('chasing',chasing);
   $('status-label').textContent=run.mode==='won'?'ÇIKIŞ BULUNDU':source==='camera'&&!pose?'TAKİP BEKLENİYOR · OYUN BEKLİYOR':chasing?'ARKANA BAKMA. UÇ.':run.safeUntil>0?'İZİNİ KAYBETTİRDİN':'OKLARI İZLE · ÇIKIŞI BUL';
   $('chase-clock').textContent=chasing?run.chaseRemaining.toFixed(1)+'s':'';
   const range=monsterDistance(run);
   $('monster-distance').textContent=chasing?`MESAFE ${range.toFixed(1)} m`:'';
-  const danger=chasing?Math.max(0,1-(range-1)/9):0;
+  const danger=chasing&&power?.type!=='shield'?Math.max(0,1-(range-1)/9):0;
   $('danger').style.boxShadow=`inset 0 0 150px 15px rgba(207,36,16,${danger*.65})`;
   $('flight-mode').textContent=run.mode==='won'?'ÇIKIŞA ULAŞTIN':!run.flight.flying?'İLK KANADINI ÇIRP':({flap:'KANAT ÇIRP · HIZLAN',glide:'HAVADA KAL · OKLARI İZLE',brake:'YAVAŞ VE KONTROLLÜ',dive:'YERE İNMEDEN ALÇAL'})[run.flight.band];
   $('touch-flap').textContent=run.flight.flying?'HIZLAN':'KALKIŞ';
@@ -147,7 +159,9 @@ function frame(now){
     const wasPlaying=run.mode==='playing';stepRun(run,{...control,active},dt);flap=false;
     if(run.events.includes('wall'))toast('Duvara çarptın · Geri dönüp devam ediyorsun.',2.2);
     if(run.events.includes('sighting'))toast('ONU GÖRDÜN. Kanat çırp ve 15 saniye uzak kal!',5);
-    if(run.events.includes('escaped'))toast(`${run.escaped}. takip atlatıldı. Labirent devam ediyor.`,4);
+    if(run.events.includes('escaped'))toast(`${run.escaped}. takip atlatıldı · Sonraki dalga: ${1+Math.floor(run.escaped/2)} canavar, hız ×${(1.1**run.escaped).toFixed(2)}.`,5);
+    if(run.events.includes('power-collected'))toast(`${run.power.label} · 15 saniye aktif!`,4);
+    else if(run.events.includes('power-ended'))toast('Özel gücün süresi doldu.',2.5);
     sound.sync(run,active&&run.mode==='playing');
     if(wasPlaying&&run.mode!=='playing')finish();
     updateHud(dt,active);
@@ -160,4 +174,4 @@ $('intro-exit-distance').innerHTML=Math.ceil(run.initialExitDistance??run.maze.l
 requestAnimationFrame(frame);
 // Read-only telemetry is convenient for local diagnostics without bypassing
 // the gesture input or changing a run from the developer console.
-Object.defineProperty(window,'duckrooms',{value:{get state(){return {mode:run.mode,source,paused,distance:run.travelled,x:run.player.x,z:run.player.z,heading:run.flight.heading,altitude:run.player.y,flaps:run.flight.flapCount,escaped:run.escaped,chaseRemaining:run.chaseRemaining,rooms:run.roomsEntered,duckScale:ROOMS.duckScale,wallHits:run.wallHits,impactRemaining:run.impact?.remaining??0,monsterDistance:monsterDistance(run),monsterSpeed:ROOMS.monsterSpeed,exit:run.exit,exitRemaining:run.remainingDistance,airborneLocked:run.flight.airborneLocked,layout:run.maze.layout.id,cachedChunks:run.maze.chunks.size};}}});
+Object.defineProperty(window,'duckrooms',{value:{get state(){return {mode:run.mode,source,paused,distance:run.travelled,x:run.player.x,z:run.player.z,heading:run.flight.heading,altitude:run.player.y,flaps:run.flight.flapCount,escaped:run.escaped,chaseRemaining:run.chaseRemaining,rooms:run.roomsEntered,duckScale:ROOMS.duckScale,wallHits:run.wallHits,impactRemaining:run.impact?.remaining??0,monsterDistance:monsterDistance(run),monsterSpeed:ROOMS.monsterSpeed*(run.monsters?.find(monster=>monster.stage!=='retreating')?.speedMultiplier??1.1**run.escaped)*monsterPowerFactor(run),monsters:run.monsters?.map(monster=>({x:monster.x,z:monster.z,stage:monster.stage,speedMultiplier:monster.speedMultiplier})),boxes:run.boxes?.map(box=>({id:box.id,x:box.x,y:box.y,z:box.z})),boxesCollected:run.boxesCollected,power:run.power?{...run.power}:null,exit:run.exit,exitRemaining:run.remainingDistance,airborneLocked:run.flight.airborneLocked,layout:run.maze.layout.id,cachedChunks:run.maze.chunks.size};}}});
