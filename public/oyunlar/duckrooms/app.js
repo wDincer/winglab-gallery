@@ -1,7 +1,7 @@
-import {RoomScene} from './room-scene.js?v=duck-bounce-v1';
+import {RoomScene} from './room-scene.js?v=duck-exit-v1';
 import {PoseController} from './pose.js';
-import {stepEagle} from './eagle.js';
-import {createRun,stepRun,ROOMS,worldSpeed,monsterDistance} from './rooms.js?v=duck-bounce-v1';
+import {stepEagle} from './eagle.js?v=duck-exit-v1';
+import {createRun,stepRun,ROOMS,worldSpeed,monsterDistance} from './rooms.js?v=duck-exit-v1';
 import {Soundscape} from './audio.js';
 
 const $=id=>document.getElementById(id);
@@ -16,7 +16,8 @@ try{scene=new RoomScene($('world'));}catch(error){$('fatal').hidden=false;consol
 function clearInput(){held.clear();flap=false;stepEagle(run.flight,{active:false},0);}
 function reset(){
   sound.reset();run=createRun();paused=false;clearInput();$('modal').hidden=true;
-  toast(source==='keyboard'?'B tuşuna bir kez bas: ilk kanadını çırp.':'İki kolunu kaldır, birlikte aşağı çırp.',6);
+  document.body.classList.remove('won');
+  toast(source==='keyboard'?'B ile bir kez kalk. Sonra havada kalırsın; çıkış oklarını izle.':'Bir kez kanat çırparak kalk. Havada kal, duvardaki çıkış oklarını izle.',6);
 }
 function setSource(next){
   clearInput();source=next;pose=null;
@@ -55,13 +56,14 @@ function pause(){
   showModal({kicker:'BİR NEFES AL.',title:'Duraklatıldı.',copy:'<p>Odalar bekleyebilir. Kovalamaca ve tüm sesler durduruldu.</p><p><em>Esc</em> ile uçuşa dön.</p>'});
 }
 function help(){
-  showModal({kicker:'UÇUŞ NOTLARI / DENEK 001',title:'Kanatların yeter.',copy:'<ul><li><em>B / Boşluk:</em> Bir kez kanat çırp. Tekrar hızlanmak için yeniden bas.</li><li><em>← / → veya A / D:</em> Yatış ve dönüş. Tuşu bırakınca mevcut yönünde süzülürsün; düzeltmek için ters yöne yat.</li><li><em>↑ / W:</em> Kanatları kaldır, frenle. <em>↓ / S:</em> Kanatları indir, dalış yap.</li><li><em>Kamerayla:</em> İki kolu birlikte kaldırıp indirerek çırp. Kolları yana açık tutarak süzül; dönmek istediğin kolunu indir.</li><li>18×18 metrelik odalar, geniş geçitler ve çevik dönüşler. Tavan <em>3.8 m</em>; ördek alçaktan uçar.</li><li>Duvara ya da sütuna çarpınca oyun bitmez. Çarpma efektiyle <em>180° geri dönüp</em> uçuşuna devam edersin.</li><li>Canavarla <em>1 m</em> aranı koru. Her takip <em>15 saniye</em>. Labirent dört yönde sınırsız uzar. İstediğin yöne uç, dön, geri gel ve keşfet.</li></ul>',primary:'ANLADIM',secondary:''});
+  showModal({kicker:'ÇIKIŞ REHBERİ / DENEK 001',title:'Okları izle. Kurtul.',copy:'<ul><li><em>B / Boşluk:</em> İlk çırpışla kalk. Sonrasında yere inmezsin; hızlanmak istersen tekrar çırp.</li><li><em>← / → veya A / D:</em> Kolay dönüş. Tuşu bırakınca dönüş durur ve o yönde uçmaya devam edersin.</li><li><em>↑ / W:</em> Yavaşla. <em>↓ / S:</em> Alçal; havada kalma desteği yere inmene izin vermez.</li><li><em>Kamerayla:</em> İki kolunu kaldırıp birlikte aşağı çırparak kalk. Dönmek istediğin kolunu indir; eşitleyince düz devam et.</li><li><em>Çıkmaz oda yok.</em> Her odanın en az iki geçidi var. Geçitler geniş, duvar ve sütun teması ölümcül değil; çarpınca geri dönersin.</li><li><em>Yeşil ÇIKIŞ oklarını izle.</em> Uzak çıkışa birkaç dönüşten sonra varırsın. Yeşil çıkış kapısından geçince kazanırsın.</li><li>Canavar başlangıçta hemen görünmez. Sonrasında onunla <em>1 m</em> aranı koru; her takip <em>15 saniye</em> sürer.</li></ul>',primary:'ANLADIM',secondary:''});
 }
 function finish(){
-  const reason='Canavar bir metrelik güvenli alanına girdi. Çırpışlarla hız kazan; geniş odalarda dönerek uzaklaş.';
-  showModal({kicker:'SİNYAL KESİLDİ / SONSUZ LABİRENT',title:'Fazla yakındı.',copy:`<p>${reason}</p><p><em>${Math.floor(run.travelled)} metre</em> · ${run.roomsEntered} oda geçişi · ${run.escaped} takip atlatıldı · ${Math.floor(run.elapsed)} saniye</p>`,primary:'YENİDEN DENE',secondary:'ANA EKRAN',action:reset,secondaryAction:()=>{
+  const won=run.mode==='won';document.body.classList.toggle('won',won);
+  const reason=won?'Duvarlardaki okları izledin ve çıkış kapısına ulaştın. Labirentten kurtuldun!':'Canavar bir metrelik güvenli alanına girdi. Çırpışlarla hız kazan, geniş geçitleri kullan ve çıkış oklarını izle.';
+  showModal({kicker:won?'ÇIKIŞ BULUNDU / GÖREV TAMAM':'SİNYAL KESİLDİ / LABİRENT',title:won?'Kurtuldun.':'Fazla yakındı.',copy:`<p>${reason}</p><p><em>${Math.floor(run.travelled)} metre</em> · ${run.roomsEntered} oda geçişi · ${run.escaped} takip atlatıldı · ${Math.floor(run.elapsed)} saniye</p>`,primary:won?'YENİDEN OYNA':'YENİDEN DENE',secondary:'ANA EKRAN',action:reset,secondaryAction:()=>{
     sound.reset();tracker.stop();clearInput();run=createRun();intro=true;paused=false;source='keyboard';
-    $('modal').hidden=true;$('intro').hidden=false;$('hud').hidden=true;document.body.classList.remove('playing');
+    $('modal').hidden=true;$('intro').hidden=false;$('hud').hidden=true;document.body.classList.remove('playing','won');
   }});
 }
 
@@ -114,20 +116,25 @@ function updateHud(dt,active){
   uiClock-=dt;if(uiClock>0)return;uiClock=.08;
   $('speed').textContent=worldSpeed(run.flight).toFixed(1);$('altitude').textContent=run.player.y.toFixed(1);
   $('height-fill').style.width=(run.player.y/ROOMS.ceiling*100)+'%';
-  $('route-fill').style.width=(run.monster?.stage==='chasing'?(1-run.chaseRemaining/ROOMS.chaseSeconds)*100:0)+'%';
+  const remaining=run.mode==='won'?0:(run.remainingDistance??run.maze.layout.remainingDistance);
+  $('exit-distance').textContent=Number.isFinite(remaining)?`ÇIKIŞA ${Math.ceil(remaining)} m`:'ÇIKIŞ OKLARINI İZLE';
+  const initial=run.initialExitDistance??remaining;
+  const progress=Number.isFinite(remaining)&&Number.isFinite(initial)?Math.max(0,Math.min(100,(1-remaining/Math.max(1,initial))*100)):0;
+  $('route-fill').style.width=(run.mode==='won'?100:progress)+'%';
   $('distance').textContent=String(Math.floor(run.travelled)).padStart(3,'0');
   $('encounters-label').textContent=`${run.escaped} TAKİP · ${run.roomsEntered} ODA`;
   const heading=run.flight.heading;
   $('bearing').textContent=['K','KD','D','GD','G','GB','B','KB'][Math.round(heading/45)%8]+' · '+String(Math.round(heading)%360).padStart(3,'0')+'°';
   const chasing=run.monster?.stage==='chasing';
   $('chase-status').classList.toggle('chasing',chasing);
-  $('status-label').textContent=source==='camera'&&!pose?'TAKİP BEKLENİYOR · OYUN BEKLİYOR':chasing?'ARKANA BAKMA. UÇ.':run.safeUntil>0?'İZİNİ KAYBETTİRDİN':run.escaped>0?'LABİRENT DEVAM EDİYOR':'BURALAR FAZLA SESSİZ';
+  $('status-label').textContent=run.mode==='won'?'ÇIKIŞ BULUNDU':source==='camera'&&!pose?'TAKİP BEKLENİYOR · OYUN BEKLİYOR':chasing?'ARKANA BAKMA. UÇ.':run.safeUntil>0?'İZİNİ KAYBETTİRDİN':'OKLARI İZLE · ÇIKIŞI BUL';
   $('chase-clock').textContent=chasing?run.chaseRemaining.toFixed(1)+'s':'';
   const range=monsterDistance(run);
   $('monster-distance').textContent=chasing?`MESAFE ${range.toFixed(1)} m`:'';
   const danger=chasing?Math.max(0,1-(range-1)/9):0;
   $('danger').style.boxShadow=`inset 0 0 150px 15px rgba(207,36,16,${danger*.65})`;
-  $('flight-mode').textContent=!run.flight.flying?'İLK KANADINI ÇIRP':({flap:'KANAT ÇIRP · HIZLAN',glide:'SESSİZCE SÜZÜL',brake:'KANATLAR YUKARI · FREN',dive:'ALÇAKTAN DALIŞ'})[run.flight.band];
+  $('flight-mode').textContent=run.mode==='won'?'ÇIKIŞA ULAŞTIN':!run.flight.flying?'İLK KANADINI ÇIRP':({flap:'KANAT ÇIRP · HIZLAN',glide:'HAVADA KAL · OKLARI İZLE',brake:'YAVAŞ VE KONTROLLÜ',dive:'YERE İNMEDEN ALÇAL'})[run.flight.band];
+  $('touch-flap').textContent=run.flight.flying?'HIZLAN':'KALKIŞ';
   if(source==='camera'&&!active)$('flight-mode').textContent='VÜCUT TAKİBİ BEKLENİYOR';
   if(performance.now()>toastUntil)$('toast').classList.remove('visible');
 }
@@ -149,7 +156,8 @@ function frame(now){
   $('wall-impact').style.opacity=String(Math.max(0,impact)*.6);
   scene.render(run,intro,dt,now/1000);
 }
+$('intro-exit-distance').innerHTML=Math.ceil(run.initialExitDistance??run.maze.layout.remainingDistance??600)+'<span>m</span>';
 requestAnimationFrame(frame);
 // Read-only telemetry is convenient for local diagnostics without bypassing
 // the gesture input or changing a run from the developer console.
-Object.defineProperty(window,'duckrooms',{value:{get state(){return {mode:run.mode,source,paused,distance:run.travelled,x:run.player.x,z:run.player.z,heading:run.flight.heading,altitude:run.player.y,flaps:run.flight.flapCount,escaped:run.escaped,chaseRemaining:run.chaseRemaining,rooms:run.roomsEntered,duckScale:ROOMS.duckScale,wallHits:run.wallHits,impactRemaining:run.impact?.remaining??0,monsterDistance:monsterDistance(run),monsterSpeed:ROOMS.monsterSpeed,layout:run.maze.layout.id,cachedChunks:run.maze.chunks.size};}}});
+Object.defineProperty(window,'duckrooms',{value:{get state(){return {mode:run.mode,source,paused,distance:run.travelled,x:run.player.x,z:run.player.z,heading:run.flight.heading,altitude:run.player.y,flaps:run.flight.flapCount,escaped:run.escaped,chaseRemaining:run.chaseRemaining,rooms:run.roomsEntered,duckScale:ROOMS.duckScale,wallHits:run.wallHits,impactRemaining:run.impact?.remaining??0,monsterDistance:monsterDistance(run),monsterSpeed:ROOMS.monsterSpeed,exit:run.exit,exitRemaining:run.remainingDistance,airborneLocked:run.flight.airborneLocked,layout:run.maze.layout.id,cachedChunks:run.maze.chunks.size};}}});

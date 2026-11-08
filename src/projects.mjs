@@ -91,12 +91,12 @@ export const projects = [
   },
   {
     slug: 'duckrooms', title: 'Duckrooms', team: 'Youngmaster', date: '2026-11-01', time: '11:50', mode: 'eagle', genre: 'Kaçış', image: 'duckrooms.png', accent: '#9c8d48',
-    summary: 'Sarı odalarda küçük bir ördek. Arkanda ise hiç beklemediğin bir misafir.',
-    description: 'Alçak tavanlı Backrooms odalarında uçan küçük bir ördeği yönet. Dört yöne uzayan sınırsız labirenti keşfederken yan koridorlardan çıkan canavardan kaç; her kovalamaca 15 saniye sürer. Duvara çarptığında ördek geri dönüp uçmaya devam eder.',
-    vehicle: 'Sarı ördek', setting: 'Sonsuz Backrooms labirenti', objective: '15 saniyelik kovalamacayı atlat; canavarı bir metreden uzakta tut.',
-    features: ['Dört yönde uzayan sınırsız labirent', '15 saniyelik kovalamacalar', 'Duvar temasında çarpma efekti ve otomatik geri dönüş', 'Canavara bir metre yaklaşınca oyun sonu'],
-    keys: [['B / Boşluk', 'Kanat çırp'], ['← →', 'Yön değiştir'], ['↑ ↓', 'Fren / dalış'], ['Esc', 'Duraklat / devam et']],
-    gesture: 'İki kolunu kaldırıp aşağı indirerek kanat çırp. Bir kolunu alçaltarak labirentte o yöne dön.'
+    summary: 'Bir kez havalan. Sarı odalardaki okları izle ve uzak çıkışa ulaş.',
+    description: 'İlk çırpıştan sonra havada kalan küçük ördekle Backrooms odalarında uç. Kolay dönüşler ve geniş geçitlerle ilerle; çıkmaz odası olmayan labirentte duvarlardaki ÇIKIŞ oklarını takip et. Başlangıçtan 576 metrelik yolun arkasındaki yeşil çıkışa ulaşınca kazanırsın. Canavar ilk bölümden sonra görünür; duvara çarpmak uçuşu bitirmez.',
+    vehicle: 'Sarı ördek', setting: 'Uzak çıkışlı Backrooms labirenti', objective: 'Okları takip ederek yeşil çıkışa ulaş; canavardan uzak dur.',
+    features: ['Tek kalkıştan sonra sürekli havada kalma', 'Kolay dönüşler ve geniş geçitler', 'Her odada en az iki çıkış', 'Gerçek geçitlere yönlendiren duvar okları', '576 metrelik yolun sonunda kazanma çıkışı', 'Gecikmeli canavar ve ölümcül olmayan duvar teması'],
+    keys: [['B / Boşluk', 'Kalkış / hızlan'], ['← →', 'Kolay yön değiştir'], ['↑ ↓', 'Yavaşla / alçal'], ['Esc', 'Duraklat / devam et']],
+    gesture: 'İki kolunu kaldırıp bir kez birlikte çırparak kalk. Sonrasında yere inmezsin. Dönmek istediğin kolunu indir; kollarını eşitleyince o yönde düz devam et. Duvarlardaki çıkış oklarını izle.'
   },
   {
     slug: 'uranus-gorevi', title: 'Uranüs Görevi', team: 'Tatlıpatatesler', date: '2026-11-01', time: '13:56', mode: 'airplane', genre: 'Uzay yolculuğu', image: 'uranus-gorevi.jpg', accent: '#6a79b8',

@@ -1,9 +1,17 @@
 import {clamp,createFlightState} from './flight.js';
+import {COURSE_DESIGN} from './course-design.js?v=duck-exit-v1';
 
 // Keep gesture history outside flight telemetry. Pausing can discard incomplete
 // gestures while leaving the visible flight state completely frozen.
 const gestures=new WeakMap();
 const radians=Math.PI/180;
+const rooms=COURSE_DESIGN.backrooms;
+const cruiseSpeed=rooms.cruiseSpeed??78;
+const maximumSpeed=(rooms.maxWorldSpeed??4.8)/(.514444*rooms.flightScale);
+const hoverAltitude=((rooms.minFlightCenter??1)-rooms.floorCenter)/rooms.heightScale;
+// Preserve the original gradual first takeoff, whose 12 altitude units place
+// this indoor duck at 1.02 metres. The hover floor applies after that ascent.
+const launchAltitude=Math.max(12,hoverAltitude);
 
 export function eagleBand(angle,flapping=false){
   if(flapping)return {id:'flap',label:'KANAT ÇIRP · HIZLAN',target:190};
@@ -14,7 +22,8 @@ export function eagleBand(angle,flapping=false){
 
 export function createEagleState(){
   return {...createFlightState(),vehicle:'eagle',band:'glide',flapCount:0,
-    flapping:false,flapPower:0,leftWingAngle:90,rightWingAngle:90,launching:false};
+    flapping:false,flapPower:0,leftWingAngle:90,rightWingAngle:90,launching:false,
+    hasTakenOff:false,airborneLocked:false};
 }
 
 function newGesture(left,right,time){
@@ -83,7 +92,10 @@ export function stepEagle(state,input,dt){
   if(stroke){
     state.speed=Math.max(state.speed,Math.min(210,state.speed+46));
     if(!state.flying){state.flying=true;state.launching=true;}
+    state.hasTakenOff=true;
   }
+  if(state.flying)state.hasTakenOff=true;
+  if(state.hasTakenOff)state.flying=true;
   const band=eagleBand(angle,state.flapping);
   state.band=band.id;
   const requestedBoost=Number(input.boost);
@@ -95,13 +107,14 @@ export function stepEagle(state,input,dt){
   // applies the original strong brake instead of sharing this gentle drag.
   const response=target<state.speed?(state.flying&&band.id==='glide'?.18:2.8):band.id==='flap'?5.5:3;
   state.speed+=(target-state.speed)*(1-Math.exp(-dt*response));
+  if(state.flying)state.speed=clamp(state.speed,cruiseSpeed,maximumSpeed);
   if(target===0&&state.speed<.5)state.speed=0;
 
   let verticalTarget=0;
   if(state.flying){
     // The first stroke clears the long wingtips smoothly. Once airborne, a held
     // level posture fixes the height immediately rather than slowly drifting.
-    if(state.launching&&state.altitude<12)verticalTarget=10;
+    if(state.launching&&state.altitude<launchAltitude)verticalTarget=10;
     else if(band.id==='flap')verticalTarget=10+state.flapPower*5;
     else if(band.id==='dive')verticalTarget=-(7+clamp((80-angle)/80,0,1)*15);
     if(state.altitude>=1200)verticalTarget=Math.min(0,verticalTarget);
@@ -109,12 +122,13 @@ export function stepEagle(state,input,dt){
   if(verticalTarget===0)state.verticalSpeed=0;
   else state.verticalSpeed+=(verticalTarget-state.verticalSpeed)*(1-Math.exp(-dt*7));
   state.altitude=clamp(state.altitude+state.verticalSpeed*dt,0,1200);
-  if(state.launching&&state.altitude>=12){
-    state.launching=false;
-    if(band.id==='glide'||band.id==='brake'){state.altitude=12;state.verticalSpeed=0;}
+  if(state.launching&&state.altitude>=launchAltitude){
+    state.launching=false;state.airborneLocked=true;
+    state.altitude=launchAltitude;state.verticalSpeed=0;
   }
-  if(state.altitude===0&&state.flying&&state.verticalSpeed<0){
-    state.flying=false;state.launching=false;state.landings++;state.verticalSpeed=0;
+  if(state.flying&&!state.launching){
+    state.airborneLocked=true;
+    if(state.altitude<hoverAltitude){state.altitude=hoverAltitude;state.verticalSpeed=Math.max(0,state.verticalSpeed);}
   }
   const bankTarget=state.flying?clamp(input.bank||0,-1,1)*38:0;
   state.bank+=(bankTarget-state.bank)*(1-Math.exp(-dt*10));

@@ -1,13 +1,13 @@
-import {COURSE_DESIGN} from './course-design.js?v=duck-bounce-v1';
+import {COURSE_DESIGN} from './course-design.js?v=duck-exit-v1';
 import {clamp} from './flight.js';
-import {createEagleState,stepEagle} from './eagle.js';
-import {InfiniteMaze,cellAt,cellCenter} from './maze.js';
+import {createEagleState,stepEagle} from './eagle.js?v=duck-exit-v1';
+import {InfiniteMaze,cellAt,cellCenter,EXIT} from './maze.js?v=duck-exit-v1';
 
 export const ROOMS=Object.freeze(COURSE_DESIGN.backrooms);
 const scale=ROOMS.duckScale;
 export const DUCK=Object.freeze({scale,radius:.30*scale,shoulderX:.245*scale,shoulderY:.08*scale,wingReach:.59*scale,headTop:.67*scale,footBottom:.30*scale,tipRadius:.065*scale});
 export const worldHeight=altitude=>ROOMS.floorCenter+altitude*ROOMS.heightScale;
-export const worldSpeed=flight=>flight.speed*.514444*ROOMS.flightScale;
+export const worldSpeed=flight=>clamp(flight.speed*.514444*ROOMS.flightScale,0,ROOMS.maxWorldSpeed??4.8);
 export function wingAngle(angle,height,bank=0,side=1){
   const roll=-bank*Math.PI/180;
   const shoulderY=DUCK.shoulderY*Math.cos(roll)+side*DUCK.shoulderX*Math.sin(roll);
@@ -111,20 +111,45 @@ export function monsterDistance(state){
 }
 export function createRun(){
   const maze=new InfiniteMaze(),player={x:0,y:ROOMS.floorCenter,z:0};maze.update(player);
-  return {flight:createEagleState(),player,maze,elapsed:0,travelled:0,room:cellAt(player),roomsEntered:1,
+  const flight=createEagleState(),firstStep=maze.layout.pathToExit?.[1],start=cellAt(player);
+  if(firstStep)flight.heading=(Math.atan2(firstStep.x-start.x,start.z-firstStep.z)*180/Math.PI+360)%360;
+  const exitDistance=maze.layout.remainingDistance??Math.hypot(EXIT.x-player.x,EXIT.z-player.z);
+  return {flight,player,maze,elapsed:0,travelled:0,room:start,roomsEntered:1,
     mode:'playing',monster:null,encounter:0,escaped:0,chaseRemaining:0,sightingRemaining:0,
-    nextEncounter:ROOMS.firstEncounterAfter,safeUntil:0,events:[],reason:null,closest:Infinity,impact:null,wallHits:0};
+    nextEncounter:ROOMS.firstEncounterAfter,safeUntil:0,events:[],reason:null,closest:Infinity,impact:null,wallHits:0,
+    exit:EXIT,initialExitDistance:exitDistance,remainingDistance:exitDistance,hasTakenOff:false,airborneLocked:false};
 }
 function spawnMonster(state){
-  const cell=cellAt(state.player),neighbors=state.maze.neighbors(cell);
+  const cell=cellAt(state.player),minimum=Math.max(2,ROOMS.monsterSpawnMinRooms??2);
   const heading=state.flight.heading*Math.PI/180;
-  // Prefer a side doorway rather than the room immediately behind the duck.
-  neighbors.sort((a,b)=>Math.abs((a.x-cell.x)*Math.sin(heading)-(a.z-cell.z)*Math.cos(heading))-
-    Math.abs((b.x-cell.x)*Math.sin(heading)-(b.z-cell.z)*Math.cos(heading)));
-  const spawn=neighbors[state.encounter%Math.min(2,neighbors.length)];
+  const queue=[{...cell,depth:0}],visited=new Set([`${cell.x},${cell.z}`]),candidates=[];
+  // Search by doorway distance: a geometrically nearby room can still be many
+  // rooms away, and a pursuer must never materialise in the next doorway.
+  for(let cursor=0;cursor<queue.length&&cursor<160;cursor++){
+    const current=queue[cursor];
+    if(current.depth>=minimum){
+      const point=cellCenter(current),dx=point.x-state.player.x,dz=point.z-state.player.z;
+      const forward=(dx*Math.sin(heading)-dz*Math.cos(heading))/Math.max(.01,Math.hypot(dx,dz));
+      const visible=clearSight(state.player,point,state.maze.layout.walls);
+      if(forward<=.15||!visible)candidates.push({...current,forward,visible});
+    }
+    if(current.depth>=minimum+3)continue;
+    for(const next of state.maze.neighbors(current)){
+      const id=`${next.x},${next.z}`;if(visited.has(id))continue;
+      visited.add(id);queue.push({...next,depth:current.depth+1});
+    }
+  }
+  if(!candidates.length)return;
+  candidates.sort((a,b)=>Number(a.forward>.15)-Number(b.forward>.15)||a.depth-b.depth||a.forward-b.forward);
+  const choice=candidates[0],spawn={x:choice.x,z:choice.z};
   const p=cellCenter(spawn);
-  state.monster={...p,stage:'emerging',seen:false,age:0,path:[],repath:0,spawnCell:spawn};
+  state.monster={...p,stage:'emerging',seen:false,age:0,path:[],repath:0,spawnCell:spawn,spawnRoomsAway:choice.depth};
   state.encounter++;state.events.push('emerge');
+}
+function reachesExit(previous,player,exit){
+  const dx=player.x-previous.x,dz=player.z-previous.z,lengthSquared=dx*dx+dz*dz;
+  const t=lengthSquared?clamp(((exit.x-previous.x)*dx+(exit.z-previous.z)*dz)/lengthSquared,0,1):0;
+  return Math.hypot(previous.x+dx*t-exit.x,previous.z+dz*t-exit.z)<=exit.radius;
 }
 function navigateMonster(state,target,speed,dt){
   const monster=state.monster,walls=state.maze.layout.walls;
@@ -157,12 +182,11 @@ export function stepRun(state,input,dt){
   if(!input.active||input.paused||state.mode!=='playing'){stepEagle(state.flight,{active:false},0);return state;}
   dt=clamp(Number.isFinite(dt)?dt:0,0,.1);if(dt===0)return state;
   if(state.impact){state.impact.remaining=Math.max(0,state.impact.remaining-dt);if(state.impact.remaining===0)state.impact=null;}
-  const previous={...state.player},beforeHeading=state.flight.heading;
+  const previous={...state.player},beforeHeading=state.flight.heading,wasFlying=state.flight.flying;
   stepEagle(state.flight,input,dt);
-  // Explicitly requested indoor manoeuvrability: amplify yaw without altering
-  // WINGLAB flap detection, coasting, arm angles, braking or tracking semantics.
-  const rawTurn=((state.flight.heading-beforeHeading+540)%360)-180;
-  const turn=rawTurn*ROOMS.turnGain;
+  // Body input steers immediately; the original smoothed bank remains visible.
+  // In particular, the duck stops yawing as soon as the player straightens up.
+  const turn=state.flight.flying?clamp(Number(input.bank)||0,-1,1)*38*.42*ROOMS.turnGain*dt:0;
   state.flight.heading=(beforeHeading+turn+360)%360;
   const midHeading=(beforeHeading+turn*.5)*Math.PI/180,moved=worldSpeed(state.flight)*dt;
   state.player.x+=Math.sin(midHeading)*moved;state.player.z-=Math.cos(midHeading)*moved;
@@ -174,12 +198,25 @@ export function stepRun(state,input,dt){
   if(sweptWall(previous,state.player,state.flight,state.maze.layout.walls)){
     bounceOffWall(state,previous,state.maze.layout.walls);
   }
+  state.maze.update(state.player);
   state.travelled+=Math.hypot(state.player.x-previous.x,state.player.z-previous.z);
+  state.hasTakenOff=state.flight.hasTakenOff||wasFlying||state.flight.flying;
+  state.airborneLocked=state.flight.airborneLocked;
+  const directExitDistance=Math.hypot(state.exit.x-state.player.x,state.exit.z-state.player.z);
+  state.remainingDistance=state.maze.layout.pathToExit?.length===1?directExitDistance:(state.maze.layout.remainingDistance??directExitDistance);
   // Keep telemetry in sync after movement and automatic wall turnarounds.
   state.flight.x=state.player.x/ROOMS.flightScale;state.flight.distance=-state.player.z/ROOMS.flightScale;
   const room=cellAt(state.player);
   if(room.x!==state.room.x||room.z!==state.room.z){state.room=room;state.roomsEntered++;}
-  if(!state.monster&&state.elapsed>=state.nextEncounter&&state.flight.flying)spawnMonster(state);
+  // Use the actual post-collision segment, so an exit beyond a wall cannot be
+  // reached by the intended movement. Arrival takes priority over a pursuer.
+  if(reachesExit(previous,state.player,state.exit)){
+    state.mode='won';state.reason='exit';state.remainingDistance=0;
+    state.flight.speed=0;state.flight.verticalSpeed=0;state.flight.crashed=false;
+    state.events.push('won');return state;
+  }
+  const firstEncounterReady=state.encounter>0||state.travelled>=(ROOMS.firstEncounterDistance??45);
+  if(!state.monster&&state.elapsed>=state.nextEncounter&&firstEncounterReady&&state.flight.flying)spawnMonster(state);
   const monster=state.monster;
   if(monster){
     monster.age+=dt;

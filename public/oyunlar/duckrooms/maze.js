@@ -1,4 +1,4 @@
-import {COURSE_DESIGN} from './course-design.js';
+import {COURSE_DESIGN} from './course-design.js?v=duck-exit-v1';
 
 export const MAZE=Object.freeze(COURSE_DESIGN.backrooms);
 export const DIRECTIONS=Object.freeze([
@@ -15,9 +15,30 @@ export function hash(x,z,salt=0){
 }
 export const cellAt=point=>({x:Math.floor(point.x/MAZE.cellSize+.5),z:Math.floor(point.z/MAZE.cellSize+.5)});
 export const cellCenter=cell=>({x:cell.x*MAZE.cellSize,z:cell.z*MAZE.cellSize});
+export const EXIT_CELL=Object.freeze({...MAZE.exitCell});
+export const EXIT=Object.freeze({...cellCenter(EXIT_CELL),radius:MAZE.exitRadius,cell:EXIT_CELL});
+
+// A small priority queue keeps distant exit searches out of the render loop.
+const before=(a,b)=>a.f<b.f||(a.f===b.f&&(a.h<b.h||(a.h===b.h&&a.order<b.order)));
+function enqueue(heap,node){
+  let index=heap.length;heap.push(node);
+  while(index){const parent=(index-1)>>1;if(!before(node,heap[parent]))break;heap[index]=heap[parent];index=parent;}
+  heap[index]=node;
+}
+function dequeue(heap){
+  const first=heap[0],last=heap.pop();if(!heap.length)return first;
+  let index=0;
+  while(index*2+1<heap.length){
+    let child=index*2+1;if(child+1<heap.length&&before(heap[child+1],heap[child]))child++;
+    if(!before(heap[child],last))break;heap[index]=heap[child];index=child;
+  }
+  heap[index]=last;return first;
+}
 
 // Each 3x3 block has a seeded spanning tree. A shared doorway on every block
 // boundary joins the trees into one connected, unbounded two-dimensional maze.
+// Every internal leaf gets another door, so even rooms on closed block edges
+// have at least two ways out. Adding doors cannot break global connectivity.
 // Regenerating a discarded block produces the exact same walls and doorways.
 export class InfiniteMaze{
   constructor(){this.chunks=new Map();this.layout=null;this.revision=0;}
@@ -38,6 +59,18 @@ export class InfiniteMaze{
     for(let z=0;z<n;z++)for(let x=0;x<n;x++)for(const[dx,dz]of[[1,0],[0,1]]){
       if(x+dx<n&&z+dz<n&&next()<.13)edges.add(edge(z*n+x,(z+dz)*n+x+dx));
     }
+    // The square grid has at least two internal neighbours at every room.
+    // Repairing its degree can only increase later rooms' degrees; one pass
+    // therefore proves degree >= 2 independently of cross-block doorways.
+    for(let a=0;a<n*n;a++){
+      const x=a%n,z=Math.floor(a/n),adjacent=DIRECTIONS.map(d=>({x:x+d.dx,z:z+d.dz}))
+        .filter(p=>p.x>=0&&p.x<n&&p.z>=0&&p.z<n).map(p=>p.z*n+p.x);
+      const degree=adjacent.filter(b=>edges.has(edge(a,b))).length;
+      const closed=adjacent.filter(b=>!edges.has(edge(a,b)));
+      for(let needed=2-degree;needed>0&&closed.length;needed--){
+        const index=Math.floor(next()*closed.length),[b]=closed.splice(index,1);edges.add(edge(a,b));
+      }
+    }
     const chunk={cx,cz,edges};this.chunks.set(id,chunk);
     // Path searches may touch distant blocks as well as rendered ones.
     // FIFO eviction is safe because generation never depends on cache contents.
@@ -54,14 +87,14 @@ export class InfiniteMaze{
     return this.chunk(cx,cz).edges.has(a<b?`${a}:${b}`:`${b}:${a}`);
   }
   neighbors(cell){return DIRECTIONS.filter(d=>this.isOpen(cell.x,cell.z,d.name)).map(d=>({x:cell.x+d.dx,z:cell.z+d.dz}));}
-  path(from,to,limit=768){
+  path(from,to,limit=8192){
     const first=key(from.x,from.z),last=key(to.x,to.z);
-    if(first===last)return[from];
-    const frontier=[{...from,g:0}],best=new Map([[first,0]]),parents=new Map();
-    let checked=0;
+    if(first===last)return[{x:from.x,z:from.z}];
+    const distance=cell=>Math.abs(cell.x-to.x)+Math.abs(cell.z-to.z);
+    const h=distance(from),frontier=[{x:from.x,z:from.z,g:0,h,f:h,order:0}],best=new Map([[first,0]]),parents=new Map();
+    let checked=0,order=0;
     while(frontier.length&&checked++<limit){
-      frontier.sort((a,b)=>(a.g+Math.abs(a.x-to.x)+Math.abs(a.z-to.z))-(b.g+Math.abs(b.x-to.x)+Math.abs(b.z-to.z)));
-      const current=frontier.shift(),id=key(current.x,current.z);
+      const current=dequeue(frontier),id=key(current.x,current.z);
       if(current.g!==best.get(id))continue;
       if(id===last){
         const result=[{x:to.x,z:to.z}];let cursor=last;
@@ -71,14 +104,18 @@ export class InfiniteMaze{
       for(const next of this.neighbors(current)){
         const nextId=key(next.x,next.z),g=current.g+1;
         if(g>=(best.get(nextId)??Infinity))continue;
-        best.set(nextId,g);parents.set(nextId,current);frontier.push({...next,g});
+        const h=distance(next);best.set(nextId,g);parents.set(nextId,current);enqueue(frontier,{...next,g,h,f:g+h,order:++order});
       }
     }
     return[];
   }
   update(point){
     const cell=cellAt(point),n=MAZE.chunkCells,cx=Math.floor(cell.x/n),cz=Math.floor(cell.z/n);
-    const id=key(cx,cz);if(this.layout?.id===id)return this.layout;
+    const id=key(cx,cz),navigationId=key(cell.x,cell.z);
+    if(this.layout?.id===id){
+      if(this.layout.navigationId!==navigationId)this.updateNavigation(cell);
+      return this.layout;
+    }
     const radius=MAZE.chunkRadius,minX=(cx-radius)*n,maxX=(cx+radius+1)*n-1,minZ=(cz-radius)*n,maxZ=(cz+radius+1)*n-1;
     const walls=[],rooms=[],edges=new Set(),size=MAZE.cellSize,half=size/2,thick=MAZE.wallThickness;
     for(let z=minZ;z<=maxZ;z++)for(let x=minX;x<=maxX;x++){
@@ -103,6 +140,22 @@ export class InfiniteMaze{
     }
     this.layout={id,revision:++this.revision,cx,cz,minX,maxX,minZ,maxZ,walls,rooms,
       origin:{x:cx*n*size,z:cz*n*size}};
+    this.updateNavigation(cell);
     return this.layout;
+  }
+  updateNavigation(cell){
+    const layout=this.layout,path=this.path(cell,EXIT_CELL),signs=[];
+    // Show a few intermittent reminders ahead, and always mark the current
+    // room and turns. All arrows are actual edges of the shortest exit route.
+    for(let i=0;i<Math.min(path.length-1,10);i++){
+      const room=path[i],next=path[i+1],previous=path[i-1];
+      if(room.x<layout.minX||room.x>layout.maxX||room.z<layout.minZ||room.z>layout.maxZ)continue;
+      const dx=next.x-room.x,dz=next.z-room.z;
+      const turning=previous&&(room.x-previous.x!==dx||room.z-previous.z!==dz);
+      if(i!==0&&i%2!==0&&!turning)continue;
+      signs.push({cellX:room.x,cellZ:room.z,...cellCenter(room),dx,dz,distance:(path.length-1-i)*MAZE.cellSize});
+    }
+    layout.exit=EXIT;layout.navigationId=key(cell.x,cell.z);layout.pathToExit=path;layout.signs=signs;
+    layout.remainingDistance=path.length?(path.length-1)*MAZE.cellSize:Infinity;
   }
 }

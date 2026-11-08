@@ -6,3 +6,5 @@
 #bearing{margin-left:12px;color:var(--acid)}.encounters span{margin-left:0}.mission>strong{font-size:25px}.route-progress{background:#dbe9ab0a}@media(max-width:760px){.mission>strong{font-size:19px}.encounters span{font-size:7px}#bearing{margin-left:8px}}
 
 #wall-impact{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;background:radial-gradient(ellipse at center,transparent 45%,#ffe69b66 100%);box-shadow:inset 0 0 65px 9px #fff1a6a0}
+
+#exit-distance{color:var(--acid)}.distance-readout{width:max-content;max-width:90%;text-align:center;line-height:1.6}body.won .modal-card{border-color:#b9e59d88;box-shadow:0 0 70px #a4e47b16}body.won .modal-card h2{color:#d9efad}body.won .modal-card .eyebrow{color:#b9e59d}
