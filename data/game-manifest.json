@@ -1553,14 +1553,129 @@
     "slug": "nyan-duello",
     "files": [
       {
-        "path": "app.js",
-        "size": 12590,
-        "sha256": "f771dd845b8221b2707fae516f7c518bd363bc66030c64b576f89a6349b70198"
+        "path": "/app.js",
+        "size": 12665,
+        "sha256": "7461771a3cc0b0af3fd631d151fe9c193016151ecfcf2e82799aa757e44f5fbe"
+      },
+      {
+        "path": "/audio.js",
+        "size": 9644,
+        "sha256": "a4695214332f2bfd51d189e49ca665449682e95f789a918ef89c0d9d2b33cb18"
+      },
+      {
+        "path": "/cat-geometry.js",
+        "size": 117,
+        "sha256": "f313af24578bca80fea5fff7d5f290f5ca67d8359cf1b935ddb5b8c092164163"
+      },
+      {
+        "path": "/cat-model.js",
+        "size": 4418,
+        "sha256": "1f6bf3741d9e3049c19017ed14ade526fc26c43065e508f3daa2113832bd2729"
+      },
+      {
+        "path": "/collision.js",
+        "size": 9608,
+        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
+      },
+      {
+        "path": "/course-design.js",
+        "size": 1864,
+        "sha256": "98d7c2cc07e1d8fab33550e4be253f843cd8bbcb1db1735b83553b4ca0a960e1"
+      },
+      {
+        "path": "/course.js",
+        "size": 4661,
+        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
+      },
+      {
+        "path": "/diamonds.css",
+        "size": 1697,
+        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
+      },
+      {
+        "path": "/diamonds.js",
+        "size": 4126,
+        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
+      },
+      {
+        "path": "/duel-scene.js",
+        "size": 10399,
+        "sha256": "0738454fdc82d11dcd210620c5db8cfb9eedab6f3696b4fc60ba1a247233d333"
+      },
+      {
+        "path": "/duel.css",
+        "size": 17984,
+        "sha256": "2af9de6ef5d188ed107fb23782772b5bb13e22dea9c6874c25abb0489e91c108"
+      },
+      {
+        "path": "/duel.js",
+        "size": 6508,
+        "sha256": "3859d78be67a672f44e43950de7d00fca5c01cbdcb11fd2781f20ef74509c8ed"
+      },
+      {
+        "path": "/eagle-geometry.js",
+        "size": 760,
+        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
+      },
+      {
+        "path": "/eagle-model.js",
+        "size": 8410,
+        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
+      },
+      {
+        "path": "/eagle.css",
+        "size": 6242,
+        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
+      },
+      {
+        "path": "/eagle.js",
+        "size": 6658,
+        "sha256": "06d6edc776adfe1a81d883f08a5659beaf1c5f30ebba39ed5fde9618f2f851d4"
+      },
+      {
+        "path": "/flight.js",
+        "size": 4309,
+        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
+      },
+      {
+        "path": "/index.html",
+        "size": 7644,
+        "sha256": "ae9aa3635dce825e8211bd3804f35c7abaeb696ff25ef70090b3fbe4ce580470"
+      },
+      {
+        "path": "/pose.js",
+        "size": 14184,
+        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
+      },
+      {
+        "path": "/scene.js",
+        "size": 36165,
+        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
+      },
+      {
+        "path": "/style.css",
+        "size": 23215,
+        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
+      },
+      {
+        "path": "/world.js",
+        "size": 5477,
+        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
       },
       {
         "path": "assets/audio/background.mp3",
         "size": 347040,
         "sha256": "9d394dd32bb8f5d84cd50c9427f21f1445ab3bbfb85ef4ee41b8ec301ae5edba"
+      },
+      {
+        "path": "assets/audio/defeat-cokokrem.mp3",
+        "size": 147375,
+        "sha256": "f280745062d3a0de5e80dde5467f2da940fe94cacf29e0a91d6ac8cde6068f99"
+      },
+      {
+        "path": "assets/audio/defeat-explosion.mp3",
+        "size": 43303,
+        "sha256": "018eb8007462400c7e8298573eb37c4b8a0c7c1513fca8e77867c7ca76003b34"
       },
       {
         "path": "assets/audio/game-over.mp3",
@@ -1576,6 +1691,11 @@
         "path": "assets/audio/hurt.mp3",
         "size": 259584,
         "sha256": "eb18505f97c2cc81c372966dc5685ba9f94cdde5f716a7131fb5ff14ff6c4024"
+      },
+      {
+        "path": "assets/audio/victory-tamek.mp3",
+        "size": 243297,
+        "sha256": "bb5e7aace3ec6faba9116aed887468b5613828aa34c1fdef738cff4d840f3dab"
       },
       {
         "path": "assets/duel-reference.webp",
@@ -1601,101 +1721,6 @@
         "path": "assets/projectiles/jam.png",
         "size": 1977401,
         "sha256": "8da0f27dea2b01bb54fc37de34c5846a61b9bceff77ab4da24ebf022b5bff2c7"
-      },
-      {
-        "path": "cat-geometry.js",
-        "size": 117,
-        "sha256": "f313af24578bca80fea5fff7d5f290f5ca67d8359cf1b935ddb5b8c092164163"
-      },
-      {
-        "path": "cat-model.js",
-        "size": 4418,
-        "sha256": "1f6bf3741d9e3049c19017ed14ade526fc26c43065e508f3daa2113832bd2729"
-      },
-      {
-        "path": "collision.js",
-        "size": 9608,
-        "sha256": "ef40cc17700d491ce515d37f334f10c049e5cd0c7622a867bbe154116103fad4"
-      },
-      {
-        "path": "course-design.js",
-        "size": 1864,
-        "sha256": "98d7c2cc07e1d8fab33550e4be253f843cd8bbcb1db1735b83553b4ca0a960e1"
-      },
-      {
-        "path": "course.js",
-        "size": 4661,
-        "sha256": "4e303dece8350253d047dcf70574be8dd7e09a5dbf69f5fab85fb727b118fab0"
-      },
-      {
-        "path": "diamonds.css",
-        "size": 1697,
-        "sha256": "28afaed01e640e399a453723921d71fc0222b39e89b059323a00ba7ab280d568"
-      },
-      {
-        "path": "diamonds.js",
-        "size": 4126,
-        "sha256": "8f8fcd8e826457a6448c7e08bdfa4dfb291ecd6d6e57813373823cd940d8e660"
-      },
-      {
-        "path": "duel-scene.js",
-        "size": 10399,
-        "sha256": "0738454fdc82d11dcd210620c5db8cfb9eedab6f3696b4fc60ba1a247233d333"
-      },
-      {
-        "path": "duel.css",
-        "size": 16800,
-        "sha256": "05cd11a8b318a9abd1e0379114ed9d7f32e5d359fc129132c515a0a049281467"
-      },
-      {
-        "path": "duel.js",
-        "size": 6357,
-        "sha256": "1add49b6e208d5516e6473fde87be2189fa2a2278523bef34de414ca297456d8"
-      },
-      {
-        "path": "eagle-geometry.js",
-        "size": 760,
-        "sha256": "34deeb51091f57ea4b6f5e2053722e904446dddd3b92fb10a235852fb6414abc"
-      },
-      {
-        "path": "eagle-model.js",
-        "size": 8410,
-        "sha256": "a81d904e83669c9fcfd3faea89355d4cd178245ba967d72655082ce7e4abf8fe"
-      },
-      {
-        "path": "eagle.css",
-        "size": 6242,
-        "sha256": "2d21b67c9d63805de69d30c831b96d2b88ce5fe34cc6af029ac8117d86878ad7"
-      },
-      {
-        "path": "eagle.js",
-        "size": 6658,
-        "sha256": "06d6edc776adfe1a81d883f08a5659beaf1c5f30ebba39ed5fde9618f2f851d4"
-      },
-      {
-        "path": "flight.js",
-        "size": 4309,
-        "sha256": "91e57f357e9c26c23659903c7baae74427a911184ca36f9279f415a6319ae207"
-      },
-      {
-        "path": "index.html",
-        "size": 7256,
-        "sha256": "420f4f967335838e8792049411d82054146c6fd8e57121497079f8b0a8e24323"
-      },
-      {
-        "path": "pose.js",
-        "size": 14184,
-        "sha256": "9e215c176445cc8b7ac917dda6c46221083e8081860ba81d0fc570d31c630add"
-      },
-      {
-        "path": "scene.js",
-        "size": 36165,
-        "sha256": "7c5afa4a267e348f62ad25f8dbdc57c72a7f46ec664ffec444a7bbd9246c523f"
-      },
-      {
-        "path": "style.css",
-        "size": 23215,
-        "sha256": "5f1153c59bebe0c0d0fe6b9c63cc813f3ba6ee5dc7f241aeccca6d0e7d4d6eac"
       },
       {
         "path": "vendor/APACHE-2.0-LICENSE.txt",
@@ -1746,11 +1771,6 @@
         "path": "vendor/wasm/vision_wasm_nosimd_internal.wasm",
         "size": 9448638,
         "sha256": "3821ea9b1f7fb8c549ef2a064ef5c85750bf375c545a49fd6eea0df44a95f1f4"
-      },
-      {
-        "path": "world.js",
-        "size": 5477,
-        "sha256": "0d4432cbc4192634f05c0a379f56ef55e546473dba0c7e1d22c1c9b507264f1a"
       }
     ]
   },

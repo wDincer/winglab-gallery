@@ -2,10 +2,12 @@ import {createEagleState,stepEagle} from './eagle.js';
 import {clamp} from './flight.js';
 import {CAT_GEOMETRY} from './cat-geometry.js';
 
-export const DUEL = Object.freeze({health:3,range:94,shotCooldown:.75,enemyInterval:5.4,shotSpeed:126,hitRadius:CAT_GEOMETRY.hitRadius*CAT_GEOMETRY.enemyScale*2.5,launchHeight:28,liftMultiplier:2.8});
+export const ENEMY_MAX_HEALTH=5;
+export const PLAYER_MAX_HEALTH=3;
+export const DUEL = Object.freeze({health:PLAYER_MAX_HEALTH,enemyHealth:ENEMY_MAX_HEALTH,range:94,shotCooldown:.75,enemyInterval:5.4,shotSpeed:126,hitRadius:CAT_GEOMETRY.hitRadius*CAT_GEOMETRY.enemyScale*2.5,launchHeight:28,liftMultiplier:2.8});
 export function createDuelState(){
-  return {flight:createEagleState(),enemy:{x:0,altitude:28,distance:94,health:3},
-    health:3,time:0,status:'ready',shots:0,hits:0,projectiles:[],events:[],cooldown:0,
+  return {flight:createEagleState(),enemy:{x:0,altitude:28,distance:DUEL.range,health:ENEMY_MAX_HEALTH},
+    health:PLAYER_MAX_HEALTH,time:0,status:'ready',shots:0,hits:0,projectiles:[],events:[],cooldown:0,
     enemyClock:0,warning:0,locked:false,aim:{x:0,y:0},id:0,invulnerable:0};
 }
 export function measureAim(state){

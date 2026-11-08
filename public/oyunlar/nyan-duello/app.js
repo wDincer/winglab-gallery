@@ -1,7 +1,8 @@
-import {createDuelState,stepDuel,ClapGesture} from './duel.js';
+import {createDuelState,stepDuel,ClapGesture,ENEMY_MAX_HEALTH,PLAYER_MAX_HEALTH} from './duel.js?v=nyan-results-v1';
 import {stepEagle} from './eagle.js';
 import {PoseController} from './pose.js';
 import {createDuelScene} from './duel-scene.js';
+import {NyanAudio} from './audio.js?v=nyan-results-v1';
 
 const $=id=>document.getElementById(id);
 let state=createDuelState(),source='camera',pose=null,manualPaused=false,loading=false,queuedFlap=false,queuedFire=false;
@@ -9,13 +10,11 @@ let cameraAttempt=0;
 let toastUntil=0,flashUntil=0,reticleUntil=0;
 const keys=new Set(),clap=new ClapGesture();
 const formatTime=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.floor(s%60)).padStart(2,'0')}`;
-const sounds={hurt:new Audio('./assets/audio/hurt.mp3'),over:new Audio('./assets/audio/game-over.mp3'),hit:new Audio('./assets/audio/hit.mp3'),music:new Audio('./assets/audio/background.mp3')};
-sounds.music.loop=true;sounds.music.volume=.24;sounds.hurt.volume=.75;sounds.hit.volume=.72;sounds.over.volume=.68;
-for(const audio of Object.values(sounds))audio.preload='auto';
+const sounds=new NyanAudio({onError:()=>toast('Ses yüklenemedi. Ses düğmesiyle yeniden deneyebilirsin.',4)});
 let muted=false;try{muted=localStorage.getItem('nyan-muted')==='true';}catch{}
-function applyMute(){for(const audio of Object.values(sounds))audio.muted=muted;$('sound').textContent=muted?'♪̸':'♫';$('sound').setAttribute('aria-label',muted?'Sesi aç':'Sesi kapat');$('sound').setAttribute('aria-pressed',String(muted));}
+function applyMute(){sounds.setEnabled(!muted);$('sound').textContent=muted?'♪̸':'♫';$('sound').setAttribute('aria-label',muted?'Sesi aç':'Sesi kapat');$('sound').setAttribute('aria-pressed',String(muted));}
 applyMute();
-function play(name){if(muted)return;const a=sounds[name];a.currentTime=0;void a.play().catch(()=>{});}
+function play(name){if(name==='hurt')void sounds.playHurt();if(name==='hit')void sounds.playHit();}
 function toast(message,seconds=2){$('toast').textContent=message;toastUntil=performance.now()+seconds*1000;}
 let view;
 try{view=createDuelScene($('space'));}catch(error){$('fatal-error').hidden=false;$('fatal-error').textContent='3B sahne başlatılamadı. Tarayıcında WebGL ve donanım hızlandırmasını açıp sayfayı yenile.';console.error(error);throw error;}
@@ -41,7 +40,7 @@ function updateSource(){
 function begin(){
   state=createDuelState();state.status='playing';manualPaused=false;view.reset();resetInput();
   $('intro').hidden=true;$('result').hidden=true;document.body.classList.add('playing');
-  sounds.over.pause();sounds.over.currentTime=0;if(!muted)void sounds.music.play().catch(()=>{});
+  sounds.reset();sounds.unlock();sounds.setHidden(document.hidden);sounds.setRunning(!document.hidden);
   updateSource();toast(source==='camera'?'İKİ KOLUNU KALDIR VE ÇIRP':'KALKIŞ İÇİN B TUŞUNA BAS',4);
 }
 async function startCamera(){
@@ -50,13 +49,13 @@ async function startCamera(){
   loading=true;resetInput();source='camera';pose=null;updateSource();
   $('camera-start').disabled=true;$('camera-start').textContent='Kamera hazırlanıyor…';
   // Audio is unlocked from this click; tracking and all video remain local.
-  if(!muted)void sounds.music.play().catch(()=>{});
+  sounds.unlock();
   const ok=await controller.start();
   if(attempt!==cameraAttempt)return;
   loading=false;
   $('camera-start').disabled=false;$('camera-start').innerHTML='<span>◉</span> Kamerayla uç <b>↗</b>';
   if(ok){if(state.status==='ready')begin();else{manualPaused=false;toast('KAMERAYLA UÇUŞA DEVAM',2);}}
-  else if(state.status==='ready')sounds.music.pause();
+  else if(state.status==='ready')sounds.setRunning(false);
 }
 function useKeyboard(){cameraAttempt++;loading=false;$('camera-start').disabled=false;$('camera-start').innerHTML='<span>◉</span> Kamerayla uç <b>↗</b>';source='keyboard';controller.stop();pose=null;manualPaused=false;resetInput();updateSource();if(state.status==='ready')begin();else toast('KLAVYE KONTROLÜ AKTİF',2);}
 $('camera-start').onclick=startCamera;$('keyboard-start').onclick=useKeyboard;
@@ -66,7 +65,7 @@ $('restart').onclick=()=>begin();
 function togglePause(){if(state.status!=='playing')return;manualPaused=!manualPaused;resetInput();}
 $('pause').onclick=togglePause;
 $('resume').onclick=()=>{if(source==='camera'&&!pose){toast('Kamerada bir adım geri çekil veya klavyeye geç.',3);return;}manualPaused=false;resetInput();};
-$('sound').onclick=()=>{muted=!muted;applyMute();try{localStorage.setItem('nyan-muted',String(muted));}catch{}if(!muted&&state.status==='playing')void sounds.music.play().catch(()=>{});};
+$('sound').onclick=()=>{sounds.unlock();muted=!muted;applyMute();try{localStorage.setItem('nyan-muted',String(muted));}catch{}};
 $('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await $('game').requestFullscreen();}catch{toast('Tam ekran bu tarayıcıda kullanılamıyor.',3);}};
 let helpWasPaused=false;
 $('help').onclick=()=>{helpWasPaused=manualPaused;manualPaused=true;resetInput();$('help-dialog').showModal();};
@@ -85,7 +84,7 @@ window.addEventListener('keydown',event=>{
 });
 window.addEventListener('keyup',event=>keys.delete(event.code));
 window.addEventListener('blur',()=>{if(state.status==='playing'){manualPaused=true;resetInput();}});
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&state.status==='playing'){manualPaused=true;resetInput();}});
+document.addEventListener('visibilitychange',()=>{sounds.setHidden(document.hidden);if(document.hidden&&state.status==='playing'){manualPaused=true;resetInput();}});
 for(const [id,key]of[['touch-left','ArrowLeft'],['touch-right','ArrowRight']]){
   $(id).onpointerdown=e=>{e.preventDefault();keys.add(key);$(id).setPointerCapture(e.pointerId);};
   $(id).onpointerup=$(id).onpointercancel=()=>keys.delete(key);
@@ -93,20 +92,22 @@ for(const [id,key]of[['touch-left','ArrowLeft'],['touch-right','ArrowRight']]){
 $('touch-flap').onpointerdown=e=>{e.preventDefault();queuedFlap=true;};$('touch-fire').onpointerdown=e=>{e.preventDefault();queuedFire=true;};
 function finish(){
   const won=state.status==='won';$('result-title').textContent=won?'Tatlı zafer!':'Bir dahaki galaksi.';
-  $('result-symbol').textContent=won?'✦':'✧';$('result-description').textContent=won?'Shadow Cat üç reçele dayanamadı. Gökkuşağı senin!':'Nyan Cat üç Çokokrem isabeti aldı. Yeniden uçmaya ne dersin?';
+  $('result-symbol').textContent=won?'✦':'✧';$('result-description').textContent=won?'Shadow Cat beş reçele dayanamadı. Gökkuşağı senin!':'Nyan Cat üç Çokokrem isabeti aldı. Yeniden uçmaya ne dersin?';
+  $('result').dataset.outcome=won?'won':'lost';$('result-image').src=won?'./assets/projectiles/jam.png':'./assets/projectiles/choco.png';$('result-image').alt=won?'Tamek çilek reçeli':'Ülker Çokokrem';
+  $('result-overline').textContent=won?'REÇEL TAKIMI KAZANDI':'ÇOKOKREM TAKIMI KAZANDI';
   $('result-hits').textContent=state.hits;$('result-time').textContent=formatTime(state.time);$('result-accuracy').textContent=`${state.shots?Math.round(state.hits/state.shots*100):0}%`;
   $('result').hidden=false;$('paused-panel').hidden=true;document.body.classList.remove('playing');
   $('touch-controls').hidden=true;
-  sounds.music.pause();play('over');resetInput();
+  sounds.finish(won?'won':'lost');resetInput();
 }
-function hearts(id,value){const el=$(id);el.innerHTML=Array.from({length:3},(_,i)=>`<span class="${i>=value?'empty':''}">♥</span>`).join(' ');el.setAttribute('aria-label',`${value} can`);}
+function hearts(id,value,maximum){const el=$(id);el.innerHTML=Array.from({length:maximum},(_,i)=>`<span class="${i>=value?'empty':''}">♥</span>`).join(' ');el.setAttribute('aria-label',`${maximum} üzerinden ${value} can`);}
 let last=performance.now(),lastHud=0,wasPaused=false;
 function frame(now){
   const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;
   const playing=state.status==='playing',trackingLost=source==='camera'&&!pose;
   const paused=playing&&(manualPaused||trackingLost||document.hidden||$('help-dialog').open);
-  if(paused&&!wasPaused){resetInput();sounds.music.pause();}
-  if(!paused&&wasPaused&&playing&&!muted)void sounds.music.play().catch(()=>{});
+  if(paused&&!wasPaused)resetInput();
+  sounds.setHidden(document.hidden);sounds.setRunning(playing&&!paused);
   wasPaused=paused;
   let input={active:playing&&!paused,paused,angle:90,bank:0};
   if(source==='camera'&&pose)input={...input,...pose};
@@ -122,7 +123,7 @@ function frame(now){
     if(ev.type==='fire'){reticleUntil=now+150;toast('REÇEL YOLDA',.6);}
     if(ev.type==='flap')toast(state.flight.flapCount===1?'TEK ÇIRPIŞ · KALKIŞ TAMAM':'GÜÇLÜ ÇIRPIŞ · YÜKSELİYORSUN',1.4);
     if(ev.type==='player-hit'){play('hurt');flashUntil=now+280;toast(`İSABET ALDIN · ${state.health} CAN`,2);}
-    if(ev.type==='enemy-hit'){play('hit');play('hurt');toast(`TAM İSABET · ${state.hits} / 3`,2);}
+    if(ev.type==='enemy-hit'){play('hit');toast(`TAM İSABET · ${state.hits} / ${ENEMY_MAX_HEALTH}`,2);}
     if(ev.type==='won'||ev.type==='lost')finish();
   }
   const visible=view.render(state,dt,paused);state.events=[];
@@ -135,7 +136,7 @@ function frame(now){
   if(!marker.hidden){marker.style.left=`${visible.enemyScreen.x}px`;marker.style.top=`${visible.enemyScreen.y}px`;marker.classList.toggle('locked',locked);}
   $('combat-notice').textContent=playing&&!paused&&state.warning?'⚠ ÇOKOKREM GELİYOR · YÖN DEĞİŞTİR':'';
   if(now-lastHud>90){
-    lastHud=now;hearts('player-health',state.health);hearts('enemy-health',state.enemy.health);
+    lastHud=now;hearts('player-health',state.health,PLAYER_MAX_HEALTH);hearts('enemy-health',state.enemy.health,ENEMY_MAX_HEALTH);
     $('timer').textContent=formatTime(state.time);$('altitude').innerHTML=`${Math.round(state.flight.altitude)}<small> M</small>`;$('speed').innerHTML=`${Math.round(state.flight.speed)}<small> KT</small>`;$('flaps').textContent=String(state.flight.flapCount).padStart(2,'0');
     $('altitude-bar').style.width=`${Math.min(100,state.flight.altitude/1.6)}%`;$('speed-bar').style.width=`${Math.min(100,state.flight.speed/2.4)}%`;
     $('flight-mode').textContent=!state.flight.flying?'KALKIŞ BEKLİYOR':({flap:'GÜÇLÜ YÜKSELİŞ',glide:'DENGELİ SÜZÜLÜŞ',brake:'YAVAŞLAMA',dive:'DALIŞ'})[state.flight.band];
@@ -145,5 +146,5 @@ function frame(now){
   }
   requestAnimationFrame(frame);
 }
-window.addEventListener('pagehide',()=>{controller.dispose();for(const a of Object.values(sounds))a.pause();});
+window.addEventListener('pagehide',()=>{controller.dispose();sounds.dispose();});
 updateSource();requestAnimationFrame(frame);

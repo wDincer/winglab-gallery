@@ -332,11 +332,13 @@
     "description": "Patilerini kanat gibi kullanan Nyan Cat ile tek çırpışta havalan. Rakip kedinin Çokokrem saldırılarından kaçarken hedefi yeşil nişangâhta yakala ve ellerini birleştirerek reçel fırlat.",
     "vehicle": "Nyan Cat",
     "setting": "Kozmik düello alanı",
-    "objective": "Üç isabet aldırarak rakibini yen; kendi üç canını koru.",
+    "objective": "Beş reçel isabetiyle rakibini yen; kendi üç canını koru.",
     "features": [
       "Tek çırpışla kalkış",
-      "Reçel ve Çokokrem saldırıları",
-      "Üç isabette sonuçlanan düello"
+      "Beş reçel isabetiyle zafer",
+      "Hasar alınca üç saniyelik miyav",
+      "Zaferde reçel görseli ve Tamek müziği",
+      "Yenilgide Çokokrem görseli ve müziği, ardından patlama sesi"
     ],
     "keys": [
       [

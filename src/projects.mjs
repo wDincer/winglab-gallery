@@ -75,8 +75,8 @@ export const projects = [
     slug: 'nyan-duello', title: 'Nyan Cat Düellosu', team: 'Miyavlayan Keçiler', date: '2026-11-01', time: '10:20', mode: 'eagle', genre: 'Düello', image: 'nyan-duello.jpg', accent: '#bd6d96',
     summary: 'Gökkuşağını peşine tak. Reçel ve Çokokrem düellosuna katıl.',
     description: 'Patilerini kanat gibi kullanan Nyan Cat ile tek çırpışta havalan. Rakip kedinin Çokokrem saldırılarından kaçarken hedefi yeşil nişangâhta yakala ve ellerini birleştirerek reçel fırlat.',
-    vehicle: 'Nyan Cat', setting: 'Kozmik düello alanı', objective: 'Üç isabet aldırarak rakibini yen; kendi üç canını koru.',
-    features: ['Tek çırpışla kalkış', 'Reçel ve Çokokrem saldırıları', 'Üç isabette sonuçlanan düello'],
+    vehicle: 'Nyan Cat', setting: 'Kozmik düello alanı', objective: 'Beş reçel isabetiyle rakibini yen; kendi üç canını koru.',
+    features: ['Tek çırpışla kalkış', 'Beş reçel isabetiyle zafer', 'Hasar alınca üç saniyelik miyav', 'Zaferde reçel görseli ve Tamek müziği', 'Yenilgide Çokokrem görseli ve müziği, ardından patlama sesi'],
     keys: [['B', 'Kanat çırp'], ['← →', 'Yön değiştir'], ['Boşluk', 'Reçel fırlat'], ['P', 'Duraklat / devam et']],
     gesture: 'Kollarını kaldırıp aşağı çırparak yüksel. Rakibe kilitlenince ellerini birleştirerek saldır.'
   },
